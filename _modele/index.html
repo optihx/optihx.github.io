@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nom du jeu — opti'H ✗</title>
+<meta name="description" content="Description courte du jeu.">
+<meta name="author" content="opti'H">
+<meta name="theme-color" content="#071a4d">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/app/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="opti'H">
+<link rel="icon" href="../favicon.ico">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/css/carte.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body data-root="../" data-jeu="_modele/index.html" style="--c:#62d98f">
+<header class="zone-bar">
+  <div class="in">
+    <a class="home" href="../index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg><img src="../assets/img/logo-oph.png" alt="" width="217" height="312"><span>L'étagère</span></a>
+    <nav aria-label="Sections"><a href="#presentation">Le jeu</a><a href="#persos">Persos</a><a href="#galerie">Screens</a><a href="#liens">Liens</a></nav>
+  </div>
+</header>
+<main>
+<section class="zone-hero">
+  <canvas class="relief" data-seed="3" data-levels="12" data-tint aria-hidden="true"></canvas>
+  <div class="in">
+    <div>
+      <h1>Nom du jeu</h1>
+      <p class="lead">Une phrase d'intro sur le jeu.</p>
+      <dl class="facts"><dt>Plateforme</dt><dd>PC</dd><dt>Genre</dt><dd>RPG</dd><dt>Éditeur</dt><dd>Studio</dd></dl>
+    </div>
+    <figure class="inset rv" style="margin:0"><img src="img/hero.webp" alt="Visuel du jeu" fetchpriority="high"><div class="ticks" aria-hidden="true"><span>0</span><span>250</span><span>500</span><span>750 m</span></div></figure>
+  </div>
+</section>
+<div class="sheet">
+<section class="block" id="presentation">
+  <div class="block-head rv"><h2>Le jeu</h2><p>Remplace ce texte.</p></div>
+  <div class="rv"><div class="prose"><p>Écris ici quelques phrases sur le jeu et ce que tu y fais.</p></div></div>
+</section>
+<section class="block" id="persos">
+  <div class="block-head rv"><h2>Mes persos</h2><p>Copie un bloc « specimen » par perso.</p></div>
+  <div class="rv"><div class="specimens"><article class="specimen"><div class="pic"><img src="img/perso1.webp" alt="Nom du perso" loading="lazy"><span class="rank">N°1</span></div><div class="txt"><h3>Nom du perso</h3><p>Pourquoi je le joue.</p></div></article></div></div>
+</section>
+<section class="block" id="galerie">
+  <div class="block-head rv"><h2>Screens</h2><p>Clique pour agrandir.</p></div>
+  <div class="rv"><div class="gallery"><button type="button" data-full="img/screens/01.webp" aria-label="Agrandir l'image 1"><img src="img/screens/01-thumb.webp" alt="Screen 1" loading="lazy"></button></div></div>
+</section>
+<section class="block" id="liens">
+  <div class="block-head rv"><h2>Liens utiles</h2></div>
+  <div class="rv"><ul class="rows"><li><a href="https://exemple.com" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><strong>Nom du lien</strong><span class="t">Site</span><span class="arr"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></span></a></li></ul></div>
+</section>
+<section class="block" id="bientot">
+  <div class="block-head rv"><h2>Bientôt</h2></div>
+  <div class="rv"><div class="uncharted"><div><em>Zone non relevée</em><strong>Section à venir</strong><span>Ce que tu comptes ajouter.</span></div></div></div>
+</section>
+</div>
+</main>
+<footer class="zone-foot">
+  <div class="in">
+    <div>
+      <h2>Autres jeux</h2>
+      <p style="color:var(--ink-soft);margin:12px 0 18px">Les autres jeux de l'étagère.</p>
+      <a class="btn" href="../index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Retour à l'étagère</a>
+    </div>
+    <div>
+      <ul class="index" data-index></ul>
+      <div class="sig" style="margin-top:32px"><img src="../assets/img/logo-oph.png" alt="" width="217" height="312"><span>© opti'H ✗ — tous droits réservés</span></div>
+    </div>
+  </div>
+</footer>
+<script src="../assets/js/jeux.js"></script>
+<script src="../assets/js/carte.js"></script>
+<script src="../assets/js/app.js"></script>
+</body>
+</html>

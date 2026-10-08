@@ -1,0 +1,115 @@
+opti'H ✗ — le site
+==================
+
+Le hub (index.html) est une étagère : chaque jeu est une boîte.
+Au survol, la boîte pivote et montre sa jaquette ; la fiche en dessous
+donne le texte et le bouton pour entrer.
+
+Chaque page jeu a son propre design, dans l'ambiance du jeu :
+  - bdo/             « Sélection du personnage » (sombre, filets dorés)
+  - wuthering-waves/ « Onde de résonance » (clair, traits fins, onde animée)
+  - tower-of-god/    « L'ascension » (chaque section = un étage, ascenseur)
+  Le style de chaque page est dans son dossier : style.css.
+
+AJOUTER UN JEU
+--------------
+1. Copie le dossier « _modele » et renomme la copie (ex. « genshin »).
+   - Mets tes images dans genshin/img/ :
+       hero.webp (grande image du haut), perso1.webp (carré), screens/01.webp + 01-thumb.webp
+   - Dans genshin/index.html, remplace :
+       * data-jeu="_modele/index.html"  ->  data-jeu="genshin/index.html"
+       * la couleur  --c:#62d98f  par celle du jeu
+       * « Nom du jeu », les textes, les infos (Plateforme, Genre…)
+   (Le modèle a un design neutre de départ ; demande-moi si tu veux un design
+   propre au nouveau jeu, comme pour les autres pages.)
+2. Ouvre assets/js/jeux.js et ajoute un bloc pour ton jeu
+   (copie-colle un bloc existant ; change nom, lien, image, couleur, police, fond…).
+   Mets la jaquette dans assets/img/ (900 px de large environ).
+3. C'est tout : l'étagère et la liste « Autres jeux » en bas de chaque page
+   se mettent à jour toutes seules. L'ordre des blocs = l'ordre sur l'étagère.
+
+RETIRER UN JEU : supprime son bloc dans assets/js/jeux.js.
+
+CHANGER LA COULEUR DU MUR : dans index.html, tout en haut du <style>,
+les deux valeurs --wall et --wall-2.
+
+AJOUTER UNE SECTION DANS UNE PAGE JEU
+-------------------------------------
+Copie une section existante de la page (un bloc <section ...> ... </section>),
+change son id et son titre, et ajoute le lien dans le menu si la page en a un.
+
+VERSION APPLICATION (téléphone et ordinateur)
+--------------------------------------------
+Le site s'installe comme une appli : bouton « Installer l'appli » sur
+l'étagère (Chrome, Edge, Android), ou sur iPhone : Partager → Sur l'écran
+d'accueil. Sur téléphone, une barre d'onglets en bas permet de passer
+d'un jeu à l'autre (elle se remplit toute seule depuis jeux.js ; le champ
+« court » donne le nom affiché dans la barre).
+Les pages déjà ouvertes restent lisibles sans connexion.
+ATTENTION : l'installation ne marche que si le site est en https://.
+Fichiers : manifest.webmanifest, sw.js, offline.html, assets/app/ (icônes),
+assets/js/app.js, assets/css/app.css.
+Si tu remplaces une image en gardant le même nom : dans sw.js, change
+VERSION ("optih-v1" → "optih-v2").
+
+CODES CADEAUX
+-------------
+Tous les codes (WuWa, Tower of God) sont dans
+assets/js/codes.js : ajoute ou supprime une ligne, change la date « verif ».
+Les visiteurs peuvent copier un code en un clic et cocher « Déjà utilisé ».
+
+WUTHERING WAVES
+---------------
+wuthering-waves/data-resonateurs.js  builds et équipes des 60 résonateurs
+wuthering-waves/data-tier.js         la tier list (déplace les noms d'un rang à l'autre)
+wuthering-waves/catalogue.js         catalogue + fiches
+wuthering-waves/equipe.js            « Ma team » (indice d'entente)
+wuthering-waves/tier.js              affichage de la tier list
+wuthering-waves/data-degats.js       stats et multiplicateurs du jeu (pour le simulateur)
+wuthering-waves/degats.js            simulateur de dégâts d'une team de 3
+wuthering-waves/onglets.js           les onglets de la page (Résonateurs, Ma team, Dégâts…)
+wuthering-waves/data-calendrier.js   LE CALENDRIER : versions et bannières (à mettre à jour à chaque version)
+wuthering-waves/data-materiaux.js    matériaux d'ascension et de compétences (données du jeu)
+
+BLACK DESERT
+------------
+bdo/data-gear.js     LE SUIVI DU GEAR : tes AP / AP éveil / DP et tes objectifs (le GS se calcule seul)
+
+TOWER OF GOD
+------------
+tower-of-god/data-persos.js   liste des persos (données Conowen) pour « Mes équipes »
+
+MODE CLAIR / SOMBRE
+-------------------
+Bouton en haut des pages Wuthering Waves et Tower of God. Le choix est mémorisé.
+
+FICHIERS
+--------
+index.html                 l'étagère (hub)
+assets/js/jeux.js          LA LISTE DES JEUX (le seul fichier à toucher pour l'étagère)
+assets/js/carte.js         galerie d'images, menus, liste « Autres jeux » des pages jeux
+assets/css/base.css        socle commun des pages jeux
+assets/css/carte.css       style du modèle (_modele)
+assets/fonts/              polices (incluses, pas besoin de Google Fonts)
+bdo/ wuthering-waves/ tower-of-god/   les pages jeux
+op/                        OP FRANCE (inchangé)
+_modele/                   modèle pour un nouveau jeu (n'apparaît pas sur l'étagère)
+PRODUCT.md, DESIGN.md      notes de conception (inutiles en ligne)
+
+MISE EN LIGNE : envoie le contenu de ce dossier à la racine de ton hébergement (htdocs).
+
+METTRE EN LIGNE (IMPORTANT DEPUIS LES NOTIFICATIONS)
+----------------------------------------------------
+Ne plus glisser le dossier sur Netlify : ça enlèverait les notifications.
+À la place, demande à Claude « mets en ligne », ou ouvre une invite de
+commandes dans ce dossier et tape :
+    netlify deploy --prod --dir .
+
+NOTIFICATIONS
+-------------
+- netlify/functions/ : le programme qui envoie les notifications (toutes les 5 min).
+- netlify/functions/lib/evenements.mjs : horaires des world boss BDO et heures des rappels.
+- Les bannières et resets WuWa viennent de wuthering-waves/data-calendrier.js.
+- Les clés VAPID sont rangées dans les réglages Netlify (ne pas les changer,
+  sinon tout le monde devra réactiver ses notifications).
+- node_modules/ et .netlify/ : fichiers techniques, ne pas toucher.

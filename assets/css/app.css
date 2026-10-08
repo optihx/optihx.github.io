@@ -1,0 +1,49 @@
+/* opti'H ✗ — version application : barre d'onglets (téléphone), bouton d'installation, aide */
+.onglets{display:none}
+@media (max-width:820px){
+  .onglets{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;justify-content:space-around;gap:2px;
+    padding:6px 6px calc(6px + env(safe-area-inset-bottom));background:rgba(14,17,24,.9);
+    -webkit-backdrop-filter:blur(14px) saturate(1.3);backdrop-filter:blur(14px) saturate(1.3);border-top:1px solid rgba(255,255,255,.08);
+    font-family:"Figtree",system-ui,sans-serif}
+  .onglets a{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 2px 3px;border-radius:12px;
+    color:rgba(241,239,230,.62);text-decoration:none;font-size:11px;font-weight:600;line-height:1.1;-webkit-tap-highlight-color:transparent;transition:color .2s,background .2s}
+  .onglets a span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .onglets svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .onglets i{display:grid;place-items:center;width:24px;height:24px;border-radius:8px;font-style:normal;font-size:12px;font-weight:800;
+    color:#111;background:var(--c);opacity:.7;transition:opacity .2s,transform .2s}
+  .onglets a[aria-current="page"]{color:#fff;background:rgba(255,255,255,.08)}
+  .onglets a[aria-current="page"] i{opacity:1;transform:scale(1.08)}
+  .onglets a[aria-current="page"] svg{color:var(--c)}
+  html.avec-onglets body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+}
+/* Bouton « Installer l'appli » */
+[data-installer][hidden]{display:none!important}
+.aide-install{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:120;width:min(420px,calc(100% - 32px));
+  padding:16px 18px;border-radius:14px;background:#141a26;color:#f1efe6;border:1px solid rgba(255,255,255,.12);box-shadow:0 20px 50px -20px rgba(0,0,0,.7);
+  font:15px/1.5 "Figtree",system-ui,sans-serif;animation:aide-in .3s ease}
+.aide-install p{margin:0 0 12px}
+.aide-install button{padding:8px 16px;border:0;border-radius:999px;background:#ffcf8a;color:#111;font:inherit;font-weight:700;cursor:pointer}
+@keyframes aide-in{from{opacity:0;transform:translate(-50%,10px)}}
+@media (min-width:821px){.aide-install{left:auto;right:clamp(16px,4vw,56px);bottom:auto;top:84px;transform:none;animation:none}}
+/* En mode appli : on respecte l'encoche et la barre d'état */
+html.en-appli body{padding-top:env(safe-area-inset-top)}
+
+/* Bouton « retour en haut » (toutes les pages) */
+.haut{position:fixed;right:clamp(14px,2.5vw,28px);bottom:calc(22px + env(safe-area-inset-bottom));z-index:55;display:grid;place-items:center;width:46px;height:46px;padding:0;
+  border:1px solid rgba(255,255,255,.14);border-radius:50%;background:rgba(18,22,30,.82);color:#fff;cursor:pointer;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 10px 26px -12px rgba(0,0,0,.6);
+  opacity:0;transform:translateY(12px) scale(.9);pointer-events:none;transition:opacity .3s,transform .3s cubic-bezier(.16,1,.3,1),background .2s}
+.haut.visible{opacity:1;transform:none;pointer-events:auto}
+.haut:hover{background:rgba(18,22,30,.95)}
+.haut:focus-visible{outline:2px solid #ffcf8a;outline-offset:3px}
+.haut svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media (max-width:820px){.haut{right:auto;left:14px;width:42px;height:42px}html.avec-onglets .haut{bottom:calc(76px + env(safe-area-inset-bottom))}}
+@media (prefers-reduced-motion:reduce){.haut{transition:opacity .2s}}
+
+/* Bouton mode clair / sombre */
+.theme-slot{margin-left:auto;display:flex}
+.theme-btn{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:6px 12px;border:1px solid currentColor;border-radius:999px;background:transparent;color:inherit;
+  font:600 13px/1 "Figtree",system-ui,sans-serif;cursor:pointer;opacity:.85;transition:opacity .2s,background .2s}
+.theme-btn:hover{opacity:1}
+.theme-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+@media (max-width:620px){.theme-btn span{display:none}.theme-btn{padding:6px 9px}}

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>opti'H ✗ — Sur mon étagère</title>
+<meta name="description" content="Le hub d'opti'H : ses jeux rangés sur l'étagère.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="opti'H ✗">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="opti&#x27;H ✗ — Sur mon étagère">
+<meta property="og:description" content="Mes jeux rangés sur l&#x27;étagère : BDO, Wuthering Waves, Tower of God, OP France. Guides, outils et screens.">
+<meta property="og:url" content="https://optihx.netlify.app/">
+<meta property="og:image" content="https://optihx.netlify.app/assets/partage/hub.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#161d2e">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/app/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="opti'H">
+<link rel="icon" href="favicon.ico">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+:root{/* Couleur du mur : change ces deux valeurs pour changer l'ambiance */
+  --wall:#161d2e;--wall-2:#0c111c;--ink:#f1efe6;--soft:#aab3c5;--wood:#6b4a2e;--wood-2:#3f2a18;--led:#ffcf8a;--ease:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--wall-2);color:var(--ink);font-family:"Figtree",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--led);outline-offset:4px}
+.ico{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.room{min-height:100dvh;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr auto;background:
+  radial-gradient(60% 45% at 50% 38%,rgba(255,207,138,.16),transparent 70%),
+  repeating-linear-gradient(90deg,rgba(0,0,0,.08) 0 1px,transparent 1px 120px),
+  linear-gradient(180deg,var(--wall),var(--wall-2))}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px clamp(16px,4vw,56px)}
+.me{display:flex;align-items:center;gap:14px}
+.me img{height:52px;width:auto}
+.me strong{display:block;font-family:"Big Shoulders Display";font-weight:800;font-size:26px;letter-spacing:.04em;text-transform:uppercase;line-height:1}
+.me span{display:block;color:var(--soft);font-size:14px}
+header nav{display:flex;gap:6px;flex-wrap:wrap}
+header nav a{padding:7px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.14);font-size:13px;color:var(--soft);transition:color .2s,border-color .2s}
+header nav a:hover{color:var(--ink);border-color:var(--led)}
+.install{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:999px;border:1px solid var(--led);background:rgba(255,207,138,.1);color:var(--led);font:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s}
+.install:hover{background:rgba(255,207,138,.2)}
+
+.stage{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px clamp(16px,4vw,56px)}
+.stage h1{font-family:"Big Shoulders Display";font-weight:900;text-transform:uppercase;font-size:clamp(40px,6vw,84px);line-height:.9;margin:0 0 70px;text-align:center}
+.stage h1 span{color:var(--led)}
+
+/* Étagère */
+.shelf{position:relative;display:flex;align-items:flex-end;justify-content:center;gap:10px;padding:0 40px;perspective:1400px;min-height:360px;max-width:100%}
+.shelf::after{content:"";position:absolute;left:0;right:0;bottom:-22px;height:22px;background:linear-gradient(180deg,#8a6240,var(--wood) 30%,var(--wood-2));border-radius:2px;box-shadow:0 18px 30px -8px rgba(0,0,0,.7)}
+.shelf::before{content:"";position:absolute;left:4%;right:4%;top:-26px;height:2px;background:var(--led);box-shadow:0 0 30px 8px rgba(255,207,138,.35);border-radius:2px}
+.item{--s:64px;--w:250px;position:relative;width:var(--s);height:340px;transition:width .7s var(--ease);flex:none}
+.item.open{width:var(--w)}
+.book{position:absolute;inset:0;transform-style:preserve-3d}
+.spine,.cover{position:absolute;top:0;height:100%;backface-visibility:hidden;transition:transform .7s var(--ease)}
+.spine{left:0;width:var(--s);transform-origin:right center;background:var(--f);color:var(--e);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:14px 0 12px;box-shadow:inset -6px 0 10px rgba(0,0,0,.35),inset 3px 0 0 rgba(255,255,255,.12)}
+.spine b{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--p);font-weight:inherit;font-size:22px;white-space:nowrap;line-height:1;max-height:250px;overflow:hidden}
+.spine i{display:block;width:26px;height:4px;background:var(--c);border-radius:2px}
+.spine img{width:22px;opacity:.8}
+.cover{left:var(--s);width:var(--w);transform-origin:left center;transform:rotateY(90deg);background:var(--f);overflow:hidden;box-shadow:0 20px 40px -12px rgba(0,0,0,.7)}
+.cover img{width:100%;height:100%;object-fit:cover}
+.cover::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.18),transparent 12%,transparent 88%,rgba(0,0,0,.35)),linear-gradient(180deg,transparent 55%,rgba(0,0,0,.75))}
+.cover b{position:absolute;left:12px;right:12px;bottom:12px;z-index:1;font-family:var(--p);font-weight:inherit;font-size:22px;line-height:1.05;color:#fff}
+.item.open .spine{transform:rotateY(-90deg)}
+.item.open .cover{transform:translateX(calc(var(--s) * -1)) rotateY(0)}
+.item:not(.open):hover .spine{transform:translateY(-8px)}
+
+/* Fiche */
+.card{margin-top:56px;width:min(640px,100%);display:grid;grid-template-columns:1fr auto;gap:16px 24px;align-items:end;padding:22px 24px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(0,0,0,.25);backdrop-filter:blur(6px)}
+.card small{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.card h2{margin:4px 0 6px;font-family:var(--p);font-weight:inherit;font-size:30px;line-height:1}
+.card p{margin:0;color:var(--soft)}
+.card .go{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:999px;background:var(--c);color:#111;font-weight:700;white-space:nowrap;transition:transform .2s}
+.card .go:hover{transform:translateY(-2px)}
+footer{padding:22px;text-align:center;color:var(--soft);font-size:13px}
+
+
+/* Onglets Étagère / Boîte à outils */
+.vues{display:inline-flex;gap:4px;padding:4px;margin:0 0 34px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(0,0,0,.25)}
+.vues button{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border:0;border-radius:999px;background:transparent;color:var(--soft);font:600 14px/1 "Figtree",system-ui,sans-serif;cursor:pointer;transition:color .2s,background .2s}
+.vues button:hover{color:var(--ink)}
+.vues button[aria-selected="true"]{background:var(--led);color:#1a1206}
+.vues .ico{width:17px;height:17px}
+.vue{display:flex;flex-direction:column;align-items:center;width:100%}
+.vue[hidden]{display:none}
+/* Boîte à outils */
+.outils{width:min(1080px,100%);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px;margin-top:-30px}
+.o-grp{padding:18px 18px 10px;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:rgba(0,0,0,.22);border-top:3px solid var(--c)}
+.o-grp h2{margin:0 0 10px;font:800 15px/1.2 "Figtree",system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.o-grp ul{list-style:none;margin:0;padding:0}
+.o-grp li+li{border-top:1px solid rgba(255,255,255,.07)}
+.o-grp a{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;padding:10px 6px;margin:0 -6px;border-radius:8px;transition:background .2s}
+.o-grp a:hover{background:rgba(255,255,255,.05)}
+.o-grp b{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px}
+.o-grp small{display:block;color:var(--soft);font-size:13px;margin-top:2px}
+.o-grp em{font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:999px;background:rgba(255,207,138,.14);color:var(--led)}
+.o-grp a>.ico{color:var(--soft);transition:transform .2s,color .2s}
+.o-grp a:hover>.ico{color:var(--c);transform:translateX(2px)}
+@media (max-width:820px){
+  .vues{margin-bottom:24px}
+  .outils{margin-top:-10px}
+  .shelf{justify-content:flex-start;overflow-x:auto;padding:0 16px 30px;perspective:none;scroll-snap-type:x mandatory;width:100%}
+  .shelf::before{display:none}
+  .shelf::after{bottom:8px}
+  .item,.item.open{width:190px;height:270px;scroll-snap-align:start}
+  .spine{display:none}
+  .cover{position:absolute;left:0;width:190px;transform:none!important}
+  .card{grid-template-columns:1fr}
+  header{flex-direction:column;align-items:flex-start}
+  .stage{justify-content:flex-start;padding-top:8px}
+  .stage h1{margin-bottom:34px}
+  .card{margin-top:40px}
+  html.avec-onglets footer{padding-bottom:10px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<div class="room">
+  <header>
+    <a class="me" href="index.html"><img src="assets/img/logo-oph.png" alt="Signature Oph" width="217" height="312"><span><strong>opti'H ✗</strong><span>Ma collection de jeux</span></span></a>
+    <nav aria-label="Réseaux">
+      <a href="https://www.twitch.tv/optihx" target="_blank" rel="noopener">Twitch</a>
+      <a href="https://www.youtube.com/channel/UCbsyoLEn1X7zsgnFkT7AQWQ" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://x.com/opti_h" target="_blank" rel="noopener">X</a>
+      <a href="https://discord.gg/27Zrvf" target="_blank" rel="noopener">Discord</a>
+      <button type="button" class="notif-btn" data-synchro><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.3-4.9L4 8M4 4v4h4M4 13a8 8 0 0 0 14.3 4.9L20 16M20 20v-4h-4"/></svg><span>Synchro</span></button>
+      <button type="button" class="notif-btn" data-notifs><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20a2 2 0 0 0 4 0"/></svg><span>Notifications</span></button>
+      <button type="button" class="install" data-installer hidden><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Installer l'appli</button>
+    </nav>
+  </header>
+  <main class="stage">
+    <div class="vues" role="tablist" aria-label="Rubriques">
+      <button type="button" role="tab" id="t-etagere" aria-controls="etagere" aria-selected="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4v16M10 4v16M15 5l4 14M3 20h18"/></svg>Étagère</button>
+      <button type="button" role="tab" id="t-outils" aria-controls="outils" aria-selected="false" tabindex="-1"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h18v10H3zM8 9V6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v3M3 13h18"/></svg>Boîte à outils</button>
+    </div>
+    <section class="vue" id="etagere" role="tabpanel" aria-labelledby="t-etagere">
+      <h1>Sur mon <span>étagère</span></h1>
+      <div class="shelf" id="shelf" role="list" aria-label="Mes jeux"></div>
+      <div class="card" id="card" aria-live="polite"></div>
+    </section>
+    <section class="vue" id="outils" role="tabpanel" aria-labelledby="t-outils" hidden>
+      <h1>Ma boîte <span>à outils</span></h1>
+      <div class="outils" id="outils-list"></div>
+    </section>
+  </main>
+  <footer>© opti'H ✗ — tous droits réservés</footer>
+</div>
+<script src="assets/js/jeux.js"></script>
+<script>
+(function(){
+  var ROOT="",J=window.JEUX||[],shelf=document.getElementById('shelf'),card=document.getElementById('card');
+  function esc(s){return String(s||"").replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  function href(j){return /^https?:/.test(j.lien)?j.lien:ROOT+j.lien}
+  function vars(j){return '--f:'+esc(j.fond||'#222')+';--e:'+esc(j.encre||'#fff')+';--c:'+esc(j.couleur)+';--p:\''+esc(j.police||'Figtree')+'\''}
+  shelf.innerHTML=J.map(function(j,i){
+    return '<a role="listitem" class="item'+(i===0?' open':'')+'" href="'+esc(href(j))+'" data-i="'+i+'" style="'+vars(j)+'" aria-label="'+esc(j.nom)+'">'+
+      '<div class="book"><div class="spine"><i></i><b>'+esc(j.nom)+'</b><img src="'+ROOT+'assets/img/logo-oph.png" alt=""></div>'+
+      '<div class="cover">'+(j.image?'<img src="'+esc(ROOT+j.image)+'" alt="">':'')+'<b>'+esc(j.nom)+'</b></div></div></a>';
+  }).join('');
+  var items=[].slice.call(shelf.children);
+  function pick(el){
+    items.forEach(function(x){x.classList.toggle('open',x===el)});
+    var j=J[+el.dataset.i];card.setAttribute('style',vars(j));
+    card.innerHTML='<div><small>'+esc(j.type)+'</small><h2>'+esc(j.nom)+'</h2><p>'+esc(j.texte)+'</p></div><a class="go" href="'+esc(href(j))+'">'+esc(j.action||'Jouer')+' <svg class="ico" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>';
+  }
+  items.forEach(function(el){el.addEventListener('mouseenter',function(){pick(el)});el.addEventListener('focus',function(){pick(el)})});
+  if(items[0])pick(items[0]);
+})();
+</script>
+<script src="assets/js/saison.js"></script>
+<script src="assets/js/outils.js"></script>
+<script>
+(function(){
+  var O=window.OUTILS||[],box=document.getElementById('outils-list');
+  function esc(s){return String(s||"").replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  var fl='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+      ext='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>';
+  box.innerHTML=O.map(function(g){
+    return '<article class="o-grp" style="--c:'+esc(g.couleur||'#ffcf8a')+'"><h2>'+esc(g.groupe)+'</h2><ul>'+(g.liens||[]).map(function(l){
+      var x=/^https?:/.test(l.lien);
+      return '<li><a href="'+esc(l.lien)+'"'+(x?' target="_blank" rel="noopener"':'')+'><span><b>'+esc(l.nom)+(l.mien?' <em>Mon site</em>':'')+'</b>'+(l.texte?'<small>'+esc(l.texte)+'</small>':'')+'</span>'+(x?ext:fl)+'</a></li>';
+    }).join('')+'</ul></article>';
+  }).join('');
+  // Onglets : #outils dans l'adresse ouvre directement la boîte à outils
+  var tabs=[].slice.call(document.querySelectorAll('.vues [role="tab"]'));
+  function show(id,maj){
+    tabs.forEach(function(t){var on=t.getAttribute('aria-controls')===id;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;document.getElementById(t.getAttribute('aria-controls')).hidden=!on});
+    if(maj)history.replaceState(null,'',id==='outils'?'#outils':location.pathname+location.search);
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){show(t.getAttribute('aria-controls'),true)});
+    t.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){var n=tabs[(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length];n.focus();n.click()}});
+  });
+  if(location.hash==='#outils')show('outils');
+  addEventListener('hashchange',function(){show(location.hash==='#outils'?'outils':'etagere')});
+})();
+</script>
+<script src="assets/js/notifs.js"></script>
+<script src="assets/js/carte-joueur.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

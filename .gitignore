@@ -1,0 +1,13 @@
+# Local Netlify folder
+.netlify
+node_modules/
+_perso_tmp/
+*.tar
+netlify/
+netlify.toml
+package.json
+package-lock.json
+DESIGN.md
+PRODUCT.md
+aethel-spire/outils/
+.claude/

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clash of Clans — opti'H ✗</title>
+<meta name="description" content="Mes comptes Clash of Clans : améliorations en cours des ouvriers et du labo, progression pour chaque HDV, notifications de fin d'amélioration.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="opti'H ✗">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Clash of Clans — opti'H ✗">
+<meta property="og:description" content="Mes comptes Clash of Clans : améliorations en cours des ouvriers et du labo, progression pour chaque HDV, notifications de fin d'amélioration.">
+<meta property="og:url" content="https://optihx.netlify.app/clash-of-clans/">
+<meta property="og:image" content="https://optihx.netlify.app/assets/partage/coc.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#141a24">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/app/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="opti'H">
+<link rel="icon" href="../favicon.ico">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body data-root="../" data-jeu="clash-of-clans/index.html">
+<header class="barre">
+  <a class="retour" href="../index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg><img src="../assets/img/logo-oph.png" alt="" width="217" height="312"><span>L'étagère</span></a>
+</header>
+
+<main>
+<section class="entete">
+  <div class="banniere"><img src="img/hero.webp" alt="Clash of Clans : Roi des barbares, Géant et Archère" fetchpriority="high"></div>
+  <div class="entete-txt">
+    <h1>Clash <span>of Clans</span></h1>
+    <p>Mes comptes : ouvriers, labo et progression. Les données viennent de l'export du jeu.</p>
+  </div>
+</section>
+
+<!-- ===================== CLASH OF CLANS ===================== -->
+<section class="panneau coc" id="p-coc" role="tabpanel" aria-labelledby="t-coc">
+  <div class="sous" role="tablist" aria-label="Clash of Clans">
+    <button type="button" role="tab" data-sous="coc-comptes" aria-selected="true">Mes comptes</button>
+    <button type="button" role="tab" data-sous="coc-encours" aria-selected="false">En cours <span class="pastille" id="coc-nb" hidden></span></button>
+    <button type="button" role="tab" data-sous="coc-import" aria-selected="false">+ Ajouter / mettre à jour</button>
+  </div>
+  <div class="vue" id="coc-comptes"></div>
+  <div class="vue" id="coc-encours" hidden></div>
+  <div class="vue" id="coc-import" hidden>
+    <div class="import"><img class="import-deco" src="img/championne.webp" alt="" loading="lazy">
+      <ol class="etapes">
+        <li><b>Dans Clash of Clans</b> : ouvre les <b>Paramètres</b> → <b>Plus de paramètres</b>.</li>
+        <li>Tout en bas : <b>Exporter les données</b> → <b>Copier</b>.</li>
+        <li>Reviens ici et clique sur <b>Coller</b> (ou colle dans le cadre).</li>
+      </ol>
+      <label class="champ"><span>Nom du compte (facultatif)</span><input type="text" id="coc-nom" maxlength="30" placeholder="Ex. : Compte principal"></label>
+      <label class="champ"><span>Données du village</span><textarea id="coc-texte" rows="5" placeholder="Colle ici le texte copié dans le jeu…" spellcheck="false"></textarea></label>
+      <div class="actions">
+        <button type="button" class="b-prim" id="coc-coller">Coller</button>
+        <button type="button" class="b-sec" id="coc-ok">Enregistrer le compte</button>
+      </div>
+      <p class="msg" id="coc-msg" aria-live="polite"></p>
+      <p class="note">Si le compte existe déjà (même tag), il est mis à jour. Refais l'export quand tu lances de nouvelles améliorations. Limites du jeu : l'ouvrier de la Forge n'est pas dans l'export, et un boost actif fausse un peu les minuteurs. Tes comptes sont enregistrés sur cet appareil.</p>
+    </div>
+  </div>
+  <p class="credit">Images © Supercell. Contenu non officiel, ni approuvé ni soutenu par Supercell. Données des niveaux : clash-of-clans-data.</p>
+</section>
+</main>
+
+<footer class="pied">
+  <div class="in">
+    <div>
+      <h2>Autres jeux</h2>
+      <a class="b-sec" href="../index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Retour à l'étagère</a>
+    </div>
+    <div>
+      <ul class="index" data-index></ul>
+      <div class="sig"><img src="../assets/img/logo-oph.png" alt="" width="217" height="312"><span>© opti'H ✗ — tous droits réservés</span></div>
+    </div>
+  </div>
+</footer>
+<script src="../assets/js/jeux.js"></script>
+<script src="../assets/js/carte.js"></script>
+<script src="data-coc.js"></script>
+<script src="coc.js"></script>
+<script src="../assets/js/app.js"></script>
+</body>
+</html>

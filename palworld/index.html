@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Palworld — opti'H ✗</title>
+<meta name="description" content="Mon Paldeck Palworld (Pals capturés) et le calcul de reproduction : quel bébé avec deux parents, et quels couples pour obtenir un Pal.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="opti'H ✗">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Palworld — opti'H ✗">
+<meta property="og:description" content="Mon Paldeck Palworld (Pals capturés) et le calcul de reproduction : quel bébé avec deux parents, et quels couples pour obtenir un Pal.">
+<meta property="og:url" content="https://optihx.netlify.app/palworld/">
+<meta property="og:image" content="https://optihx.netlify.app/assets/partage/pal.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#141a24">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/app/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="opti'H">
+<link rel="icon" href="../favicon.ico">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body class="theme-pal" data-root="../" data-jeu="palworld/index.html">
+<header class="barre">
+  <a class="retour" href="../index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg><img src="../assets/img/logo-oph.png" alt="" width="217" height="312"><span>L'étagère</span></a>
+</header>
+
+<main>
+<section class="entete">
+  <div class="banniere"><img src="img/hero.webp" alt="Palworld : des Pals et une dresseuse au pied de la tour" fetchpriority="high"></div>
+  <div class="entete-txt">
+    <h1>Pal<span>world</span></h1>
+    <p>Mon Paldeck, la reproduction et ma base.</p>
+  </div>
+</section>
+
+<!-- ===================== PALWORLD ===================== -->
+<section class="panneau pal" id="p-pal" role="tabpanel" aria-labelledby="t-pal">
+  <div class="sous" role="tablist" aria-label="Palworld">
+    <button type="button" role="tab" data-sous="pal-deck" aria-selected="true">Paldeck</button>
+    <button type="button" role="tab" data-sous="pal-repro" aria-selected="false">Reproduction</button>
+    <button type="button" role="tab" data-sous="pal-base" aria-selected="false">Ma base</button>
+  </div>
+  <div class="vue" id="pal-deck"></div>
+  <div class="vue" id="pal-repro" hidden></div>
+  <div class="vue" id="pal-base" hidden></div>
+  <section class="galerie-pal" aria-labelledby="gal-t">
+    <h2 id="gal-t">Galerie</h2>
+    <div class="gallery"><button type="button" data-full="img/ss1.webp" aria-label="Agrandir l'image 1"><img src="img/ss1-mini.webp" alt="Palworld, image officielle 1" loading="lazy" width="480" height="270"></button><button type="button" data-full="img/ss2.webp" aria-label="Agrandir l'image 2"><img src="img/ss2-mini.webp" alt="Palworld, image officielle 2" loading="lazy" width="480" height="270"></button><button type="button" data-full="img/ss3.webp" aria-label="Agrandir l'image 3"><img src="img/ss3-mini.webp" alt="Palworld, image officielle 3" loading="lazy" width="480" height="270"></button><button type="button" data-full="img/ss6.webp" aria-label="Agrandir l'image 4"><img src="img/ss6-mini.webp" alt="Palworld, image officielle 4" loading="lazy" width="480" height="270"></button><button type="button" data-full="img/ss7.webp" aria-label="Agrandir l'image 5"><img src="img/ss7-mini.webp" alt="Palworld, image officielle 5" loading="lazy" width="480" height="270"></button><button type="button" data-full="img/ss8.webp" aria-label="Agrandir l'image 6"><img src="img/ss8-mini.webp" alt="Palworld, image officielle 6" loading="lazy" width="480" height="270"></button></div>
+  </section>
+  <p class="credit">Données Palworld : palworld-mcp (CC BY 4.0), d'après paldb.cc et palcalc-tools. Images et Pals © Pocketpair.</p>
+</section>
+</main>
+
+<footer class="pied">
+  <div class="in">
+    <div>
+      <h2>Autres jeux</h2>
+      <a class="b-sec" href="../index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Retour à l'étagère</a>
+    </div>
+    <div>
+      <ul class="index" data-index></ul>
+      <div class="sig"><img src="../assets/img/logo-oph.png" alt="" width="217" height="312"><span>© opti'H ✗ — tous droits réservés</span></div>
+    </div>
+  </div>
+</footer>
+<script src="../assets/js/jeux.js"></script>
+<script src="../assets/js/carte.js"></script>
+<script src="data-pal.js"></script>
+<script src="pal.js"></script>
+<script src="../assets/js/app.js"></script>
+</body>
+</html>

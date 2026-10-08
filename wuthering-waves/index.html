@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme-defaut="clair">
+<head>
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem("optih-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wuthering Waves — opti'H ✗</title>
+<meta name="description" content="Wuthering Waves : le meilleur build (échos, armes, stats) et les meilleures équipes de tous les résonateurs, ma team Changli · Lupa · Shorekeeper et des artworks.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="opti'H ✗">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Wuthering Waves — opti&#x27;H ✗">
+<meta property="og:description" content="Builds et teams des résonateurs, simulateur de dégâts, calendrier, resets et calcul d&#x27;Astrite.">
+<meta property="og:url" content="https://optihx.netlify.app/wuthering-waves/">
+<meta property="og:image" content="https://optihx.netlify.app/assets/partage/wuwa.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="author" content="opti'H">
+<meta name="theme-color" content="#eceef1">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/app/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="opti'H">
+<link rel="icon" href="../favicon.ico">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body data-root="../" data-jeu="wuthering-waves/index.html">
+<header class="top">
+  <a class="back" href="../index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg><img src="../assets/img/logo-oph.png" alt="" width="217" height="312">L'étagère</a>
+<span class="theme-slot" data-theme-slot></span></header>
+<main>
+<section class="hero">
+  <div class="hero-text">
+    <span class="code">Résonance · journal d'opti'H</span>
+    <div>
+      <h1>Wuthering<span>Waves</span></h1>
+      <p>Un action-RPG en monde ouvert sur PC et mobile. Ici : le meilleur build et les meilleures équipes de chaque résonateur, et ma team Changli · Lupa · Shorekeeper.</p>
+      <a class="cta" href="#resonateurs">Voir les résonateurs<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+      <dl class="specs">
+        <div><dt>Plateforme</dt><dd>PC · Mobile</dd></div>
+        <div><dt>Genre</dt><dd>Action-RPG</dd></div>
+        <div><dt>Éditeur</dt><dd>Kuro Games</dd></div>
+        <div><dt>Fiches</dt><dd class="status"><i aria-hidden="true"></i>60 résonateurs</dd></div>
+      </dl>
+    </div>
+  </div>
+  <div class="hero-art">
+    <div class="slides" id="slides">
+      <img class="slide on" src="img/hero.webp" alt="Lupa, Wuthering Waves" fetchpriority="high" data-label="LUPA · FUSION">
+      <img class="slide" src="img/hero-hsin.webp" alt="Hsin, Wuthering Waves" data-label="HSIN · NOUVELLE 3.7">
+    </div>
+    <div class="dots" role="tablist" aria-label="Choisir l'image">
+      <button type="button" role="tab" aria-selected="true" aria-label="Lupa"><i></i></button>
+      <button type="button" role="tab" aria-selected="false" aria-label="Hsin"><i></i></button>
+    </div>
+    <div class="hud" aria-hidden="true"><i></i><i></i><i></i><i></i><span id="hud-label">LUPA · FUSION</span></div>
+    <canvas class="wave" aria-hidden="true"></canvas>
+  </div>
+</section>
+
+<nav class="onglets-page" id="onglets" role="tablist" aria-label="Rubriques"><a href="#resonateurs" role="tab" id="tab-resonateurs" aria-controls="resonateurs" aria-selected="false">Résonateurs</a><a href="#equipe" role="tab" id="tab-equipe" aria-controls="equipe" aria-selected="false">Ma team</a><a href="#degats" role="tab" id="tab-degats" aria-controls="degats" aria-selected="false">Dégâts</a><a href="#materiaux" role="tab" id="tab-materiaux" aria-controls="materiaux" aria-selected="false">Matériaux</a><a href="#calendrier" role="tab" id="tab-calendrier" aria-controls="calendrier" aria-selected="false">Calendrier</a><a href="#tier" role="tab" id="tab-tier" aria-controls="tier" aria-selected="false">Tier list</a><a href="#codes" role="tab" id="tab-codes" aria-controls="codes" aria-selected="false">Codes</a><a href="#artworks" role="tab" id="tab-artworks" aria-controls="artworks" aria-selected="false">Artworks</a></nav>
+
+<section class="section panneau" id="equipe" role="tabpanel" aria-labelledby="tab-equipe" hidden>
+  <div class="section-head rv"><h2>Ma team</h2><p>Compose ta team de 3 : ses caractéristiques et un indice d'entente sur 10.</p></div>
+  <div class="eq-presets rv" id="eq-presets">
+    <span class="lab">Teams toutes prêtes</span>
+    <button type="button" class="eq-preset mine" data-ids="changli,lupa,shorekeeper">Ma team · Changli, Lupa, Shorekeeper</button>
+    <button type="button" class="eq-preset" data-ids="lupa,changli,brant">Tout Fusion</button>
+    <button type="button" class="eq-preset" data-ids="suoming,hsin,shorekeeper">Suoming · Hsin</button>
+    <button type="button" class="eq-preset" data-ids="hsin,rover-electro,suisui">Hsin Electro</button>
+    <button type="button" class="eq-preset" data-ids="jinhsi,shorekeeper,verina">Jinhsi</button>
+    <button type="button" class="eq-preset vider" data-ids="">Vider</button>
+    <button type="button" class="eq-preset partage" id="eq-partager">Partager ma team</button>
+  </div>
+  <div class="eq-layout">
+    <div class="eq-main">
+      <ol class="eq-slots" id="eq-slots" aria-label="Les 3 persos de la team"></ol>
+      <div class="eq-idees" id="eq-idees" hidden></div>
+      <div class="eq-tools">
+        <label class="res-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span class="sr-only">Chercher un perso</span><input id="eq-search" type="search" placeholder="Chercher un perso…" autocomplete="off"></label>
+        <div class="f-group eq-filtres" id="eq-filtres" role="group" aria-label="Élément"></div>
+      </div>
+      <p class="eq-aide">Clique sur un perso pour l'ajouter, reclique pour le retirer. Ta team reste enregistrée sur ce navigateur.</p>
+      <ul class="eq-pick" id="eq-pick"></ul>
+    </div>
+    <aside class="eq-resume" id="eq-resume" aria-live="polite"></aside>
+  </div>
+</section>
+
+<section class="section panneau" id="resonateurs" role="tabpanel" aria-labelledby="tab-resonateurs" hidden>
+  <div class="section-head rv"><h2>Résonateurs</h2><p>Clique sur une carte pour son build · coche « Je l'ai » pour tes persos (utilisé dans Ma team et Dégâts).</p></div>
+  <div class="res-tools rv">
+    <label class="res-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span class="sr-only">Rechercher</span><input id="res-search" type="search" placeholder="Un nom, un set d'échos…" autocomplete="off"></label>
+    <div id="res-filtres" class="res-filtres"></div>
+    <div class="res-status"><span id="res-count" aria-live="polite"></span><button type="button" id="res-reset" hidden>Tout afficher</button><span class="res-own"><span id="res-own"></span><button type="button" id="res-own-tout">Tout cocher</button><button type="button" id="res-own-rien">Tout décocher</button></span></div>
+  </div>
+  <ul id="res-grid" class="res-grid"></ul>
+  <p id="res-vide" class="res-vide" hidden>Aucun résonateur ne correspond. Essaie d'enlever un filtre.</p>
+  <p class="sources">Builds et équipes : wuwabuild.com, d'après prydwen.gg (mis à jour le 1er octobre 2026). Ordre : des plus récents aux plus anciens.</p>
+</section>
+
+<section class="section panneau" id="degats" role="tabpanel" aria-labelledby="tab-degats" hidden>
+  <div class="section-head"><h2>Dégâts</h2><p>Simule les dégâts d'une rotation de ta team de 3.</p></div>
+  <div class="dg-actions"><button type="button" class="eq-preset mine" data-action="ma-team">Reprendre ma team</button><button type="button" class="eq-preset vider" data-action="vider">Vider</button></div>
+  <div class="dg-layout">
+    <div class="dg-main">
+      <div class="dg-slots" id="dg-slots"></div>
+      <div class="dg-details" id="dg-details"></div>
+      <details class="dg-opt"><summary>Réglages : ennemi et buffs d'équipe</summary><div class="dg-reglages" id="dg-reglages"></div></details>
+      <details class="dg-opt"><summary>Noter un écho</summary><div class="en" id="echo-note"></div></details>
+      <details class="dg-opt"><summary>Comment c'est calculé ?</summary>
+        <div class="dg-how">
+          <p>Persos niveau 90, toutes les compétences niveau 10, arme niveau 90. Les multiplicateurs viennent des données du jeu (version française).</p>
+          <p>Échos : build classique 4-3-3-1-1 (Taux ou Dgt CRIT sur le coût 4, la stat conseillée sur les coûts 3, ATQ sur les coûts 1) + set 2 pièces. La qualité des échos règle les substats : <b>correcte</b> ≈ 25 % taux CRIT / 50 % Dgt CRIT, <b>bonne</b> ≈ 35 / 70, <b>excellente</b> ≈ 45 / 90.</p>
+          <p>La rotation de base lance chaque compétence une fois (et une combo d'attaques normales). Ouvre la fiche d'un perso pour régler le nombre d'utilisations.</p>
+          <p>Pas pris en compte : passifs d'arme, séquences, effets 5 pièces, buffs automatiques de l'Intro et de l'Outro. Ajoute-les à la main dans « Buffs d'équipe ». C'est une estimation pour comparer des teams, pas un chiffre exact du jeu.</p>
+        </div>
+      </details>
+    </div>
+    <aside class="dg-side"><div class="dg-res" id="dg-res" aria-live="polite"></div><div class="dg-idees" id="dg-idees"></div></aside>
+  </div>
+</section>
+
+<section class="section panneau" id="materiaux" role="tabpanel" aria-labelledby="tab-materiaux" hidden>
+  <div class="section-head"><h2>Matériaux</h2><p>Ce qu'il faut farmer pour monter un ou plusieurs persos : matériaux et échos.</p></div>
+  <div class="mt" id="mat"></div>
+  <h3 class="sous-titre">Ma liste de farm</h3>
+  <p class="sous-texte">Tous les persos que tu montes en même temps : les matériaux additionnés et les échos à farmer pour chaque emplacement. Coche au fur et à mesure.</p>
+  <div class="farm" id="farm"></div>
+</section>
+
+<section class="section panneau" id="calendrier" role="tabpanel" aria-labelledby="tab-calendrier" hidden>
+  <div class="section-head"><h2>Calendrier</h2><p>Les bannières de la version et le temps qu'il reste.</p></div>
+  <div class="rs-wrap"><h3 class="sous-titre">Resets</h3><div class="rs-grille" id="resets" aria-live="off"></div></div>
+  <div class="cal" id="cal"></div>
+  <div class="tr-wrap">
+    <h3 class="sous-titre">Mes tirages</h3>
+    <p class="sous-texte">Combien de tirages tu as (ou auras à une date), et combien il en manque pour être sûr d'avoir le perso.</p>
+    <div class="tr" id="tirages"></div>
+  </div>
+</section>
+
+<section class="section panneau" id="tier" role="tabpanel" aria-labelledby="tab-tier" hidden>
+  <div class="section-head rv"><h2>Tier list</h2><p>Mise à jour : <span id="tier-maj">1er octobre 2026 · version 3.7</span> · clique sur un perso pour sa fiche.</p></div>
+  <div class="tier-tabs rv" id="tier-roles" role="group" aria-label="Rôle">
+    <button type="button" class="f-chip" data-r="tous" aria-pressed="true">Tous</button><button type="button" class="f-chip" data-r="dps" aria-pressed="false">DPS</button><button type="button" class="f-chip" data-r="hyb" aria-pressed="false">Hybride</button><button type="button" class="f-chip" data-r="sup" aria-pressed="false">Support</button>
+  </div>
+  <div class="tier-list rv" id="tier-list"></div>
+  <p class="sources">Classement : wuwabuild.com, d'après prydwen.gg. « Hybride » = perso qui fait des dégâts et aide l'équipe. Le rang suppose des persos bien buildés : ton perso préféré bien monté reste jouable partout.</p>
+</section>
+
+<section class="section panneau" id="codes" role="tabpanel" aria-labelledby="tab-codes" hidden>
+  <div class="section-head rv"><h2>Codes cadeaux</h2><p>Copie le code, colle-le en jeu · coche ceux que tu as déjà pris.</p></div>
+  <div class="codes rv" data-codes="wuthering-waves"></div>
+</section>
+
+<section class="panneau" id="artworks" role="tabpanel" aria-labelledby="tab-artworks" hidden>
+  <div class="section" style="padding-bottom:0"><div class="section-head"><h2>Artworks</h2><p>Lupa, Hsin et d'autres · fais défiler, clique pour agrandir.</p></div></div>
+  <div class="strip gallery"><figure><button type="button" data-full="img/coeur/lupa-1.webp" aria-label="Agrandir l'image 1"><img src="img/coeur/lupa-1-thumb.webp" alt="Lupa 1" loading="lazy"></button><figcaption><span>01 / 20</span><span>Lupa 1</span></figcaption></figure><figure><button type="button" data-full="img/coeur/lupa-2.webp" aria-label="Agrandir l'image 2"><img src="img/coeur/lupa-2-thumb.webp" alt="Lupa 2" loading="lazy"></button><figcaption><span>02 / 20</span><span>Lupa 2</span></figcaption></figure><figure><button type="button" data-full="img/coeur/lupa-3.webp" aria-label="Agrandir l'image 3"><img src="img/coeur/lupa-3-thumb.webp" alt="Lupa 3" loading="lazy"></button><figcaption><span>03 / 20</span><span>Lupa 3</span></figcaption></figure><figure><button type="button" data-full="img/coeur/lupa-4.webp" aria-label="Agrandir l'image 4"><img src="img/coeur/lupa-4-thumb.webp" alt="Lupa 4" loading="lazy"></button><figcaption><span>04 / 20</span><span>Lupa 4</span></figcaption></figure><figure><button type="button" data-full="img/coeur/lupa-5.webp" aria-label="Agrandir l'image 5"><img src="img/coeur/lupa-5-thumb.webp" alt="Lupa 5" loading="lazy"></button><figcaption><span>05 / 20</span><span>Lupa 5</span></figcaption></figure><figure><button type="button" data-full="img/coeur/hsin-1.webp" aria-label="Agrandir l'image 6"><img src="img/coeur/hsin-1-thumb.webp" alt="Hsin 1" loading="lazy"></button><figcaption><span>06 / 20</span><span>Hsin 1</span></figcaption></figure><figure><button type="button" data-full="img/coeur/hsin-2.webp" aria-label="Agrandir l'image 7"><img src="img/coeur/hsin-2-thumb.webp" alt="Hsin 2" loading="lazy"></button><figcaption><span>07 / 20</span><span>Hsin 2</span></figcaption></figure><figure><button type="button" data-full="img/coeur/hsin-3.webp" aria-label="Agrandir l'image 8"><img src="img/coeur/hsin-3-thumb.webp" alt="Hsin 3" loading="lazy"></button><figcaption><span>08 / 20</span><span>Hsin 3</span></figcaption></figure><figure><button type="button" data-full="img/coeur/hsin-4.webp" aria-label="Agrandir l'image 9"><img src="img/coeur/hsin-4-thumb.webp" alt="Hsin 4" loading="lazy"></button><figcaption><span>09 / 20</span><span>Hsin 4</span></figcaption></figure><figure><button type="button" data-full="img/art/01.webp" aria-label="Agrandir l'image 10"><img src="img/art/01-thumb.webp" alt="Artwork Wuthering Waves 1" loading="lazy"></button><figcaption><span>10 / 20</span></figcaption></figure><figure><button type="button" data-full="img/art/02.webp" aria-label="Agrandir l'image 11"><img src="img/art/02-thumb.webp" alt="Artwork Wuthering Waves 2" loading="lazy"></button><figcaption><span>11 / 20</span></figcaption></figure><figure><button type="button" data-full="img/art/03.webp" aria-label="Agrandir l'image 12"><img src="img/art/03-thumb.webp" alt="Artwork Wuthering Waves 3" loading="lazy"></button><figcaption><span>12 / 20</span></figcaption></figure><figure><button type="button" data-full="img/art/04.webp" aria-label="Agrandir l'image 13"><img src="img/art/04-thumb.webp" alt="Artwork Wuthering Waves 4" loading="lazy"></button><figcaption><span>13 / 20</span></figcaption></figure><figure><button type="button" data-full="img/art/05.webp" aria-label="Agrandir l'image 14"><img src="img/art/05-thumb.webp" alt="Artwork Wuthering Waves 5" loading="lazy"></button><figcaption><span>14 / 20</span></figcaption></figure><figure><button type="button" data-full="img/art/06.webp" aria-label="Agrandir l'image 15"><img src="img/art/06-thumb.webp" alt="Artwork Wuthering Waves 6" loading="lazy"></button><figcaption><span>15 / 20</span></figcaption></figure><figure><button type="button" data-full="img/art/07.webp" aria-label="Agrandir l'image 16"><img src="img/art/07-thumb.webp" alt="Artwork Wuthering Waves 7" loading="lazy"></button><figcaption><span>16 / 20</span></figcaption></figure><figure><button type="button" data-full="img/art/08.webp" aria-label="Agrandir l'image 17"><img src="img/art/08-thumb.webp" alt="Artwork Wuthering Waves 8" loading="lazy"></button><figcaption><span>17 / 20</span></figcaption></figure><figure><button type="button" data-full="img/art/09.webp" aria-label="Agrandir l'image 18"><img src="img/art/09-thumb.webp" alt="Artwork Wuthering Waves 9" loading="lazy"></button><figcaption><span>18 / 20</span></figcaption></figure><figure><button type="button" data-full="img/art/10.webp" aria-label="Agrandir l'image 19"><img src="img/art/10-thumb.webp" alt="Artwork Wuthering Waves 10" loading="lazy"></button><figcaption><span>19 / 20</span></figcaption></figure><figure><button type="button" data-full="img/art/11.webp" aria-label="Agrandir l'image 20"><img src="img/art/11-thumb.webp" alt="Artwork Wuthering Waves 11" loading="lazy"></button><figcaption><span>20 / 20</span></figcaption></figure></div>
+</section>
+</main>
+<dialog id="fiche" class="fiche" aria-labelledby="fiche-titre">
+  <div class="f-bar">
+    <button type="button" class="f-prev" aria-label="Résonateur précédent"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg><span></span></button>
+    <button type="button" class="f-next" aria-label="Résonateur suivant"><span></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+    <button type="button" class="f-close" aria-label="Fermer la fiche"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="f-body"></div>
+</dialog>
+
+<footer class="end">
+  <div class="in">
+    <div><h2>Fin de transmission</h2><a class="return" href="../index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Retour à l'étagère</a></div>
+    <div><ul class="index" data-index></ul><div class="sig"><img src="../assets/img/logo-oph.png" alt="" width="217" height="312"><span>© opti'H ✗</span></div></div>
+  </div>
+</footer>
+<script src="../assets/js/jeux.js"></script>
+<script src="../assets/js/codes.js"></script>
+<script src="../assets/js/carte.js"></script>
+<script src="data-resonateurs.js"></script>
+<script src="possedes.js"></script>
+<script src="data-tier.js"></script>
+<script src="catalogue.js"></script>
+<script src="equipe.js"></script>
+<script src="../assets/js/partage-image.js"></script>
+<script src="team-image.js"></script>
+<script src="tier.js"></script>
+<script src="data-degats.js"></script>
+<script src="degats.js"></script>
+<script src="data-materiaux.js"></script>
+<script src="data-echos.js"></script>
+<script src="materiaux.js"></script>
+<script src="data-calendrier.js"></script>
+<script src="calendrier.js"></script>
+<script src="resets.js"></script>
+<script src="tirages.js"></script>
+<script src="echos.js"></script>
+<script src="onglets.js"></script>
+<script src="musique.js"></script>
+<script>
+/* L'onde de résonance : trois sinusoïdes qui réagissent à la souris */
+(function(){
+  var cv=document.querySelector('canvas.wave');if(!cv)return;var ctx=cv.getContext('2d'),W,H,amp=1,target=1,t=0,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function size(){var d=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0)}
+  function frame(){
+    ctx.clearRect(0,0,W,H);amp+=(target-amp)*.05;
+    [[.9,'rgba(255,255,255,.85)',1.4],[.6,'rgba(201,154,46,.9)',1.2],[.35,'rgba(255,255,255,.35)',1]].forEach(function(w,k){
+      ctx.beginPath();ctx.lineWidth=w[2];ctx.strokeStyle=w[1];
+      for(var x=0;x<=W;x+=4){var y=H*.6+Math.sin(x*.012+t*(1+k*.4)+k)*18*w[0]*amp*Math.sin(x/W*Math.PI);x?ctx.lineTo(x,y):ctx.moveTo(x,y)}
+      ctx.stroke();
+    });
+    t+=.03;if(!reduce)requestAnimationFrame(frame);
+  }
+  var art=document.querySelector('.hero-art');
+  art.addEventListener('mousemove',function(e){var r=art.getBoundingClientRect();target=.6+2*(1-(e.clientY-r.top)/r.height)});
+  art.addEventListener('mouseleave',function(){target=1});
+  size();addEventListener('resize',size);frame();
+})();
+</script>
+<script>
+/* Bannière défilante : Lupa puis Hsin, toutes les 6 secondes (pause au survol) */
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('#slides .slide')),dots=[].slice.call(document.querySelectorAll('.dots button')),
+      label=document.getElementById('hud-label'),art=document.querySelector('.hero-art'),i=0,timer=null,DELAY=6000;
+  if(slides.length<2)return;
+  function show(n){
+    i=(n+slides.length)%slides.length;
+    slides.forEach(function(s,k){s.classList.toggle('on',k===i)});
+    dots.forEach(function(b,k){b.setAttribute('aria-selected',k===i?'true':'false');b.classList.remove('run');void b.offsetWidth;if(k===i&&timer)b.classList.add('run')});
+    if(label)label.textContent=slides[i].dataset.label||'';
+  }
+  function start(){stop();timer=setInterval(function(){show(i+1)},DELAY);dots[i].classList.add('run')}
+  function stop(){clearInterval(timer);timer=null;dots.forEach(function(b){b.classList.remove('run')})}
+  dots.forEach(function(b,k){b.addEventListener('click',function(){show(k);start()})});
+  art.addEventListener('mouseenter',stop);art.addEventListener('mouseleave',start);
+  document.addEventListener('visibilitychange',function(){document.hidden?stop():start()});
+  start();
+})();
+</script>
+<script src="../assets/js/app.js"></script>
+</body>
+</html>

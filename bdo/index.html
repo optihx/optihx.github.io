@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Black Desert Online — opti'H ✗</title>
+<meta name="description" content="Mes classes Black Desert Online, le timer des world boss et mes screens.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="opti'H ✗">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Black Desert Online — opti&#x27;H ✗">
+<meta property="og:description" content="Maegu, Mystic, Scholar : suivi du gear, courbe du GS, timer des world boss et ma liste de tâches.">
+<meta property="og:url" content="https://optihx.netlify.app/bdo/">
+<meta property="og:image" content="https://optihx.netlify.app/assets/partage/bdo.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="author" content="opti'H">
+<meta name="theme-color" content="#0e0b09">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/app/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="opti'H">
+<link rel="icon" href="../favicon.ico">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body data-root="../" data-jeu="bdo/index.html">
+<header class="top" id="top">
+  <a class="back" href="../index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg><img src="../assets/img/logo-oph.png" alt="" width="217" height="312">L'ÉTAGÈRE</a>
+  <nav data-spy aria-label="Sections"><a href="#personnages">Personnages</a><a href="#gear">Gear</a><a href="#world-boss"><span class="m-cache">World </span>boss</a><a href="#taches">Tâches</a><a href="#journal">Journal</a></nav>
+</header>
+<main>
+<section class="title-screen">
+  <img src="img/hero.webp" alt="" fetchpriority="high">
+  <div class="title-block">
+    <h1>Black Desert</h1>
+    <div class="rule" aria-hidden="true"><i></i></div>
+    <p>Un MMORPG sur PC, console et mobile. Mes classes préférées, le timer des world boss et quelques screens.</p>
+    <a class="press" href="#personnages">Commencer</a>
+  </div>
+</section>
+
+<section class="chapter" id="personnages">
+  <div class="chapter-head rv"><h2>Sélection du personnage</h2><p>Mes trois classes, dans l'ordre où je les joue.</p><div class="rule" aria-hidden="true"><i></i></div></div>
+  <div class="select rv">
+    <ul class="roster" role="tablist" aria-label="Personnages"><li><button type="button" role="tab" aria-selected="true" data-img="img/maegu1.webp" data-name="Maegu" data-role="Main · Éveil" data-text="Mon main : je farm et je PvP avec. Jouée en éveil (awak), très peu en succession." data-gear="1"><img src="img/maegu1-mini.webp" alt="" width="64" height="64"><span><strong>Maegu</strong><span>Main · Éveil</span></span></button></li><li><button type="button" role="tab" aria-selected="false" data-img="img/mystic1.webp" data-name="Mystic" data-role="Gear tag · Coup de cœur" data-text="Gear tag, utilisée pour le farm et un peu de PvP. Mon coup de cœur." data-gear="1"><img src="img/mystic1-mini.webp" alt="" width="64" height="64"><span><strong>Mystic</strong><span>Gear tag · Coup de cœur</span></span></button></li><li><button type="button" role="tab" aria-selected="false" data-img="img/scholar1.webp" data-name="Scholar" data-role="Second gear tag" data-text="Second gear tag : je la tag uniquement quand je commence à en avoir marre de la Mystic." data-gear="0"><img src="img/scholar1-mini.webp" alt="" width="64" height="64"><span><strong>Scholar</strong><span>Second gear tag</span></span></button></li></ul>
+    <div class="stage" role="tabpanel" aria-live="polite">
+      <div class="portrait"><img id="c-img" src="img/maegu1.webp" alt="Maegu" width="900" height="1160"></div>
+      <div>
+        <span class="tag" id="c-role">Main · Éveil</span>
+        <h3 id="c-name">Maegu</h3>
+        <p id="c-text">Mon main : je farm et je PvP avec. Jouée en éveil (awak), très peu en succession.</p>
+        <a class="gear" id="c-gear" href="https://garmoth.com/character/1n9sqCDVm8" target="_blank" rel="noopener">Voir le gear <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="gear">
+  <div class="chapter-head rv"><h2>Suivi du gear</h2><p>Où en est chaque perso · mis à jour : <span id="gear-maj">—</span></p><div class="rule" aria-hidden="true"><i></i></div></div>
+  <div class="gear-list rv" id="gear-list"></div>
+</section>
+
+<section class="chapter" id="world-boss">
+  <div class="chapter-head rv"><h2>World boss</h2><p>Serveur EU · via Garmoth</p><div class="rule" aria-hidden="true"><i></i></div></div>
+  <div class="notice rv">
+    <header><i aria-hidden="true"></i>Prochaines apparitions</header>
+    <iframe src="https://garmoth.com/stream-element/boss-timer/eu/optih?region=1" title="Timer des world boss BDO" loading="lazy" height="230"></iframe>
+    <footer>Le timer se met à jour tout seul.</footer>
+  </div>
+</section>
+
+<section class="chapter" id="taches">
+  <div class="chapter-head rv"><h2>Mes tâches</h2><p>Ta liste à cocher · elle se vide toute seule au reset</p><div class="rule" aria-hidden="true"><i></i></div></div>
+  <div class="taches rv" id="taches-list"></div>
+</section>
+
+<section class="chapter" id="journal">
+  <div class="chapter-head rv"><h2>Journal de l'aventurier</h2><p>Clique sur un screen pour l'agrandir.</p><div class="rule" aria-hidden="true"><i></i></div></div>
+  <div class="gallery rv"><button type="button" data-full="img/screens/01.webp" aria-label="Agrandir l'image 1"><img src="img/screens/01-thumb.webp" alt="Screen Black Desert Online 1" loading="lazy" width="900" height="506"></button><button type="button" data-full="img/screens/02.webp" aria-label="Agrandir l'image 2"><img src="img/screens/02-thumb.webp" alt="Screen Black Desert Online 2" loading="lazy" width="900" height="506"></button><button type="button" data-full="img/screens/03.webp" aria-label="Agrandir l'image 3"><img src="img/screens/03-thumb.webp" alt="Screen Black Desert Online 3" loading="lazy" width="900" height="506"></button><button type="button" data-full="img/screens/04.webp" aria-label="Agrandir l'image 4"><img src="img/screens/04-thumb.webp" alt="Screen Black Desert Online 4" loading="lazy" width="900" height="506"></button><button type="button" data-full="img/screens/05.webp" aria-label="Agrandir l'image 5"><img src="img/screens/05-thumb.webp" alt="Screen Black Desert Online 5" loading="lazy" width="900" height="506"></button><button type="button" data-full="img/screens/06.webp" aria-label="Agrandir l'image 6"><img src="img/screens/06-thumb.webp" alt="Screen Black Desert Online 6" loading="lazy" width="900" height="506"></button><button type="button" data-full="img/screens/07.webp" aria-label="Agrandir l'image 7"><img src="img/screens/07-thumb.webp" alt="Screen Black Desert Online 7" loading="lazy" width="900" height="506"></button><button type="button" data-full="img/screens/08.webp" aria-label="Agrandir l'image 8"><img src="img/screens/08-thumb.webp" alt="Screen Black Desert Online 8" loading="lazy" width="900" height="506"></button><button type="button" data-full="img/screens/09.webp" aria-label="Agrandir l'image 9"><img src="img/screens/09-thumb.webp" alt="Screen Black Desert Online 9" loading="lazy" width="900" height="506"></button></div>
+</section>
+</main>
+<footer class="end">
+  <div class="in">
+    <div><h2>Quitter le désert</h2><a class="return" href="../index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Retour à l'étagère</a></div>
+    <div><ul class="index" data-index></ul><div class="sig"><img src="../assets/img/logo-oph.png" alt="" width="217" height="312"><span>© opti'H ✗</span></div></div>
+  </div>
+</footer>
+<script src="../assets/js/jeux.js"></script>
+<script src="../assets/js/carte.js"></script>
+<script src="data-gear.js"></script>
+<script src="gear.js"></script>
+<script src="../assets/js/partage-image.js"></script>
+<script src="fiche-image.js"></script>
+<script src="data-taches.js"></script>
+<script src="taches.js"></script>
+<script>
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.roster button')),img=document.getElementById('c-img'),
+      name=document.getElementById('c-name'),role=document.getElementById('c-role'),text=document.getElementById('c-text'),gear=document.getElementById('c-gear');
+  function pick(b){
+    tabs.forEach(function(t){t.setAttribute('aria-selected',t===b?'true':'false')});
+    img.style.opacity=0;setTimeout(function(){img.src=b.dataset.img;img.alt=b.dataset.name;img.style.opacity=1},160);
+    name.textContent=b.dataset.name;role.textContent=b.dataset.role;text.textContent=b.dataset.text;gear.hidden=b.dataset.gear!=='1';
+  }
+  tabs.forEach(function(b,i){b.addEventListener('click',function(){pick(b)});b.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'||e.key==='ArrowRight'){e.preventDefault();var n=tabs[(i+1)%tabs.length];n.focus();pick(n)}
+    if(e.key==='ArrowUp'||e.key==='ArrowLeft'){e.preventDefault();var p=tabs[(i-1+tabs.length)%tabs.length];p.focus();pick(p)}
+  })});
+  var top=document.getElementById('top');addEventListener('scroll',function(){top.classList.toggle('solid',scrollY>60)},{passive:true});
+})();
+</script>
+<script src="../assets/js/app.js"></script>
+</body>
+</html>

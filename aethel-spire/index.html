@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aethel Spire — opti'H ✗</title>
+<meta name="description" content="Le guide d'Aethel Spire, mon jeu : tier list des héros, meilleures équipes, runes par classe et donjons.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="opti'H ✗">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Aethel Spire — le guide du jeu">
+<meta property="og:description" content="Tier list des héros, meilleures équipes, runes par classe et donjons.">
+<meta property="og:url" content="https://optihx.netlify.app/aethel-spire/">
+<meta property="og:image" content="https://optihx.netlify.app/assets/partage/aethel.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0a1230">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/app/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="opti'H">
+<link rel="icon" href="../favicon.ico">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body data-root="../" data-jeu="aethel-spire/index.html">
+<header class="barre">
+  <a class="retour" href="../index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg><img src="../assets/img/logo-oph.png" alt="" width="217" height="312"><span>L'étagère</span></a>
+  <a class="badge-dev" href="https://aethel-spire.onrender.com" target="_blank" rel="noopener">Mon jeu · en bêta</a>
+</header>
+
+<main>
+<section class="entete">
+  <div class="banniere"><img src="img/hero.webp" alt="" fetchpriority="high" width="1920" height="620"></div>
+  <div class="entete-txt">
+    <p class="sur">Le guide du jeu</p>
+    <h1>Aethel <span>Spire</span></h1>
+    <p class="chapeau">Crée tes équipes, découvre les 40 héros, la tier list et les meilleures runes : tout pour gravir la tour.</p>
+    <div class="beta">
+      <a class="b-jouer" href="https://aethel-spire.onrender.com" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg>Tester le jeu (bêta)</a>
+      <p><b>Le jeu est en bêta : il n'est pas fini.</b> Des mises à jour et des améliorations arriveront petit à petit.</p>
+    </div>
+    <details class="sim">
+      <summary><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>D'où viennent les chiffres ?</summary>
+      <p>De <b>simulations automatiques</b> : héros niveau 40, IA en mode AUTO.
+      Runes « best » = ★6 légendaires +15 avec les stats adaptées à la classe et les sets conseillés ; « basic » = ★5 rares +9.
+      Un joueur qui contrôle ses compétences fera mieux que l'IA.</p>
+    </details>
+  </div>
+</section>
+
+<nav class="as-tabs" role="tablist" aria-label="Sections du guide">
+  <button type="button" role="tab" data-v="equipe" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18l2-9 5 4 5-4 2 9z"/><path d="M5 21h14"/></svg>Mon équipe</button>
+  <button type="button" role="tab" data-v="heros" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Héros</button>
+  <button type="button" role="tab" data-v="tier" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12l-1 6a5 5 0 0 1-10 0zM9 20h6M12 15v5M6 6H3a3 3 0 0 0 3 4M18 6h3a3 3 0 0 1-3 4"/></svg>Tier list</button>
+  <button type="button" role="tab" data-v="equipes" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="9" r="2.5"/><path d="M3 19a6 6 0 0 1 12 0M15 19a4.5 4.5 0 0 1 6.5-4"/></svg>Top équipes</button>
+  <button type="button" role="tab" data-v="runes" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 8v8M9 10l3-2 3 2"/></svg>Runes</button>
+  <button type="button" role="tab" data-v="classes" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/></svg>Classes</button>
+  <button type="button" role="tab" data-v="donjons" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4v-4h4v-4h4V8h4"/></svg>Donjons</button>
+  <button type="button" role="tab" data-v="codes" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18M12 8c-2-4-6-4-6-1.5S10 8 12 8zm0 0c2-4 6-4 6-1.5S14 8 12 8z"/></svg>Codes</button>
+</nav>
+
+<section class="vue" id="v-equipe" role="tabpanel"></section>
+<section class="vue" id="v-heros" role="tabpanel" hidden></section>
+<section class="vue" id="v-tier" role="tabpanel" hidden></section>
+<section class="vue" id="v-equipes" role="tabpanel" hidden></section>
+<section class="vue" id="v-runes" role="tabpanel" hidden></section>
+<section class="vue" id="v-classes" role="tabpanel" hidden></section>
+<section class="vue" id="v-donjons" role="tabpanel" hidden></section>
+<section class="vue" id="v-codes" role="tabpanel" hidden></section>
+
+<p class="maj" id="maj"></p>
+</main>
+
+<div class="fiche-fond" id="fiche" hidden></div>
+
+<footer class="pied">
+  <div class="in">
+    <div>
+      <h2>Autres jeux</h2>
+      <a class="b-sec" href="../index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Retour à l'étagère</a>
+    </div>
+    <div>
+      <ul class="index" data-index></ul>
+      <div class="sig"><img src="../assets/img/logo-oph.png" alt="" width="217" height="312"><span>© opti'H ✗ — tous droits réservés</span></div>
+    </div>
+  </div>
+</footer>
+<script src="../assets/js/jeux.js"></script>
+<script src="../assets/js/carte.js"></script>
+<script src="data-jeu.js"></script>
+<script src="data-aethel.js"></script>
+<script src="aethel.js"></script>
+<script src="../assets/js/app.js"></script>
+</body>
+</html>

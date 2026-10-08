@@ -1,0 +1,23 @@
+{
+  "name": "opti'H ✗ — ma collection de jeux",
+  "short_name": "opti'H",
+  "description": "Le hub d'opti'H : Black Desert, Wuthering Waves, Tower of God, OP France, Clash of Clans, Palworld.",
+  "lang": "fr",
+  "id": "./",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0c111c",
+  "theme_color": "#161d2e",
+  "icons": [
+    { "src": "assets/app/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/app/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/app/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Wuthering Waves", "short_name": "WuWa", "url": "./wuthering-waves/index.html", "icons": [{ "src": "assets/app/icon-96.png", "sizes": "96x96" }] },
+    { "name": "Black Desert Online", "short_name": "BDO", "url": "./bdo/index.html", "icons": [{ "src": "assets/app/icon-96.png", "sizes": "96x96" }] },
+    { "name": "Tower of God", "short_name": "ToG", "url": "./tower-of-god/index.html", "icons": [{ "src": "assets/app/icon-96.png", "sizes": "96x96" }] }
+  ]
+}

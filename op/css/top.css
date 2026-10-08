@@ -1,0 +1,14 @@
+/* =========================================================
+   BOUTON « RETOUR EN HAUT »
+   ========================================================= */
+.back-to-top{
+  position:fixed; right:24px; bottom:24px; z-index:1000;
+  width:44px; height:100px; border:none; border-radius:50%;
+  background:#d4a84f; color:#151515;
+  font-size:24px; font-weight:bold; line-height:1;
+  cursor:pointer;
+  opacity:0; visibility:hidden; transform:translateY(10px);
+  transition:opacity .3s ease, transform .3s ease, visibility .3s ease;
+}
+.back-to-top:hover{background:#f0c765; transform:translateY(-3px);}
+.back-to-top.visible{opacity:1; visibility:visible; transform:translateY(0);}

@@ -1,0 +1,33 @@
+/* =========================================================
+   BANNIÈRE D'ACCUEIL
+   ========================================================= */
+.hero-banner{
+  position:relative; overflow:hidden; isolation:isolate;
+  display:flex; align-items:center; min-height:340px; padding:64px 0 56px;
+  background:
+    linear-gradient(90deg, rgba(10,15,29,0.97) 0%, rgba(10,15,29,0.75) 45%, rgba(10,15,29,0.35) 100%),
+    radial-gradient(ellipse 60% 90% at 85% 20%, rgba(227,184,74,0.10), transparent),
+    linear-gradient(180deg, #0d1426 0%, #0a0f1d 75%);
+  border-bottom:1px solid var(--line);
+}
+
+/* Image de fond, centrée et transparente */
+.hero-background{
+  position:absolute; z-index:-1; left:50%; top:50%;
+  width:100%; height:auto;
+  transform:translate(-50%, -50%);
+  opacity:0.2;
+  pointer-events:none;
+}
+
+.hero-banner .wrap{position:relative; z-index:1;}
+.hero-banner .kicker{
+  display:inline-flex; align-items:center; gap:7px; font-family:'JetBrains Mono',monospace; font-size:11px;
+  letter-spacing:1px; text-transform:uppercase; color:var(--gold-text); margin:0 0 14px;
+}
+.hero-banner .kicker::before{content:'★';}
+.hero-banner h1{
+  font-family:'Cinzel',serif; font-weight:700; font-size:52px; color:#fff; margin:0 0 14px; letter-spacing:1px;
+  text-shadow:0 2px 24px rgba(0,0,0,0.4);
+}
+.hero-banner p{font-size:15px; color:var(--ink-2); max-width:520px; line-height:1.6; margin:0 0 26px;}
