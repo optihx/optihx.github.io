@@ -103,6 +103,8 @@
   }
 
   /* toutes les équipes conseillées, à plat */
+  var TIER = {};
+  if(G.tier) G.tier.classes.forEach(function(c){ c.l.forEach(function(r, i){ TIER[r[1]] = {t: r[0], place: i + 1, n: c.l.length, ry: r[7]}; }); });
   if(G.farmEquipes && !G._farm){ G.equipes = G.farmEquipes.concat(G.equipes); G._farm = 1; }
   var EQS = []; G.equipes.forEach(function(c, ci){ c.liste.forEach(function(e){ e.ci = ci; EQS.push(e); }); });
   function eqParNom(n){ return EQS.filter(function(e){ return e.nom === n; })[0]; }
@@ -116,7 +118,8 @@
     fond.innerHTML = '<div class="fiche" role="dialog" aria-modal="true" aria-labelledby="f-nom" style="--c:' + c.coul + '"><button type="button" class="f-x" aria-label="Fermer">×</button>' +
       '<div class="f-haut"><div class="f-art" style="--e:' + el.coul + '"><img src="img/heros/corps/' + id + '.webp" alt="" loading="lazy"></div>' +
       '<div class="f-id"><h3 id="f-nom">' + esc(h.nom) + '</h3><p class="f-titre">' + esc(h.titre) + '</p>' +
-      '<div class="meta">' + pCl(h.cl) + pRa(h.ra) + '</div><div class="meta">' + pUni(h.uni) + pEl(h.el) + '</div>' +
+      '<div class="meta">' + pCl(h.cl) + pRa(h.ra) + (TIER[id] ? '<span class="tierb t' + TIER[id].t + '">Tier ' + TIER[id].t + '</span>' : '') + '</div><div class="meta">' + pUni(h.uni) + pEl(h.el) + '</div>' +
+      (TIER[id] ? '<p class="f-tier">' + (TIER[id].place === 1 ? '1ᵉʳ' : TIER[id].place + 'ᵉ') + ' sur ' + TIER[id].n + ' ' + esc(CL[h.cl].nom) + (TIER[id].n > 1 ? '' : '') + ' · rythme ' + nb(TIER[id].ry) + ' <button type="button" class="lien" data-voir-tier="' + h.cl + '">Tier list →</button></p>' : '') +
       '<dl class="f-st"><div><dt>PV</dt><dd>' + nb(h.st.pv) + '</dd></div><div><dt>ATQ</dt><dd>' + nb(h.st.atq) + '</dd></div><div><dt>DÉF</dt><dd>' + nb(h.st.def) + '</dd></div><div><dt>VIT</dt><dd>' + h.st.vit + '</dd></div></dl><p class="f-niv">Niveau 40, sans runes (jusqu\'au niveau 60 avec l\'Éveil forcé).</p>' +
       '<button type="button" class="b-ajout" data-ajout="' + id + '">+ Ajouter à mon équipe</button></div></div>' +
       '<h4>Talent de chef</h4><p class="' + (h.lead ? 'f-lead' : 'f-sans') + '">' + (h.lead ? '<b>' + esc(h.lead.txt) + '</b>' : 'Pas de talent de chef : ne le mets pas en 1ʳᵉ place.') + '</p>' +
@@ -140,6 +143,7 @@
     if((b = e.target.closest('[data-ajout]'))){ fermer(); return ajouter(b.dataset.ajout, true); }
     if((b = e.target.closest('[data-h]'))){ return fiche(b.dataset.h); }
     if((b = e.target.closest('[data-voir-runes]'))){ fermer(); voirRunes(b.dataset.voirRunes); }
+    if((b = e.target.closest('[data-voir-tier]'))){ fermer(); tCl = b.dataset.voirTier; rendreTier(); montrer('tier', true); haut(); }
   });
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !fond.hidden) fermer(); });
 
@@ -364,6 +368,31 @@
     $('#v-debuter').innerHTML = h;
   }
 
+  /* ---------- Tier list ---------- */
+  var tCl = 'tous';
+  function rendreTier(){
+    var T = G.tier; if(!T) return;
+    var tous = []; T.classes.forEach(function(c){ c.l.forEach(function(r){ tous.push({c: c.cl, r: r}); }); });
+    var ligneH = function(id){ var x = H[id]; return '<button type="button" class="tl-h" data-h="' + id + '">' + tete(x, 34) + '<span><b>' + esc(court(x)) + '</b><span class="tl-m">' + pRa(x.ra) + pEl(x.el) + '</span></span></button>'; };
+    var h = '<h2>Tier list <small>qui tape le plus fort</small></h2><p class="intro">' + esc(T.hyp) + ' Le classement suit le <b>rythme</b> : dégâts par tour × VIT / 100 (un héros rapide joue plus souvent).</p>' +
+      '<div class="cl-tabs tl-tabs" role="group" aria-label="Classe"><button type="button" data-tcl="tous" aria-pressed="' + (tCl === 'tous') + '" style="--c:var(--or)">' + svg('etoile') + 'Toutes</button>' +
+      ORDRE_CL.map(function(k){ var x = CL[k]; return '<button type="button" data-tcl="' + k + '" style="--c:' + x.coul + '" aria-pressed="' + (k === tCl) + '">' + svg(x.ico) + x.nom + '</button>'; }).join('') + '</div>';
+    if(tCl === 'tous'){
+      var top = function(titre, cle, n, unite){
+        var L = tous.filter(function(x){ return x.r[cle] != null; }).sort(function(a, b){ return b.r[cle] - a.r[cle]; }).slice(0, n), mx = L.length ? L[0].r[cle] : 1;
+        return '<section class="tl-top carte"><h3>' + titre + '</h3><ol>' + L.map(function(x, i){ return '<li><span class="tl-n">' + (i + 1) + '</span>' + ligneH(x.r[1]) + '<span class="tl-v"><i style="width:' + (x.r[cle] / mx * 100).toFixed(1) + '%;--c:' + CL[x.c].coul + '"></i><b>' + nb(x.r[cle]) + '</b></span></li>'; }).join('') + '</ol></section>';
+      };
+      h += '<div class="tl-tops">' + top('Top 15 · rythme (une cible)', 7, 15) + '<div class="tl-col">' + top('Top 10 · plus gros coup', 4, 10) + top('Top 10 · attaque de zone', 5, 10) + '</div></div>';
+    } else {
+      var C2 = T.classes.filter(function(c){ return c.cl === tCl; })[0], mx = Math.max.apply(null, C2.l.map(function(r){ return r[7]; }));
+      h += '<div class="tab-wrap"><table class="tab tl-tab"><thead><tr><th>#</th><th>Héros</th><th>Tier</th><th class="tl-o">ATQ</th><th>VIT</th><th class="tl-o">Gros coup</th><th class="tl-o">Zone</th><th class="tl-o">Par tour</th><th>Rythme</th></tr></thead><tbody>' +
+        C2.l.map(function(r, i){ return '<tr><td>' + (i + 1) + '</td><td>' + ligneH(r[1]) + '</td><td><span class="tierb t' + r[0] + '">' + r[0] + '</span></td><td class="tl-o">' + nb(r[2]) + '</td><td>' + r[3] + '</td><td class="tl-o">' + nb(r[4]) + '</td><td class="tl-o">' + (r[5] == null ? '—' : nb(r[5])) + '</td><td class="tl-o">' + nb(r[6]) + '</td><td class="tl-ry"><span class="tl-v"><i style="width:' + (r[7] / mx * 100).toFixed(1) + '%;--c:' + CL[tCl].coul + '"></i><b>' + nb(r[7]) + '</b></span></td></tr>'; }).join('') +
+        '</tbody></table></div><p class="cpt-note">Gros coup = meilleure attaque sur une cible (critiques compris) · Zone = par ennemi touché · Par tour = moyenne sur 12 tours en mode AUTO.</p>';
+    }
+    h += '<ul class="notes tl-notes">' + T.notes.map(function(n){ return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>';
+    $('#v-tier').innerHTML = h;
+  }
+
   /* ---------- Modes de jeu ---------- */
   function rendreModes(){
     var d = G.difficile, t = G.tours;
@@ -445,7 +474,7 @@
   });
 
   /* ---------- Onglets ---------- */
-  var VUES = ['equipe', 'heros', 'equipes', 'runes', 'valeurs', 'modes', 'esprits', 'debuter', 'codes'];
+  var VUES = ['equipe', 'heros', 'tier', 'equipes', 'runes', 'valeurs', 'modes', 'esprits', 'debuter', 'codes'];
   function montrer(v, pousser){
     if(VUES.indexOf(v) < 0) v = 'equipe';
     VUES.forEach(function(x){ $('#v-' + x).hidden = x !== v; });
@@ -457,6 +486,7 @@
   document.querySelector('main').addEventListener('click', function(e){
     var b;
     if((b = e.target.closest('[data-h]'))) return fiche(b.dataset.h);
+    if((b = e.target.closest('[data-tcl]'))){ tCl = b.dataset.tcl; return rendreTier(); }
     if((b = e.target.closest('[data-rcl]'))){ rCl = b.dataset.rcl; return rendreRunes(); }
     if((b = e.target.closest('[data-flien]'))){ fLien = b.dataset.flien; return rendreEsprits(); }
     if((b = e.target.closest('[data-aller]'))){ var v = b.dataset.aller; if(v === 'progres') v = 'esprits'; if(v === 'modes' && /Arc/.test(b.textContent)){ montrer('modes', true); var a7 = $('#arc'); if(a7) a7.scrollIntoView({behavior: 'smooth', block: 'start'}); return; } if(v === 'runes'){ montrer('runes', true); var o = $('#v-runes h2 .neuf'); if(o) o.closest('h2').scrollIntoView({behavior: 'smooth', block: 'start'}); return; } montrer(v, true); return haut(); }
@@ -464,7 +494,7 @@
     if((b = e.target.closest('#v-equipes [data-charger]'))) return charger(b.dataset.charger);
   });
 
-  rendreEquipe(); rendreHeros(); rendreEquipes(); rendreRunes(); rendreValeurs(); rendreModes(); rendreEsprits(); rendreDebuter(); rendreCodes(); rendreNouveau();
+  rendreEquipe(); rendreHeros(); rendreTier(); rendreEquipes(); rendreRunes(); rendreValeurs(); rendreModes(); rendreEsprits(); rendreDebuter(); rendreCodes(); rendreNouveau();
   $('#maj').textContent = J.heros.length + ' héros · guide mis à jour le ' + G.maj + '.';
   montrer(location.hash.slice(1));
   addEventListener('hashchange', function(){ montrer(location.hash.slice(1)); });
