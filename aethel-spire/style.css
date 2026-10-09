@@ -446,3 +446,16 @@ code{font-family:"Martian Mono",ui-monospace,monospace;font-size:.84em;padding:1
 .f-lien-m button{padding:0;border:0;background:none;cursor:pointer}
 @media (max-width:980px){ .gains{grid-template-columns:minmax(0,1fr)} .tours{grid-template-columns:repeat(2,minmax(0,1fr))} .esprits{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (max-width:720px){ .esprits{grid-template-columns:minmax(0,1fr)} .f-lien-m{margin-left:0} }
+.etapes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.etapes .base p b{display:inline;margin:0;font-size:inherit;color:var(--or)}
+.mode.arc{border-color:rgba(90,224,255,.4);background:linear-gradient(135deg,rgba(255,90,138,.08),rgba(242,200,107,.06) 30%,rgba(95,224,160,.06) 60%,rgba(90,224,255,.1)),linear-gradient(180deg,var(--carte),var(--carte2))}
+.mode+.mode{margin-top:10px}
+.chances{display:grid;gap:8px}
+.chances>div{display:grid;grid-template-columns:120px minmax(0,1fr) 54px;gap:12px;align-items:center}
+.chances span b{display:block;font-size:14px}
+.chances small{color:var(--soft);font-size:12px}
+.jauge7{height:10px;border-radius:5px;background:rgba(255,255,255,.08);overflow:hidden}
+.jauge7 i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#ff5a8a,#f2c86b,#5fe0a0,#5ae0ff,#a77bff)}
+.pc7{text-align:right;font-family:var(--titre);font-size:18px;color:#5ae0ff}
+@media (max-width:720px){ .etapes{grid-template-columns:minmax(0,1fr)} .chances>div{grid-template-columns:90px minmax(0,1fr) 48px} }
+#arc{scroll-margin-top:130px}

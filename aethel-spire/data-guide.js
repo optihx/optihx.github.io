@@ -83,26 +83,26 @@ window.GUIDE = {
       "<b>2 étoiles d'Éveil</b> sur chaque héros (2 à 3 doublons : facile sur des SR / SSR).",
       "Avec des runes Rares ou seulement +9 / +12, compte <b>4 étoiles d'Éveil</b>."
     ],
-    fin: "Les étages 11 à 13 (légendaires) restent prévus pour des héros très étoilés ou des UR."
+    fin: "Au-dessus : Légende 1 à 3 (bien plus durs) puis les étages Arc-en-ciel 14 à 16 pour des UR niveau 60 — voir l'onglet Modes."
   },
 
   /* 5. Valeurs des runes */
-  etoiles: ["★6", "★5", "★4", "★3", "★2"],
-  categories: [["Normale", "★2", "#e6e8ef"], ["Basique", "★3", "#5fd38d"], ["Rare", "★4", "#a77bff"], ["Légendaire", "★5", "#f2a33d"], ["Légendaire ★6", "★6", "#ff6b8b"]],
+  etoiles: ["★7", "★6", "★5", "★4", "★3", "★2"],
+  categories: [["Normale", "★2", "#e6e8ef"], ["Basique", "★3", "#5fd38d"], ["Rare", "★4", "#a77bff"], ["Légendaire", "★5", "#f2a33d"], ["Légendaire ★6", "★6", "#ff6b8b"], ["Arc-en-ciel", "★7", "#5ae0ff"]],
   principale: [
-    ["PV", 2448, 1860, 1544, 1228, 930], ["ATQ", 160, 135, 112, 89, 68], ["DÉF", 160, 135, 112, 89, 68],
-    ["PV %", "63 %", "51 %", "42 %", "34 %", "26 %"], ["ATQ %", "63 %", "51 %", "42 %", "34 %", "26 %"], ["DÉF %", "63 %", "51 %", "42 %", "34 %", "26 %"],
-    ["VIT", 42, 39, 32, 26, 20], ["Taux Crit %", "58 %", "47 %", "39 %", "31 %", "24 %"], ["Dég. Crit %", "80 %", "65 %", "54 %", "43 %", "33 %"],
-    ["RÉS %", "64 %", "51 %", "42 %", "34 %", "26 %"], ["PRÉ %", "64 %", "51 %", "42 %", "34 %", "26 %"]
+    ["PV", 2815, 2448, 1860, 1544, 1228, 930], ["ATQ", 184, 160, 135, 112, 89, 68], ["DÉF", 184, 160, 135, 112, 89, 68],
+    ["PV %", "72 %", "63 %", "51 %", "42 %", "34 %", "26 %"], ["ATQ %", "72 %", "63 %", "51 %", "42 %", "34 %", "26 %"], ["DÉF %", "72 %", "63 %", "51 %", "42 %", "34 %", "26 %"],
+    ["VIT", 48, 42, 39, 32, 26, 20], ["Taux Crit %", "67 %", "58 %", "47 %", "39 %", "31 %", "24 %"], ["Dég. Crit %", "92 %", "80 %", "65 %", "54 %", "43 %", "33 %"],
+    ["RÉS %", "74 %", "64 %", "51 %", "42 %", "34 %", "26 %"], ["PRÉ %", "74 %", "64 %", "51 %", "42 %", "34 %", "26 %"]
   ],
   emplacements: [
     [1, ["ATQ"]], [2, ["ATQ", "ATQ %", "DÉF", "DÉF %", "PV", "PV %", "VIT"]], [3, ["DÉF"]],
     [4, ["ATQ %", "DÉF %", "PV %", "Taux Crit %", "Dég. Crit %"]], [5, ["PV"]], [6, ["ATQ %", "DÉF %", "PV %", "RÉS %", "PRÉ %"]]
   ],
   sousStats: [
-    ["PV", 375, 300, 249, 198, 150], ["PV %", "8 %", "6 %", "5 %", "4 %", "3 %"], ["ATQ", 20, 16, 13, 11, 8], ["ATQ %", "8 %", "6 %", "5 %", "4 %", "3 %"],
-    ["DÉF", 20, 16, 13, 11, 8], ["DÉF %", "8 %", "6 %", "5 %", "4 %", "3 %"], ["VIT", 6, 5, 4, 3, 2], ["Taux Crit %", "6 %", "5 %", "4 %", "3 %", "2 %"],
-    ["Dég. Crit %", "7 %", "6 %", "5 %", "4 %", "3 %"], ["RÉS %", "8 %", "6 %", "5 %", "4 %", "3 %"], ["PRÉ %", "8 %", "6 %", "5 %", "4 %", "3 %"]
+    ["PV", 503, 375, 300, 249, 198, 150], ["PV %", "11 %", "8 %", "6 %", "5 %", "4 %", "3 %"], ["ATQ", 27, 20, 16, 13, 11, 8], ["ATQ %", "11 %", "8 %", "6 %", "5 %", "4 %", "3 %"],
+    ["DÉF", 27, 20, 16, 13, 11, 8], ["DÉF %", "11 %", "8 %", "6 %", "5 %", "4 %", "3 %"], ["VIT", 8, 6, 5, 4, 3, 2], ["Taux Crit %", "8 %", "6 %", "5 %", "4 %", "3 %", "2 %"],
+    ["Dég. Crit %", "9 %", "7 %", "6 %", "5 %", "4 %", "3 %"], ["RÉS %", "11 %", "8 %", "6 %", "5 %", "4 %", "3 %"], ["PRÉ %", "11 %", "8 %", "6 %", "5 %", "4 %", "3 %"]
   ],
   jets: [
     ["Normale", 0, 4, 0, 1], ["Basique", 2, 2, 2, 3], ["Rare", 3, 1, 3, 4], ["Légendaire", 4, 0, 4, 5]
@@ -115,7 +115,8 @@ window.GUIDE = {
     "<b>Taux Crit</b> : 100 % · <b>RÉS</b> : 100 · <b>PRÉ</b> : 100 · VIT, ATQ, PV, DÉF et Dég. Crit : pas de plafond.",
     "Un malus a entre <b>15 % et 85 %</b> de chances de passer, quelle que soit la RÉS de la cible.",
     "Atelier 💠 : chaque sous-stat peut en plus être renforcée <b>5 fois</b> (+14 % à +30 % d'un jet à chaque fois), soit jusqu'à +1,5 jet de plus.",
-    "<b>Runes ★6</b> : chaque jet de sous-stat vaut au minimum le meilleur jet d'une ★5 (VIT : 5 ou 6 ; PV % : 6 à 8), aussi à +3, +6, +9, +12 et à l'Atelier. Les ★6 déjà possédées ont été relevées."
+    "<b>Runes ★6</b> : chaque jet de sous-stat vaut au minimum le meilleur jet d'une ★5 (VIT : 5 ou 6 ; PV % : 6 à 8), aussi à +3, +6, +9, +12 et à l'Atelier. Les ★6 déjà possédées ont été relevées.",
+    "<b>Runes Arc-en-ciel ★7</b> : stat principale d'une ★6 <b>+15 %</b>. Un jet de sous-stat vaut au minimum le meilleur jet d'une ★5 et peut monter <b>un tiers au-dessus</b> du maximum d'une ★6 (VIT : 5 à 8 ; PV % : 6 à 11). Elles ne tombent qu'aux étages Arc-en-ciel."
   ],
 
   /* Où farmer chaque set (donjon → sets) */
@@ -177,6 +178,8 @@ window.GUIDE = {
       ["modes", "Tours d'univers", "4 tours de 40 étages, une par univers."],
       ["progres", "Esprits gardiens", "Un compagnon qui renforce toute l'équipe."],
       ["progres", "Liens de héros", "20 liens : bonus permanents si tu as tous les héros."],
+      ["esprits", "Éveil forcé · niveau 60", "Deux exemplaires au rang max : le héros monte jusqu'au niveau 60."],
+      ["modes", "Étages Arc-en-ciel", "Donjons 14 à 16 et runes ★7."],
       ["runes", "Outils de runes", "Vente auto, verrou, build sur mesure, ★6 à part."]
     ]
   },
@@ -205,6 +208,23 @@ window.GUIDE = {
     ],
     note: "Récompenses de 1ʳᵉ victoire : cristaux, mana, Poussière d'esprit, et des fragments d'un héros <b>de cet univers</b>.",
     niveau: [["Étage 20", "Milieu de partie"], ["Étage 30", "Avec de bonnes runes"], ["Étage 40", "Fin de partie"]]
+  },
+
+  donjonsHaut: {
+    legende: "Les étages <b>Légende 1, 2 et 3</b> sont nettement plus forts, avec une montée régulière. Légende 3 demande des <b>UR au rang maximum avec des runes ★6</b>.",
+    arc: "3 étages au-dessus de Légende 3, avec des ennemis <b>niveau 60</b>. Prévus pour une équipe d'<b>UR en Éveil forcé (niveau 60)</b> avec de très bonnes runes ★6. Des UR niveau 40 ou des SSR niveau 60 n'y arrivent pas.",
+    butin: "2 runes Légendaires à chaque victoire, <b>★6 au minimum</b>, avec une chance de rune <b>Arc-en-ciel ★7</b> par rune :",
+    chances: [["Arc 1", "Étage 14", 20], ["Arc 2", "Étage 15", 32], ["Arc 3", "Étage 16", 45]]
+  },
+
+  eveil: {
+    doublons: "Un doublon d'un héros déjà au rang maximum n'est plus changé en ticket ou en cristaux : il part dans le <b>Rangement</b> (carte « MAX ➜ Rangement »). Dans l'écran Éveil, quand ton héros principal est au rang max, ces doublons servent à monter un <b>2e exemplaire</b> du même héros.",
+    etapes: [
+      ["1", "Deux exemplaires", "Monte deux exemplaires du même héros au rang maximum (Arc-en-ciel 5★)."],
+      ["2", "Éveil forcé", "Fiche du héros ou écran Éveil : bouton « Éveil forcé ». Tu choisis le héros gardé ; l'autre est sacrifié (ses runes reviennent dans ton inventaire)."],
+      ["3", "Niveau 60", "Le héros gardé peut monter du niveau 40 au <b>niveau 60</b>. Sans Éveil forcé, le maximum reste 40."]
+    ],
+    exemple: "Exemple : une Uta UR au rang maximum gagne environ <b>+40 % d'ATQ</b> en passant du niveau 40 au niveau 60."
   },
 
   esprits: {

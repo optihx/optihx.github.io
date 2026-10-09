@@ -115,7 +115,7 @@
       '<div class="f-haut"><div class="f-art" style="--e:' + el.coul + '"><img src="img/heros/corps/' + id + '.webp" alt="" loading="lazy"></div>' +
       '<div class="f-id"><h3 id="f-nom">' + esc(h.nom) + '</h3><p class="f-titre">' + esc(h.titre) + '</p>' +
       '<div class="meta">' + pCl(h.cl) + pRa(h.ra) + '</div><div class="meta">' + pUni(h.uni) + pEl(h.el) + '</div>' +
-      '<dl class="f-st"><div><dt>PV</dt><dd>' + nb(h.st.pv) + '</dd></div><div><dt>ATQ</dt><dd>' + nb(h.st.atq) + '</dd></div><div><dt>DÉF</dt><dd>' + nb(h.st.def) + '</dd></div><div><dt>VIT</dt><dd>' + h.st.vit + '</dd></div></dl><p class="f-niv">Niveau 40, sans runes.</p>' +
+      '<dl class="f-st"><div><dt>PV</dt><dd>' + nb(h.st.pv) + '</dd></div><div><dt>ATQ</dt><dd>' + nb(h.st.atq) + '</dd></div><div><dt>DÉF</dt><dd>' + nb(h.st.def) + '</dd></div><div><dt>VIT</dt><dd>' + h.st.vit + '</dd></div></dl><p class="f-niv">Niveau 40, sans runes (jusqu\'au niveau 60 avec l\'Éveil forcé).</p>' +
       '<button type="button" class="b-ajout" data-ajout="' + id + '">+ Ajouter à mon équipe</button></div></div>' +
       '<h4>Talent de chef</h4><p class="' + (h.lead ? 'f-lead' : 'f-sans') + '">' + (h.lead ? '<b>' + esc(h.lead.txt) + '</b>' : 'Pas de talent de chef : ne le mets pas en 1ʳᵉ place.') + '</p>' +
       '<h4>Élément</h4><p class="f-elem">Fort contre : ' + (el.bat ? pEl(el.bat) : '—') + ' <span class="f-ou">·</span> Faible contre : ' + (faibleContre(h.el).map(pEl).join('') || '—') + '</p>' +
@@ -325,7 +325,7 @@
       '<div class="cats">' + G.categories.map(function(c){ return '<span style="--k:' + c[2] + '"><b>' + esc(c[1]) + '</b>' + esc(c[0]) + '</span>'; }).join('') + '</div>' +
       '<div class="val-g">' +
         '<section class="val"><h3>Stat principale <small>à +15</small></h3>' + table(et, G.principale, {hi: [1]}) + '</section>' +
-        '<section class="val"><h3>Sous-stats <small>valeur d\'un jet</small></h3>' + table(et, G.sousStats, {hi: [1]}) + '</section>' +
+        '<section class="val"><h3>Sous-stats <small>valeur d\'un jet · ★7 : maximum</small></h3>' + table(et, G.sousStats, {hi: [1]}) + '</section>' +
       '</div>' +
       '<div class="val-g">' +
         '<section class="val"><h3>Stats possibles par emplacement</h3><div class="empl">' + G.emplacements.map(function(e){ return '<div><span class="empl-n">' + e[0] + '</span><span>' + e[1].map(esc).join(' · ') + '</span></div>'; }).join('') + '</div></section>' +
@@ -370,6 +370,12 @@
       '<div class="mode carte"><p>' + t.regle + '</p><p>' + t.note + '</p>' +
       '<ul class="paliers">' + t.paliers.map(function(p){ return '<li><span>' + esc(p[0]) + '</span><b>' + esc(p[1]) + '</b></li>'; }).join('') + '</ul>' +
       '<div class="niv">' + t.niveau.map(function(n){ return '<span><b>' + esc(n[0]) + '</b>' + esc(n[1]) + '</span>'; }).join('') + '</div></div>';
+    var dh = G.donjonsHaut;
+    if(dh) h += '<h2 id="arc">Donjons de runes · Légende et Arc-en-ciel <span class="neuf">Nouveau</span></h2>' +
+      '<div class="mode carte"><p><b>Légende 1 à 3</b> — ' + dh.legende + '</p></div>' +
+      '<div class="mode carte arc"><p><b>Arc-en-ciel 14, 15 et 16</b> — ' + dh.arc + '</p><p>' + dh.butin + '</p>' +
+      '<div class="chances">' + dh.chances.map(function(c){ return '<div><span><b>' + esc(c[0]) + '</b><small>' + esc(c[1]) + '</small></span><span class="jauge7"><i style="width:' + c[2] + '%"></i></span><b class="pc7">' + c[2] + ' %</b></div>'; }).join('') + '</div>' +
+      '<p class="f-niv">Chance d\'obtenir une ★7, pour chaque rune gagnée.</p></div>';
     $('#v-modes').innerHTML = h;
   }
 
@@ -377,7 +383,12 @@
   var fLien = '';
   function rendreEsprits(){
     var e = G.esprits, L = G.liens;
-    var h = '<h2>Esprits gardiens <small>' + esc(e.acces) + '</small></h2><p class="intro">' + e.regle + '</p>' +
+    var ev = G.eveil, h = '';
+    if(ev) h += '<h2>Éveil forcé · niveau 60 <span class="neuf">Nouveau</span></h2>' +
+      '<div class="etapes">' + ev.etapes.map(function(x){ return '<div class="base carte"><span class="base-n">' + x[0] + '</span><b>' + esc(x[1]) + '</b><p>' + x[2] + '</p></div>'; }).join('') + '</div>' +
+      '<p class="astuce">' + svg('etoile') + '<span>' + ev.exemple + '</span></p>' +
+      '<div class="mode carte" style="margin-top:10px"><p><b>Doublons</b> — ' + ev.doublons + '</p></div>';
+    h += '<h2>Esprits gardiens <small>' + esc(e.acces) + '</small></h2><p class="intro">' + e.regle + '</p>' +
       '<div class="esprits">' + e.liste.map(function(x){
         return '<div class="esp carte" style="--k:' + x[2] + '"><div class="esp-t"><i aria-hidden="true"></i><span><b>' + esc(x[0]) + '</b><small>' + esc(x[1]) + '</small></span></div>' +
           '<p class="esp-par">' + esc(x[3]) + '</p><ul><li><span>Niv. 5</span>' + esc(x[4]) + '</li><li><span>Niv. 10</span>' + esc(x[5]) + '</li></ul></div>'; }).join('') + '</div>' +
@@ -442,7 +453,7 @@
     if((b = e.target.closest('[data-h]'))) return fiche(b.dataset.h);
     if((b = e.target.closest('[data-rcl]'))){ rCl = b.dataset.rcl; return rendreRunes(); }
     if((b = e.target.closest('[data-flien]'))){ fLien = b.dataset.flien; return rendreEsprits(); }
-    if((b = e.target.closest('[data-aller]'))){ var v = b.dataset.aller; if(v === 'progres') v = 'esprits'; if(v === 'runes'){ montrer('runes', true); var o = $('#v-runes h2 .neuf'); if(o) o.closest('h2').scrollIntoView({behavior: 'smooth', block: 'start'}); return; } montrer(v, true); return haut(); }
+    if((b = e.target.closest('[data-aller]'))){ var v = b.dataset.aller; if(v === 'progres') v = 'esprits'; if(v === 'modes' && /Arc/.test(b.textContent)){ montrer('modes', true); var a7 = $('#arc'); if(a7) a7.scrollIntoView({behavior: 'smooth', block: 'start'}); return; } if(v === 'runes'){ montrer('runes', true); var o = $('#v-runes h2 .neuf'); if(o) o.closest('h2').scrollIntoView({behavior: 'smooth', block: 'start'}); return; } montrer(v, true); return haut(); }
     if((b = e.target.closest('[data-cat]'))){ catEq = +b.dataset.cat; return rendreEquipes(); }
     if((b = e.target.closest('#v-equipes [data-charger]'))) return charger(b.dataset.charger);
   });
