@@ -24,7 +24,7 @@
   var DPS = {dps_phys: 1, dps_mag: 1, dps_range: 1, assassin: 1};
 
   /* ---------- état ---------- */
-  var C = null, RB = {}, MOD = {}, PLAN = null, RES = null, ERR = '', CALC = false, palier = 'd9';
+  var RESG = '', C = null, RB = {}, MOD = {}, PLAN = null, RES = null, ERR = '', CALC = false, palier = 'd9';
   try { C = JSON.parse(localStorage.getItem(KC) || 'null'); } catch(e){ C = null; }
   try { PLAN = JSON.parse(localStorage.getItem(KP) || 'null'); } catch(e){ PLAN = null; }
   function sauverC(){ try { localStorage.setItem(KC, JSON.stringify(C)); } catch(e){} }
@@ -200,13 +200,39 @@
     var tri = cands.slice().sort(function(a, b){ return puissance(pot[b].st) - puissance(pot[a].st); });
     var garde = tri.slice(0, 11);
     ['tank', 'healer'].forEach(function(cl){ tri.filter(function(c){ return H[c].cl === cl; }).slice(0, 2).forEach(function(c){ if(garde.indexOf(c) < 0) garde.push(c); }); });
-    var best = null, n = garde.length;
-    if(n <= 4){ var r0 = valeurEquipe(garde, pot, mode); best = r0; }
-    else for(var a = 0; a < n; a++) for(var b = a + 1; b < n; b++) for(var c = b + 1; c < n; c++) for(var d = c + 1; d < n; d++){
-      var r = valeurEquipe([garde[a], garde[b], garde[c], garde[d]], pot, mode);
-      if(!best || r.v > best.v) best = r;
-    }
-    return {ord: best.ord, runes: repartir(best.ord, mode), mode: mode};
+    var tous = [], n = garde.length;
+    if(n <= 4) tous.push(valeurEquipe(garde, pot, mode));
+    else for(var a = 0; a < n; a++) for(var b = a + 1; b < n; b++) for(var c = b + 1; c < n; c++) for(var d = c + 1; d < n; d++)
+      tous.push(valeurEquipe([garde[a], garde[b], garde[c], garde[d]], pot, mode));
+    tous.sort(function(x, y){ return y.v - x.v; });
+    /* 5 teams variées : chacune change au moins 2 héros par rapport aux précédentes (sinon 1) */
+    var choix = [];
+    [2, 1].forEach(function(diff){
+      tous.forEach(function(t){
+        if(choix.length >= 5 || choix.indexOf(t) > -1) return;
+        if(choix.every(function(x){ return t.ord.filter(function(c){ return x.ord.indexOf(c) < 0; }).length >= diff; })) choix.push(t);
+      });
+    });
+    var vMax = choix[0].v;
+    return choix.map(function(t){ return {ord: t.ord, runes: repartir(t.ord, mode), mode: mode, note: noteSur10(t, vMax, mode)}; }).sort(function(x, y){ return y.note - x.note; });
+  }
+
+  /* note sur 10 : force de l'équipe + composition (tank, healer, DPS, buffs, debuffs, chef) */
+  var BUFF = /▲|Soigne|Provocation/, DEBUFF = /▼|Saignement|Étourdi/;
+  function noteSur10(t, vMax, mode){
+    var ids = t.ord, cl = {}, dps = 0, nbB = 0, nbD = 0;
+    ids.forEach(function(c){ var h = H[c]; cl[h.cl] = (cl[h.cl] || 0) + 1; if(DPS[h.cl]) dps++;
+      h.comp.forEach(function(k){ if(BUFF.test(k.d)) nbB++; if(DEBUFF.test(k.d)) nbD++; }); });
+    var L = H[ids[0]].lead, nL = L ? ids.filter(function(c){ return A.touche(L, H[c]); }).length : 0;
+    var lead = nL >= 3 ? 1 : nL === 2 ? .55 : nL ? .25 : 0, buf = Math.min(1, nbB / 3), deb = Math.min(1, nbD / 3), varie = Object.keys(cl).length >= 4 ? 1 : Object.keys(cl).length === 3 ? .6 : .2;
+    var compo = mode === 'pvp'
+      ? .25 * (dps >= 2 ? 1 : dps ? .5 : 0) + .15 * (cl.healer ? 1 : 0) + .1 * (cl.tank ? 1 : 0) + .1 * buf + .15 * deb + .15 * lead + .1 * varie
+      : .2 * (cl.tank ? 1 : 0) + .2 * (cl.healer ? 1 : 0) + .15 * (dps >= 2 ? 1 : dps ? .5 : 0) + .1 * buf + .1 * deb + .15 * lead + .1 * varie;
+    var r = Math.max(0, Math.min(1, t.v / vMax)), note = 10 * (.55 * r * r + .45 * compo);
+    var hs = ids.map(function(c){ return MOD[c].src; });
+    if(mode === 'leg') note *= .6 + .4 * hs.filter(function(h){ return h.ra === 'UR' && h.rk >= 16; }).length / 4;
+    if(mode === 'arc') note *= .5 + .5 * hs.filter(function(h){ return h.ra === 'UR' && h.fa; }).length / 4;
+    return Math.max(1, Math.min(10, Math.round(note * 10) / 10));
   }
 
   /* conseils selon le palier */
@@ -273,14 +299,14 @@
       return '<div><dt>' + k[1] + '</dt><dd>' + nb(b[k[0]]) + (/cr|cd|res|acc/.test(k[0]) ? ' %' : '') + (d ? '<small class="' + (d > 0 ? 'plus' : 'moins') + '">' + (d > 0 ? '+' : '') + nb(d) + '</small>' : '') + '</dd></div>'; }).join('') + '</dl>';
   }
   function carteResultat(res, titre, i){
-    var w = conseils(res), up = w.some(function(x){ return x[0] === 'up'; });
+    var w = conseils(res), up = i === 0 && w.some(function(x){ return x[0] === 'up'; });
     var P = res.ord.reduce(function(s, c){ return s + puissance(calc(MOD[c], (res.runes[c] || []).map(function(id){ return RB[id]; }))); }, 0);
-    return '<article class="res-eq carte" data-asc-charger="' + i + '" tabindex="0"><div class="res-h"><b>' + titre + '</b><span class="res-p">' + nb(P) + ' <small>puissance</small></span></div>' +
+    return '<article class="res-eq carte" data-asc-charger="' + i + '" tabindex="0"><div class="res-h"><span class="note10" style="--n:' + (res.note * 10) + '%"><b>' + String(res.note).replace('.', ',') + '</b><small>/10</small></span><b>' + titre + '</b><span class="res-p">' + nb(P) + ' <small>puissance</small></span></div>' +
       '<div class="res-m">' + res.ord.map(function(c, k){ var h = MOD[c].src; return '<span>' + A.tete(H[c], 52, k === 0) + '<small>' + esc(A.court(H[c])) + '</small><em>niv. ' + h.lv + (h.rg ? ' · rangé' : '') + '</em>' + rangHtml(h, 1) + '</span>'; }).join('') + '</div>' +
       (w.length ? '<ul class="res-w">' + w.filter(function(x){ return x[0] !== 'up'; }).map(function(x){ return '<li class="' + x[0] + '">' + esc(x[1]) + '</li>'; }).join('') + '</ul>' : '') +
       (up ? '<div class="up-ur"><b>Up des UR</b><p>Les étages Arc-en-ciel demandent des UR niveau 60. Voici les 4 plus utiles à monter :</p><div class="res-m">' +
         ursAUp().map(function(x){ return '<span>' + A.tete(H[x.c], 44) + '<small>' + esc(A.court(H[x.c])) + '</small><em>' + (x.a ? 'à monter' : 'à invoquer') + '</em></span>'; }).join('') + '</div></div>' : '') +
-      '<span class="res-go">Toucher pour charger l\'équipe et ses runes →</span></article>';
+      '<span class="res-go">Charger cette team et ses runes →</span></article>';
   }
 
   function panneau(){
@@ -296,7 +322,7 @@
         '<div class="outil"><b>Meilleure team PvP</b><p>Vitesse et dégâts pour l\'Arène.</p><button type="button" class="b-charger" data-asc-pvp>Trouver</button></div>' +
       '</div>' +
       (CALC ? '<p class="cpt-calc">Calcul en cours…</p>' : '') + (ERR ? '<p class="cpt-err">' + esc(ERR) + '</p>' : '') +
-      (RES ? '<div class="resultats">' + RES.map(function(x, i){ return carteResultat(x.res, x.titre, i); }).join('') + '</div>' : '') +
+      (RES ? '<h3 class="res-titre">' + esc(RESG) + '</h3><p class="cpt-note">Classées sur 10 : 10 = la meilleure (force, tank, healer, DPS, buffs, debuffs, chef). Un même héros peut revenir dans plusieurs teams. Touche une team pour la charger avec ses runes.</p><div class="resultats">' + RES.map(function(x, i){ return carteResultat(x.res, x.titre, i); }).join('') + '</div>' : '') +
       '<p class="cpt-note">Calculs estimés à partir de ton fichier (stats sans chef ni synergies, comme dans le jeu). Pense à réexporter après tes changements.</p></div>';
   }
 
@@ -357,9 +383,9 @@
     }
     if((b = e.target.closest('[data-asc-pve]'))){
       var nomP = {d9: 'Étage 9', leg: 'Légende 1 à 3', arc: 'Arc-en-ciel 14 à 16'}[palier];
-      return lancer(function(){ var r = meilleureEquipe(palier); RES = r ? [{res: r, titre: 'Meilleure team PvE · ' + nomP}] : null; if(!r) ERR = 'Pas assez de héros dans ton fichier.'; });
+      return lancer(function(){ var r = meilleureEquipe(palier); RESG = 'Teams PvE · ' + nomP; RES = r ? r.map(function(x, k){ return {res: x, titre: 'Team ' + (k + 1)}; }) : null; if(!r) ERR = 'Pas assez de héros dans ton fichier.'; });
     }
-    if((b = e.target.closest('[data-asc-pvp]'))) return lancer(function(){ var r = meilleureEquipe('pvp'); RES = r ? [{res: r, titre: 'Meilleure team PvP'}] : null; if(!r) ERR = 'Pas assez de héros dans ton fichier.'; });
+    if((b = e.target.closest('[data-asc-pvp]'))) return lancer(function(){ var r = meilleureEquipe('pvp'); RESG = 'Teams PvP · Arène'; RES = r ? r.map(function(x, k){ return {res: x, titre: 'Team ' + (k + 1)}; }) : null; if(!r) ERR = 'Pas assez de héros dans ton fichier.'; });
   });
 
   window.ASC = {

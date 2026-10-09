@@ -540,3 +540,10 @@ code{font-family:"Martian Mono",ui-monospace,monospace;font-size:.84em;padding:1
 .rang.max{background:linear-gradient(90deg,rgba(255,90,138,.25),rgba(242,200,107,.25),rgba(95,224,160,.25),rgba(90,224,255,.25));color:#fff}
 .mr-h .rang{font-size:11.5px}
 .hc-mine.max{background:linear-gradient(90deg,#ff8fae,#f2c86b,#7ff0c0,#7fe6ff);color:#141a33}
+.res-titre{margin:4px 0 0;font-family:var(--titre);font-size:18px}
+.res-h{justify-content:flex-start}
+.res-h .res-p{margin-left:auto}
+.note10{display:grid;place-items:center;align-content:center;width:56px;height:56px;border-radius:50%;background:radial-gradient(closest-side,var(--carte2) 78%,transparent 80%),conic-gradient(var(--or) var(--n),rgba(255,255,255,.1) 0);line-height:1}
+.note10 b{font-family:var(--titre);font-size:18px;color:var(--or)}
+.note10 small{color:var(--soft);font-size:10px}
+.resultats{grid-template-columns:repeat(auto-fill,minmax(min(100%,470px),1fr))}
