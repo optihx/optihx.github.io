@@ -100,26 +100,49 @@
   }
 
   /* ---------- meilleur build pour un héros (runes disponibles) ---------- */
+  /* stat principale conseillée par emplacement (2, 4, 6) */
+  var CODE = {'PV %': 'hpP', 'DÉF %': 'defP', 'ATQ %': 'atkP', 'VIT': 'spd', 'RÉS %': 'res', 'PRÉ %': 'acc', 'Taux Crit %': 'cr', 'Dég. Crit %': 'cd'};
+  function mainsConseil(cl){
+    var b = G.builds && G.builds[cl], o = {};
+    if(b) [[2, b.e2], [4, b.e4], [6, b.e6]].forEach(function(x){ o[x[0]] = (x[1] || []).map(function(l){ return CODE[l]; }).filter(Boolean); });
+    return o;
+  }
+  /* toutes les façons de placer les sets conseillés de la classe : 4 + 2 pièces, ou 2 + 2 + 2 */
+  var PAIRES = [[[0,1],[2,3],[4,5]],[[0,1],[2,4],[3,5]],[[0,1],[2,5],[3,4]],[[0,2],[1,3],[4,5]],[[0,2],[1,4],[3,5]],[[0,2],[1,5],[3,4]],[[0,3],[1,2],[4,5]],[[0,3],[1,4],[2,5]],[[0,3],[1,5],[2,4]],[[0,4],[1,2],[3,5]],[[0,4],[1,3],[2,5]],[[0,4],[1,5],[2,3]],[[0,5],[1,2],[3,4]],[[0,5],[1,3],[2,4]],[[0,5],[1,4],[2,3]]];
+  function placements(cl){
+    var rs = (J.classes[cl] && J.classes[cl].sets) || [], f4 = rs.filter(function(x){ return SETS[x] && SETS[x].n === 4; }), f2 = rs.filter(function(x){ return SETS[x] && SETS[x].n === 2; }), out = [];
+    f4.forEach(function(a){ f2.forEach(function(b){
+      for(var m = 0; m < 64; m++){ var bits = 0, sl = []; for(var k = 0; k < 6; k++) if(m & (1 << k)){ bits++; } if(bits !== 4) continue;
+        for(var k2 = 0; k2 < 6; k2++) sl.push(m & (1 << k2) ? a : b); out.push(sl); }
+    }); });
+    for(var x = 0; x < f2.length; x++) for(var y = x; y < f2.length; y++) for(var z = y; z < f2.length; z++)
+      PAIRES.forEach(function(P){ var sl = []; [f2[x], f2[y], f2[z]].forEach(function(st, k){ sl[P[k][0]] = st; sl[P[k][1]] = st; }); out.push(sl); });
+    return out;
+  }
+
+  /* ---------- meilleur build pour un héros : toujours un build « utile » (sets conseillés de sa classe) ---------- */
   function optimiser(M, dispo, mode){
-    var parSlot = [[], [], [], [], [], []], vide = [null, null, null, null, null, null];
-    var base = note(M.cl, calc(M, []), mode);
-    dispo.forEach(function(r){ if(r.sl >= 1 && r.sl <= 6) parSlot[r.sl - 1].push(r); });
-    /* présélection : les meilleures runes seules + les 2 meilleures de chaque set par emplacement */
-    parSlot = parSlot.map(function(L){
-      var sc = L.map(function(r){ return {r: r, v: note(M.cl, calc(M, [r]), mode) - base}; }).sort(function(a, b){ return b.v - a.v; });
-      var keep = sc.slice(0, 10), parSet = {};
-      sc.forEach(function(x){ parSet[x.r.set] = (parSet[x.r.set] || 0) + 1; if(parSet[x.r.set] <= 2 && keep.indexOf(x) < 0) keep.push(x); });
-      return keep;
-    });
-    function val(sel){ return note(M.cl, calc(M, sel), mode); }
-    function grimper(sel){
+    var mains = mainsConseil(M.cl);
+    function val(sel){
+      var v = note(M.cl, calc(M, sel), mode);
+      sel.forEach(function(r, i){ var m = mains[i + 1]; if(r && m && m.length){ if(r.m[0] === m[0]) v += .05; else if(m.indexOf(r.m[0]) > -1) v += .03; else v -= .02; } });
+      return v;
+    }
+    var base = val([null, null, null, null, null, null]);
+    function solo(r){ var sel = [null, null, null, null, null, null]; sel[r.sl - 1] = r; return val(sel) - base; }
+    var parSet = {}, parSlot = [[], [], [], [], [], []];
+    dispo.forEach(function(r){ if(!(r.sl >= 1 && r.sl <= 6)) return; var x = {r: r, v: solo(r)};
+      parSlot[r.sl - 1].push(x); (parSet[r.set] = parSet[r.set] || [[], [], [], [], [], []])[r.sl - 1].push(x); });
+    function tri(L){ return L.sort(function(a, b){ return b.v - a.v; }).slice(0, 6); }
+    parSlot = parSlot.map(tri); Object.keys(parSet).forEach(function(s){ parSet[s] = parSet[s].map(tri); });
+    function grimper(sel, opts){
       var cur = val(sel), mieux = true, tours = 0;
-      while(mieux && tours++ < 6){
+      while(mieux && tours++ < 4){
         mieux = false;
         for(var i = 0; i < 6; i++){
-          var L = parSlot[i];
-          for(var k = -1; k < L.length; k++){
-            var r = k < 0 ? null : L[k].r; if(r === sel[i]) continue;
+          var L = opts[i];
+          for(var k = 0; k < L.length; k++){
+            var r = L[k].r; if(r === sel[i]) continue;
             var old = sel[i]; sel[i] = r; var v = val(sel);
             if(v > cur + 1e-9){ cur = v; mieux = true; } else sel[i] = old;
           }
@@ -127,17 +150,26 @@
       }
       return {sel: sel, v: cur};
     }
-    var departs = [parSlot.map(function(L){ return L.length ? L[0].r : null; })];
-    Object.keys(SETS).forEach(function(s){
-      if(SETS[s].n !== 4) return;
-      var meil = parSlot.map(function(L){ for(var k = 0; k < L.length; k++) if(L[k].r.set === s) return L[k]; return null; });
-      var idx = [0, 1, 2, 3, 4, 5].filter(function(i){ return meil[i]; }).sort(function(a, b){ return meil[b].v - meil[a].v; });
-      if(idx.length < 4) return;
-      var d = departs[0].slice(); idx.slice(0, 4).forEach(function(i){ d[i] = meil[i].r; }); departs.push(d);
+    /* 1) les placements de sets conseillés ; on garde les complets, sinon les plus remplis */
+    var cands = placements(M.cl).map(function(pl){
+      var opts = pl.map(function(st, i){ return parSet[st] ? parSet[st][i] : []; }), plein = 0;
+      /* pièces appartenant à un set qu'on peut vraiment compléter */
+      var sets = {}; pl.forEach(function(st, i){ (sets[st] = sets[st] || []).push(i); });
+      Object.keys(sets).forEach(function(st){ var sl = sets[st], ok = sl.filter(function(i){ return opts[i].length; }).length, n = SETS[st].n; plein += Math.floor(ok / n) * n; });
+      var sel = opts.map(function(o){ return o.length ? o[0].r : null; });
+      return {pl: pl, opts: opts, plein: plein, v0: val(sel), sel: sel};
     });
-    var best = null;
-    departs.forEach(function(d){ var g = grimper(d.slice()); if(!best || g.v > best.v) best = g; });
-    best = best || {sel: vide, v: base};
+    var complets = cands.filter(function(c){ return c.plein === 6; }), best = null;
+    var choix = (complets.length ? complets : cands.sort(function(a, b){ return b.plein - a.plein || b.v0 - a.v0; }).filter(function(c, k, A){ return c.plein === A[0].plein; }))
+      .sort(function(a, b){ return b.v0 - a.v0; }).slice(0, 8);
+    choix.forEach(function(c){
+      /* emplacement sans rune du bon set : la meilleure rune disponible */
+      var opts = c.opts.map(function(o, i){ return o.length ? o : parSlot[i]; });
+      var g = grimper(opts.map(function(o){ return o.length ? o[0].r : null; }), opts);
+      if(!best || g.v > best.v) best = g;
+    });
+    /* 2) aucun set conseillé possible : les meilleures runes libres */
+    if(!best) best = grimper(parSlot.map(function(o){ return o.length ? o[0].r : null; }), parSlot);
     return {ids: best.sel.map(function(r){ return r ? r.id : null; }), v: best.v, st: calc(M, best.sel)};
   }
 
@@ -152,14 +184,14 @@
   function repartir(ids, mode){
     var Ms = ids.map(function(c){ return MOD[c]; }).filter(Boolean), pool = poolPour(ids), best = null;
     var ordres = Ms.map(function(m0){ return [m0].concat(Ms.filter(function(m){ return m !== m0; }).sort(function(a, b){ return ORDRE[a.cl] - ORDRE[b.cl]; })); });
-    ordres.forEach(function(o){
+    ordres.slice(0, 2).forEach(function(o){
       var pris = {}, res = {}, tot = 0;
       o.forEach(function(M){
         var r = optimiser(M, pool.filter(function(x){ return !pris[x.id]; }), mode);
         r.ids.forEach(function(id){ if(id) pris[id] = 1; }); res[M.c] = r;
       });
       /* 2 tours d'ajustement : chaque héros revoit ses runes en laissant celles des autres */
-      for(var tour = 0; tour < 2; tour++) o.forEach(function(M){
+      for(var tour = 0; tour < 1; tour++) o.forEach(function(M){
         var autres = {}; o.forEach(function(X){ if(X !== M) res[X.c].ids.forEach(function(id){ if(id) autres[id] = 1; }); });
         var r = optimiser(M, pool.filter(function(x){ return !autres[x.id]; }), mode);
         if(r.v >= res[M.c].v) res[M.c] = r;
@@ -286,6 +318,11 @@
   }
   function rangHtml(h, court){ var mx = h.rk >= 16; return '<span class="rang' + (mx ? ' max' : '') + '" title="' + esc(rangNom(h)) + '">' + (court && mx ? '★ max' : esc(rangNom(h)) + (mx ? ' · max' : '')) + '</span>'; }
 
+  function nomBuild(sets){
+    var k = Object.keys(sets || {}).sort(function(a, b){ return SETS[b].n - SETS[a].n; });
+    return k.length ? k.map(function(x){ var S = SINFO[x] || {nom: x, e: ''}; return S.e + ' ' + esc(S.nom) + ' ×' + (SETS[x].n * sets[x]); }).join(' + ') : 'aucun set complet';
+  }
+
   /* ---------- affichage ---------- */
   function runeTuile(r, porteur, ici){
     var S = SINFO[r.set] || {e: '', nom: r.set, c: '#888'}, ail = porteur && porteur !== ici ? MOD[porteur] ? A.court(H[porteur]) : null : null;
@@ -339,7 +376,7 @@
       var M = MOD[c], act = (M.src.r || []).map(function(id){ return RB[id] || null; }), nv = plan ? (plan.runes[c] || []).map(function(id){ return id ? RB[id] : null; }) : act;
       var stA = M.src.st, stN = plan ? calc(M, nv) : stA;
       return '<div class="mr carte"><div class="mr-h">' + A.tete(H[c], 44) + '<div><b>' + esc(H[c].nom) + '</b><span>niv. ' + M.src.lv + ' · ' + rangHtml(M.src) + (M.src.fa ? ' · Éveil forcé' : '') + (M.src.rg ? ' · au Rangement' : '') + ' · puissance ' + nb(puissance(stN)) + '</span></div></div>' +
-        statsCmp(stA, stN) +
+        '<p class="mr-build">Build : <b>' + nomBuild(stN.sets) + '</b>' + (plan ? '' : '') + '</p>' + statsCmp(stA, stN) +
         '<div class="rts">' + [0, 1, 2, 3, 4, 5].map(function(i){ var r = nv[i]; return r ? runeTuile(r, plan ? r.by && MOD[byChar(r.by)] ? byChar(r.by) : null : null, c) : '<div class="rt vide"><span class="rt-sl">' + (i + 1) + '</span>Aucune rune</div>'; }).join('') + '</div></div>';
     }).join('');
     if(t.length > mes.length) h += '<p class="cpt-note">Pas dans ton compte : ' + t.filter(function(c){ return !MOD[c]; }).map(function(c){ return esc(A.court(H[c])); }).join(', ') + '.</p>';

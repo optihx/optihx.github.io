@@ -558,3 +558,4 @@ code{font-family:"Martian Mono",ui-monospace,monospace;font-size:.84em;padding:1
 .mr-titre h2{margin:0!important}
 .b-charger.gros{padding:10px 18px;font-size:15px;background:var(--or);color:#2a1a02;border-color:transparent}
 .b-charger.gros:hover{filter:brightness(1.08)}
+.mr-build{margin:-4px 0 0;color:var(--soft);font-size:13px}.mr-build b{color:var(--ink)}
