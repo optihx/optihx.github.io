@@ -103,6 +103,7 @@
   }
 
   /* toutes les équipes conseillées, à plat */
+  if(G.farmEquipes && !G._farm){ G.equipes = G.farmEquipes.concat(G.equipes); G._farm = 1; }
   var EQS = []; G.equipes.forEach(function(c, ci){ c.liste.forEach(function(e){ e.ci = ci; EQS.push(e); }); });
   function eqParNom(n){ return EQS.filter(function(e){ return e.nom === n; })[0]; }
 
@@ -260,13 +261,15 @@
     var c = G.equipes[catEq];
     var h = '<h2>Équipes conseillées <small>le 1ᵉʳ héros est le chef</small></h2>' +
       '<p class="intro">Touche « Charger » pour la mettre dans Mon équipe, ou un héros pour voir sa fiche.</p>' +
-      '<div class="pilules" role="group" aria-label="Catégorie">' + G.equipes.map(function(x, i){ return '<button type="button" data-cat="' + i + '" aria-pressed="' + (i === catEq) + '">' + esc(x.cat) + '<small>' + x.liste.length + '</small></button>'; }).join('') + '</div>' +
+      [['farm', 'Farmer les donjons'], ['', 'Autres équipes']].map(function(gp){
+        return '<div class="pil-g"><span class="pil-l">' + gp[1] + '</span><div class="pilules" role="group" aria-label="' + gp[1] + '">' + G.equipes.map(function(x, i){ return (x.g || '') !== gp[0] ? '' : '<button type="button" data-cat="' + i + '" aria-pressed="' + (i === catEq) + '">' + esc(x.cat) + '<small>' + x.liste.length + '</small></button>'; }).join('') + '</div></div>'; }).join('') +
       (c.sous ? '<p class="sous-cat">' + esc(c.sous) + '</p>' : '') +
-      (catEq === 0 && G.farm10 ? '<div class="encart carte"><div><h3>' + esc(G.farm10.titre) + '</h3><p class="encart-n">' + esc(G.farm10.note) + '</p></div><ul>' + G.farm10.points.map(function(p){ return '<li>' + p + '</li>'; }).join('') + '</ul><p class="encart-n">' + esc(G.farm10.fin) + '</p></div>' : '') +
+      (/^Donjons de runes/.test(c.cat) && G.farm10 ? '<div class="encart carte"><div><h3>' + esc(G.farm10.titre) + '</h3><p class="encart-n">' + esc(G.farm10.note) + '</p></div><ul>' + G.farm10.points.map(function(p){ return '<li>' + p + '</li>'; }).join('') + '</ul><p class="encart-n">' + esc(G.farm10.fin) + '</p></div>' : '') +
       '<div class="eqc-grille">' + c.liste.map(function(e){
         return '<article class="eqc carte"><div class="eqc-tete"><div><h3>' + esc(e.nom) + '</h3>' + (e.ou ? '<span class="eqc-ou">' + esc(e.ou) + '</span>' : '') + '</div>' +
           '<button type="button" class="b-charger" data-charger="' + esc(e.nom) + '">Charger</button></div>' +
           '<div class="eqc-m">' + e.m.map(function(id, i){ var x = H[id]; return '<button type="button" data-h="' + id + '" title="' + esc(x.nom) + ' · ' + CL[x.cl].nom + '">' + tete(x, 0, i === 0) + '<span>' + esc(court(x)) + '</span></button>'; }).join('') + '</div>' +
+          (e.taux ? '<div class="taux-f">' + e.taux.map(function(t){ return '<span style="--p:' + t[1] + '%" class="' + (t[1] >= 90 ? 'ok' : t[1] >= 60 ? 'moy' : 'bas') + '"><b>' + esc(t[0]) + '</b>' + t[1] + ' %</span>'; }).join('') + '</div>' : '') +
           '<p>' + esc(e.txt) + '</p></article>';
       }).join('') + '</div>';
     $('#v-equipes').innerHTML = h;

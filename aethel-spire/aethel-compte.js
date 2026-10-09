@@ -317,7 +317,7 @@
     return '<div class="compte carte"><div class="cpt-tete"><div><b>' + esc(C.nom) + '</b><span>niveau ' + C.niv + ' · ' + nH + ' héros · ' + C.runes.length + ' runes' + (d && !isNaN(d) ? ' · export du ' + d.toLocaleDateString('fr-FR') : '') + '</span></div>' +
       '<div class="cpt-act"><label class="b-sec2"><input type="file" accept=".json,application/json" data-asc-fichier hidden>Changer de fichier</label><button type="button" class="b-sec2" data-asc-oublier>Oublier</button></div></div>' +
       '<div class="outils">' +
-        '<div class="outil"><b>Meilleur build</b><p>Les meilleures runes pour les 4 héros de ton équipe, chaque rune sur un seul héros.</p><button type="button" class="b-charger" data-asc-build' + (mesT ? '' : ' disabled') + '>' + (mesT ? 'Calculer' : 'Mets tes héros dans l\'équipe') + '</button></div>' +
+        '<div class="outil"><b>Meilleur build</b><p>Les meilleures runes pour les 4 héros de ton équipe, chaque rune sur un seul héros.</p><button type="button" class="b-charger" data-asc-build' + (mesT ? '' : ' disabled') + '>' + (mesT ? '⚙ Mettre les runes' : 'Mets tes héros dans l\'équipe') + '</button></div>' +
         '<div class="outil"><b>Meilleure team PvE</b><p>Choisis le palier :</p><div class="paliers-s">' + [['d9', 'Étage 9'], ['leg', 'Légende'], ['arc', 'Arc-en-ciel']].map(function(p){ return '<button type="button" data-asc-palier="' + p[0] + '" aria-pressed="' + (palier === p[0]) + '">' + p[1] + '</button>'; }).join('') + '</div><button type="button" class="b-charger" data-asc-pve>Trouver</button></div>' +
         '<div class="outil"><b>Meilleure team PvP</b><p>Vitesse et dégâts pour l\'Arène.</p><button type="button" class="b-charger" data-asc-pvp>Trouver</button></div>' +
       '</div>' +
@@ -331,7 +331,9 @@
     var mes = t.filter(function(c){ return MOD[c]; });
     if(!mes.length) return '';
     var plan = PLAN && PLAN.cle === t.join(',') ? PLAN : null;
-    var h = '<section class="mes-runes" id="mes-runes"><h2>' + (plan ? 'Runes conseillées' : 'Mes runes actuelles') + ' <small>' + (plan ? 'chaque rune sur un seul héros' : 'd\'après ton fichier') + '</small></h2>';
+    var h = '<section class="mes-runes" id="mes-runes"><div class="mr-titre"><h2>' + (plan ? 'Runes conseillées' : 'Mes runes actuelles') + ' <small>' + (plan ? 'chaque rune sur un seul héros' : 'd\'après ton fichier') + '</small></h2>' +
+      (plan ? '<button type="button" class="b-sec2" data-asc-actuelles>Revoir mes runes actuelles</button>' : '<button type="button" class="b-charger gros" data-asc-build>⚙ Mettre les runes</button>') + '</div>';
+    if(!plan) h += '<p class="intro">Touche « Mettre les runes » : le site choisit le meilleur set de runes pour chacun de ces héros, parmi toutes tes runes (une rune ne va que sur un seul héros).</p>';
     if(plan) h += '<p class="intro">Équipe ces runes dans le jeu (fiche du héros → onglet Runes). Les chiffres en vert ou rouge comparent avec tes runes actuelles.</p>';
     h += mes.map(function(c){
       var M = MOD[c], act = (M.src.r || []).map(function(id){ return RB[id] || null; }), nv = plan ? (plan.runes[c] || []).map(function(id){ return id ? RB[id] : null; }) : act;
@@ -375,6 +377,7 @@
   ve.addEventListener('click', function(e){
     var b;
     if((b = e.target.closest('[data-asc-oublier]'))){ C = null; RB = {}; MOD = {}; RES = null; PLAN = null; HC = {}; A.pf.mine = false; try { localStorage.removeItem(KC); localStorage.removeItem(KP); } catch(er){} return A.rendreEquipe(); }
+    if((b = e.target.closest('[data-asc-actuelles]'))){ PLAN = null; sauverP(); return A.rendreEquipe(); }
     if((b = e.target.closest('[data-asc-palier]'))){ palier = b.dataset.ascPalier; return A.rendreEquipe(); }
     if((b = e.target.closest('[data-asc-charger]'))) return chargerRes(+b.dataset.ascCharger);
     if((b = e.target.closest('[data-asc-build]'))){
