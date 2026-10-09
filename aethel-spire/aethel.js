@@ -77,7 +77,7 @@
   function filtrer(f){
     var q = norm(f.q);
     return J.heros.filter(function(h){
-      return (!f.cl || h.cl === f.cl) && (!f.el || h.el === f.el) && (!f.uni || h.uni === f.uni) && (!f.ra || h.ra === f.ra) && (!q || norm(h.nom).indexOf(q) > -1 || norm(h.titre || '').indexOf(q) > -1);
+      return (!f.cl || h.cl === f.cl) && (!f.el || h.el === f.el) && (!f.uni || h.uni === f.uni) && (!f.ra || h.ra === f.ra) && (!f.mine || !window.ASC || ASC.possede(h.id)) && (!q || norm(h.nom).indexOf(q) > -1 || norm(h.titre || '').indexOf(q) > -1);
     }).sort(function(a, b){ return ['UR', 'SSR', 'SR'].indexOf(a.ra) - ['UR', 'SSR', 'SR'].indexOf(b.ra) || a.nom.localeCompare(b.nom); });
   }
   function barreFiltres(f, pre){
@@ -86,13 +86,14 @@
       sel('cl', 'Toutes les classes', ORDRE_CL.map(function(k){ return [k, CL[k].nom]; })) +
       sel('el', 'Tous les éléments', Object.keys(J.elements).map(function(k){ return [k, J.elements[k].nom]; })) +
       sel('uni', 'Tous les univers', Object.keys(J.univers).map(function(k){ return [k, J.univers[k].nom]; })) +
-      sel('ra', 'Toutes raretés', [['UR', 'UR'], ['SSR', 'SSR'], ['SR', 'SR']]) + '</div>';
+      sel('ra', 'Toutes raretés', [['UR', 'UR'], ['SSR', 'SSR'], ['SR', 'SR']]) +
+      (pre === 'pf' && window.ASC && ASC.charge() ? '<label class="mine"><input type="checkbox" data-pf-mine' + (f.mine ? ' checked' : '') + '>Seulement mes héros</label>' : '') + '</div>';
   }
   function carteHeros(h, attr){
     var e = J.elements[h.el] || {coul: '#5ec8ff'};
     return '<button type="button" class="hcard" ' + attr + ' style="--e:' + e.coul + ';--r:var(--' + h.ra + ')"><span class="hc-art"><img src="img/heros/corps/' + h.id + '.webp" alt="" loading="lazy"' + (POS[h.id] ? ' style="object-position:' + POS[h.id] + '"' : '') + '></span>' +
       '<span class="hc-ra">' + h.ra + '</span>' + (h.lead ? '<span class="hc-lead" title="A un talent de chef">★</span>' : '') +
-      '<span class="hc-nom">' + esc(court(h)) + '</span><span class="hc-cl" style="--c:' + CL[h.cl].coul + '">' + svg(CL[h.cl].ico) + esc(CL[h.cl].nom) + '</span></button>';
+      (window.ASC && attr.indexOf('data-pick') > -1 ? ASC.badge(h.id) : '') + '<span class="hc-nom">' + esc(court(h)) + '</span><span class="hc-cl" style="--c:' + CL[h.cl].coul + '">' + svg(CL[h.cl].ico) + esc(CL[h.cl].nom) + '</span></button>';
   }
   function majFiltre(e, f, rendre){
     var k = e.target.dataset.hf || e.target.dataset.pf; if(!k) return false;
@@ -188,7 +189,7 @@
   function rendreEquipe(){
     var t = eq(), L = t.length ? H[t[0]].lead : null, S = statsEquipe(t), syn = synergies(t);
     var h = '<h2>Mon équipe <small>4 héros · le 1ᵉʳ est le chef</small></h2>' +
-      '<p class="intro">Choisis tes héros dans la liste en dessous. Le héros en <b>1ʳᵉ place</b> est le <b>chef</b> : son talent s\'applique à l\'équipe. Tes équipes restent gardées sur cet appareil.</p>' +
+      '<p class="intro">Choisis tes héros dans la liste en dessous. Le héros en <b>1ʳᵉ place</b> est le <b>chef</b> : son talent s\'applique à l\'équipe. Tes équipes restent gardées sur cet appareil.</p>' + (window.ASC ? ASC.panneau() : '') +
       '<div class="eq-onglets" role="tablist" aria-label="Mes équipes">' + ME.t.map(function(x, i){ return '<button type="button" role="tab" data-eqi="' + i + '" aria-selected="' + (i === ME.cur) + '">Équipe ' + (i + 1) + '<small>' + x.length + '/4</small></button>'; }).join('') + '</div>' +
       '<div class="mon-eq"><div class="slots">';
     for(var i = 0; i < 4; i++){
@@ -224,12 +225,14 @@
     h += '<div class="a-act"><select data-conseil aria-label="Charger une équipe conseillée"><option value="">Charger une équipe conseillée…</option>' +
         G.equipes.map(function(c){ return '<optgroup label="' + esc(c.cat) + '">' + c.liste.map(function(e){ return '<option value="' + esc(e.nom) + '">' + esc(e.nom) + ' · ' + e.m.map(function(m){ return court(H[m]); }).join(', ') + '</option>'; }).join('') + '</optgroup>'; }).join('') + '</select>' +
       '<button type="button" class="b-sec2" data-lien>Copier le lien</button><button type="button" class="b-sec2" data-vider>Vider</button></div>' +
-      '<p class="eq-msg" id="eq-msg" hidden></p></aside></div>' +
+      '<p class="eq-msg" id="eq-msg" hidden></p></aside></div>' + (window.ASC ? ASC.runesEquipe(t) : '') +
       '<h2>Choisir les héros <small>touche pour ajouter ou retirer</small></h2>' + barreFiltres(pf, 'pf');
     var Lp = filtrer(pf);
     h += Lp.length ? '<div class="hgrille petit">' + Lp.map(function(y){ var k = t.indexOf(y.id); return carteHeros(y, 'data-pick="' + y.id + '"' + (k > -1 ? ' aria-pressed="true" data-pos="' + (k === 0 ? 'Chef' : k + 1) + '"' : ' aria-pressed="false"')); }).join('') + '</div>' : '<p class="aucun">Aucun héros avec ces filtres.</p>';
     $('#v-equipe').innerHTML = h;
   }
+  window.AS = {J: J, G: G, H: H, CL: CL, ME: ME, pf: pf, eq: eq, sauver: sauver, rendreEquipe: rendreEquipe, montrer: function(v){ montrer(v, true); }, haut: haut,
+    tete: tete, court: court, esc: esc, nb: nb, pEl: pEl, pCl: pCl, pRa: pRa, svg: svg, touche: touche, synergies: synergies, message: message, meilleurChef: meilleurChef};
   var ve = $('#v-equipe');
   ve.addEventListener('input', function(e){ majFiltre(e, pf, rendreEquipe); });
   ve.addEventListener('change', function(e){ if(e.target.matches('[data-conseil]') && e.target.value) charger(e.target.value); });
