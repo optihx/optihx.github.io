@@ -35,7 +35,7 @@
     if(!d || d.format !== 'aethel-spire-export' || !Array.isArray(d.heroes) || !Array.isArray(d.runes)) throw new Error('Ce fichier n\'est pas un export d\'Aethel Spire.');
     return {
       nom: (d.account && d.account.name) || 'Joueur', niv: (d.account && d.account.level) || 0, date: d.exportedAt || '',
-      heros: d.heroes.filter(function(h){ return H[h.charId]; }).map(function(h){ return {id: h.id, c: h.charId, lv: h.level, rk: h.rank, et: h.stars, fa: !!h.forcedAwakening, ra: h.rarity,
+      heros: d.heroes.filter(function(h){ return H[h.charId]; }).map(function(h){ return {id: h.id, c: h.charId, lv: h.level, rk: h.rank, rn: h.rankName || '', et: h.stars, fa: !!h.forcedAwakening, ra: h.rarity,
         rg: !!h.stored, rl: !!h.runesLocked, p: h.power, st: h.stats, bs: h.baseStats, r: (h.runes || []).slice(0, 6)}; }),
       runes: d.runes.map(function(r){ return {id: r.id, set: r.set, sl: r.slot, et: r.stars, lv: r.level, m: [r.main.stat, r.main.value], s: (r.subs || []).map(function(x){ return [x.stat, x.value]; }), by: r.equippedBy}; })
     };
@@ -216,8 +216,13 @@
     var bas = hs.filter(function(h){ return h.lv < 40; });
     if(bas.length) out.push(['warn', 'Monte au niveau 40 : ' + bas.map(function(h){ return A.court(H[h.c]); }).join(', ') + '.']);
     if(res.mode === 'leg'){
-      var pasMax = hs.filter(function(h){ return h.ra !== 'UR' || h.rk < 16; });
-      if(pasMax.length) out.push(['warn', 'Légende 3 demande des UR au rang maximum avec des runes ★6. À monter : ' + pasMax.map(function(h){ return A.court(H[h.c]); }).join(', ') + '.']);
+      /* héros pas assez up : on propose un remplaçant de la box (UR au rang max, même rôle) */
+      var pris = {}, grp = function(c){ return DPS[H[c].cl] ? 'dps' : H[c].cl; };
+      hs.filter(function(h){ return !(h.ra === 'UR' && h.rk >= 16); }).forEach(function(h){
+        var rep = Object.keys(MOD).filter(function(c){ var x = MOD[c].src; return ids.indexOf(c) < 0 && !pris[c] && x.ra === 'UR' && x.rk >= 16 && grp(c) === grp(h.c); })
+          .sort(function(a, b){ return MOD[b].src.p - MOD[a].src.p; })[0];
+        if(rep){ pris[rep] = 1; out.push(['warn', A.court(H[h.c]) + ' n\'est pas assez up pour Légende 3 : tu peux mettre ' + A.court(H[rep]) + ' (' + rangNom(MOD[rep].src) + ') à sa place.']); }
+      });
     }
     if(res.mode === 'arc'){
       if(!urs.length || !hs.some(function(h){ return h.ra === 'UR'; })){
@@ -246,6 +251,15 @@
     return choix;
   }
 
+  /* rang du héros, ex. « Arc-en-ciel 5★ » (16 = maximum) */
+  function rangNom(h){
+    var k = h.rk || 0;
+    if(h.rn) return h.rn;
+    if(k <= 0) return 'Violet'; if(k === 1) return 'Orange';
+    if(k <= 6) return 'Jaune ' + (k - 1) + '★'; if(k <= 11) return 'Rouge ' + (k - 6) + '★'; return 'Arc-en-ciel ' + Math.min(5, k - 11) + '★';
+  }
+  function rangHtml(h, court){ var mx = h.rk >= 16; return '<span class="rang' + (mx ? ' max' : '') + '" title="' + esc(rangNom(h)) + '">' + (court && mx ? '★ max' : esc(rangNom(h)) + (mx ? ' · max' : '')) + '</span>'; }
+
   /* ---------- affichage ---------- */
   function runeTuile(r, porteur, ici){
     var S = SINFO[r.set] || {e: '', nom: r.set, c: '#888'}, ail = porteur && porteur !== ici ? MOD[porteur] ? A.court(H[porteur]) : null : null;
@@ -262,7 +276,7 @@
     var w = conseils(res), up = w.some(function(x){ return x[0] === 'up'; });
     var P = res.ord.reduce(function(s, c){ return s + puissance(calc(MOD[c], (res.runes[c] || []).map(function(id){ return RB[id]; }))); }, 0);
     return '<article class="res-eq carte" data-asc-charger="' + i + '" tabindex="0"><div class="res-h"><b>' + titre + '</b><span class="res-p">' + nb(P) + ' <small>puissance</small></span></div>' +
-      '<div class="res-m">' + res.ord.map(function(c, k){ var h = MOD[c].src; return '<span>' + A.tete(H[c], 52, k === 0) + '<small>' + esc(A.court(H[c])) + '</small><em>niv. ' + h.lv + (h.rg ? ' · rangé' : '') + '</em></span>'; }).join('') + '</div>' +
+      '<div class="res-m">' + res.ord.map(function(c, k){ var h = MOD[c].src; return '<span>' + A.tete(H[c], 52, k === 0) + '<small>' + esc(A.court(H[c])) + '</small><em>niv. ' + h.lv + (h.rg ? ' · rangé' : '') + '</em>' + rangHtml(h, 1) + '</span>'; }).join('') + '</div>' +
       (w.length ? '<ul class="res-w">' + w.filter(function(x){ return x[0] !== 'up'; }).map(function(x){ return '<li class="' + x[0] + '">' + esc(x[1]) + '</li>'; }).join('') + '</ul>' : '') +
       (up ? '<div class="up-ur"><b>Up des UR</b><p>Les étages Arc-en-ciel demandent des UR niveau 60. Voici les 4 plus utiles à monter :</p><div class="res-m">' +
         ursAUp().map(function(x){ return '<span>' + A.tete(H[x.c], 44) + '<small>' + esc(A.court(H[x.c])) + '</small><em>' + (x.a ? 'à monter' : 'à invoquer') + '</em></span>'; }).join('') + '</div></div>' : '') +
@@ -296,7 +310,7 @@
     h += mes.map(function(c){
       var M = MOD[c], act = (M.src.r || []).map(function(id){ return RB[id] || null; }), nv = plan ? (plan.runes[c] || []).map(function(id){ return id ? RB[id] : null; }) : act;
       var stA = M.src.st, stN = plan ? calc(M, nv) : stA;
-      return '<div class="mr carte"><div class="mr-h">' + A.tete(H[c], 44) + '<div><b>' + esc(H[c].nom) + '</b><span>niv. ' + M.src.lv + (M.src.fa ? ' · Éveil forcé' : '') + (M.src.rg ? ' · au Rangement' : '') + ' · puissance ' + nb(puissance(stN)) + '</span></div></div>' +
+      return '<div class="mr carte"><div class="mr-h">' + A.tete(H[c], 44) + '<div><b>' + esc(H[c].nom) + '</b><span>niv. ' + M.src.lv + ' · ' + rangHtml(M.src) + (M.src.fa ? ' · Éveil forcé' : '') + (M.src.rg ? ' · au Rangement' : '') + ' · puissance ' + nb(puissance(stN)) + '</span></div></div>' +
         statsCmp(stA, stN) +
         '<div class="rts">' + [0, 1, 2, 3, 4, 5].map(function(i){ var r = nv[i]; return r ? runeTuile(r, plan ? r.by && MOD[byChar(r.by)] ? byChar(r.by) : null : null, c) : '<div class="rt vide"><span class="rt-sl">' + (i + 1) + '</span>Aucune rune</div>'; }).join('') + '</div></div>';
     }).join('');
@@ -351,7 +365,7 @@
   window.ASC = {
     charge: function(){ return !!C; },
     possede: function(id){ return !!MOD[id]; },
-    badge: function(id){ if(!C) return ''; var m = MOD[id]; return m ? '<span class="hc-mine">niv. ' + m.src.lv + '</span>' : '<span class="hc-pas">pas à toi</span>'; },
+    badge: function(id){ if(!C) return ''; var m = MOD[id]; return m ? '<span class="hc-mine' + (m.src.rk >= 16 ? ' max' : '') + '" title="' + esc(rangNom(m.src)) + '">niv. ' + m.src.lv + (m.src.rk >= 16 ? ' · ★max' : '') + '</span>' : '<span class="hc-pas">pas à toi</span>'; },
     panneau: panneau, runesEquipe: runesEquipe
   };
   indexer();

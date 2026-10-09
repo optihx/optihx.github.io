@@ -536,3 +536,7 @@ code{font-family:"Martian Mono",ui-monospace,monospace;font-size:.84em;padding:1
 .rt-de{color:var(--or);font-size:11px;font-weight:700}
 @media (max-width:980px){ .outils{grid-template-columns:minmax(0,1fr)} .rts{grid-template-columns:repeat(3,minmax(0,1fr))} .cmp{grid-template-columns:repeat(4,minmax(0,1fr))} }
 @media (max-width:720px){ .compte.vide{grid-template-columns:minmax(0,1fr)} .rts{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.rang{display:inline-block;padding:1px 7px;border-radius:999px;background:rgba(255,255,255,.07);color:var(--soft);font-size:10.5px;font-weight:800;font-style:normal;white-space:nowrap}
+.rang.max{background:linear-gradient(90deg,rgba(255,90,138,.25),rgba(242,200,107,.25),rgba(95,224,160,.25),rgba(90,224,255,.25));color:#fff}
+.mr-h .rang{font-size:11.5px}
+.hc-mine.max{background:linear-gradient(90deg,#ff8fae,#f2c86b,#7ff0c0,#7fe6ff);color:#141a33}
