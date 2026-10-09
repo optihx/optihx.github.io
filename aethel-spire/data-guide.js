@@ -3,7 +3,7 @@
    Builds de runes, équipes conseillées, valeurs des runes, astuces, codes.
    ========================================================== */
 window.GUIDE = {
-  maj: "9 octobre 2026",
+  maj: "9 octobre 2026 (mise à jour « Ascension »)",
 
   /* 1. Les bases */
   bases: [
@@ -88,7 +88,7 @@ window.GUIDE = {
 
   /* 5. Valeurs des runes */
   etoiles: ["★6", "★5", "★4", "★3", "★2"],
-  categories: [["Normale", "★2", "#e6e8ef"], ["Basique", "★3", "#5fd38d"], ["Rare", "★4", "#a77bff"], ["Légendaire", "★5", "#f2a33d"], ["Légendaire d'élite", "★6", "#ff6b8b"]],
+  categories: [["Normale", "★2", "#e6e8ef"], ["Basique", "★3", "#5fd38d"], ["Rare", "★4", "#a77bff"], ["Légendaire", "★5", "#f2a33d"], ["Légendaire ★6", "★6", "#ff6b8b"]],
   principale: [
     ["PV", 2448, 1860, 1544, 1228, 930], ["ATQ", 160, 135, 112, 89, 68], ["DÉF", 160, 135, 112, 89, 68],
     ["PV %", "63 %", "51 %", "42 %", "34 %", "26 %"], ["ATQ %", "63 %", "51 %", "42 %", "34 %", "26 %"], ["DÉF %", "63 %", "51 %", "42 %", "34 %", "26 %"],
@@ -114,7 +114,8 @@ window.GUIDE = {
   plafonds: [
     "<b>Taux Crit</b> : 100 % · <b>RÉS</b> : 100 · <b>PRÉ</b> : 100 · VIT, ATQ, PV, DÉF et Dég. Crit : pas de plafond.",
     "Un malus a entre <b>15 % et 85 %</b> de chances de passer, quelle que soit la RÉS de la cible.",
-    "Atelier 💠 : chaque sous-stat peut en plus être renforcée <b>5 fois</b> (+14 % à +30 % d'un jet à chaque fois), soit jusqu'à +1,5 jet de plus."
+    "Atelier 💠 : chaque sous-stat peut en plus être renforcée <b>5 fois</b> (+14 % à +30 % d'un jet à chaque fois), soit jusqu'à +1,5 jet de plus.",
+    "<b>Runes ★6</b> : chaque jet de sous-stat vaut au minimum le meilleur jet d'une ★5 (VIT : 5 ou 6 ; PV % : 6 à 8), aussi à +3, +6, +9, +12 et à l'Atelier. Les ★6 déjà possédées ont été relevées."
   ],
 
   /* Où farmer chaque set (donjon → sets) */
@@ -166,5 +167,92 @@ window.GUIDE = {
     ["KIRITO", "20 fragments d'un SSR au hasard + 500 cristaux"],
     ["SHADOWMONARCH", "10 tickets + 25 fragments d'un SSR au hasard"],
     ["LEGENDE", "40 fragments d'un SSR au hasard + 300 cristaux + 20 000 essence"]
+  ],
+
+  /* ===== Mise à jour « Ascension » ===== */
+  nouveau: {
+    nom: "Ascension",
+    points: [
+      ["modes", "Mode Difficile", "Les 12 chapitres de l'Histoire, en bien plus dur."],
+      ["modes", "Tours d'univers", "4 tours de 40 étages, une par univers."],
+      ["progres", "Esprits gardiens", "Un compagnon qui renforce toute l'équipe."],
+      ["progres", "Liens de héros", "20 liens : bonus permanents si tu as tous les héros."],
+      ["runes", "Outils de runes", "Vente auto, verrou, build sur mesure, ★6 à part."]
+    ]
+  },
+
+  difficile: {
+    acces: "Bouton « Mode Difficile » en haut de la liste des chapitres, ou Menu → Difficile.",
+    regle: "Les 12 chapitres à refaire contre des ennemis <b>niveau 40</b>. Un chapitre s'ouvre quand il est fini en Normal <b>et</b> que le chapitre précédent est fini en Difficile.",
+    gains: [
+      ["Chaque victoire", "Poussière d'esprit (15 à 48, +25 sur le boss), mana, Essence d'EXP, et souvent une rune Rare ou Légendaire (2 sur le boss)."],
+      ["1ʳᵉ victoire d'un étage", "40 cristaux (+15 avec 3 étoiles)."],
+      ["Chapitre terminé", "5 fragments UR et 1 parchemin de compétence."]
+    ],
+    niveau: [["Chapitres 1 à 3", "Équipe niveau 40 bien runée."], ["Chapitres 9 à 12", "Héros UR très étoilés avec des runes ★6."]]
+  },
+
+  tours: {
+    acces: "Menu Modes → Tours d'univers, ou Menu → Tours.",
+    regle: "Seuls les héros de l'univers de la tour peuvent entrer. <b>Pas d'énergie</b> : tentatives illimitées. Un boss tous les 5 étages.",
+    liste: [["Tour des Mers", "op"], ["Tour de Shinsu", "tog"], ["Tour d'Aincrad", "sao"], ["Tour des Ombres", "sl"]],
+    paliers: [
+      ["Tous les 5 étages", "5 fragments d'un héros SSR"],
+      ["Étage 20", "10 fragments d'un héros UR"],
+      ["Étage 30", "15 fragments d'un héros UR"],
+      ["Étage 40", "25 fragments d'un héros UR"],
+      ["Tous les 10 étages", "1 coffre légendaire"]
+    ],
+    note: "Récompenses de 1ʳᵉ victoire : cristaux, mana, Poussière d'esprit, et des fragments d'un héros <b>de cet univers</b>.",
+    niveau: [["Étage 20", "Milieu de partie"], ["Étage 30", "Avec de bonnes runes"], ["Étage 40", "Fin de partie"]]
+  },
+
+  esprits: {
+    acces: "Menu → Esprits",
+    regle: "Un seul esprit accompagne l'équipe. Son bonus vaut pour <b>tous tes héros, dans tous les modes</b>.",
+    cout: "Le 1er esprit est offert. Ensuite : <b>300</b> Poussière pour en invoquer un, <b>100 × niveau</b> pour l'améliorer (4 500 pour aller du niveau 1 au 10).",
+    source: "Elle se gagne dans l'Histoire en mode Difficile et dans les Tours d'univers.",
+    liste: [
+      ["Braise", "Renard des flammes", "#ff6a3d", "ATQ +1 % par niveau", "Dég. Crit +10 %", "Vol de vie 8 %"],
+      ["Ondine", "Esprit des marées", "#3fa7ff", "PV +1,2 % par niveau", "RÉS +10", "Bouclier d'équipe (10 % des PV)"],
+      ["Zéphyr", "Aigle des tempêtes", "#e8c24a", "VIT +0,6 % par niveau", "Taux Crit +5 %", "8 % de chances de rejouer"],
+      ["Lumen", "Cerf de lumière", "#fff3a8", "DÉF +1,2 % par niveau", "PRÉ +10", "Immunité au 1er tour"],
+      ["Umbra", "Chat des ombres", "#b06cff", "Dég. Crit +2 % par niveau", "ATQ +4 %", "Contre-attaque 10 %"],
+      ["Titan", "Tortue ancestrale", "#6ccf5a", "PV et DÉF +0,7 % par niveau", "RÉS +10", "Némésis"]
+    ]
+  },
+
+  liens: {
+    acces: "Menu → Liens (et bouton « Liens » sur la fiche d'un héros).",
+    regle: "Posséder <b>tous</b> les héros d'un lien (même rangés) donne un bonus permanent à ces héros. Un héros peut cumuler plusieurs liens.",
+    liste: [
+      ["Les Chapeaux de Paille", ["luffy", "zoro", "sanji", "nami"], {atk: 6}],
+      ["Médecins de bord", ["chopper", "law", "marco"], {hp: 8}],
+      ["Frères de feu", ["luffy", "ace"], {cd: 12}],
+      ["Grands corsaires", ["mihawk", "hancock", "jinbe"], {def: 8}],
+      ["Les Empereurs", ["shanks", "yamato", "uta"], {hp: 6, res: 8}],
+      ["Trio de la Tour", ["bam", "khun", "rak"], {atk: 6, spd: 2}],
+      ["Princesses de Zahard", ["yuri", "endorsi", "anaak"], {cr: 6}],
+      ["Rangs de haut niveau", ["evankhell", "yuhansung", "quant", "urek"], {atk: 7}],
+      ["Ombres de la Tour", ["rachel", "white", "hatz"], {cd: 12}],
+      ["Régulières", ["shibisu", "laure", "hatz"], {hp: 7}],
+      ["Les Clearers", ["kirito", "asuna", "klein", "agil"], {atk: 6}],
+      ["Chevaliers de l'Intégrité", ["alice", "eugeo", "quinella"], {def: 8, res: 6}],
+      ["Amies d'Aincrad", ["silica", "lisbeth", "sachi", "argo"], {hp: 8}],
+      ["Famille", ["kirito", "asuna", "yui"], {spd: 3}],
+      ["Tireuses et fées", ["sinon", "leafa", "yuuki"], {cr: 6}],
+      ["Armée des Ombres", ["jinwoo", "beru", "igris", "bellion"], {atk: 7}],
+      ["Chasseurs de rang S", ["cha", "baek", "choi", "min", "limtaegyu"], {atk: 5, hp: 5}],
+      ["Les Monarques", ["antares", "sillad", "jinwoo"], {cd: 15}],
+      ["Piliers de l'Association", ["gunhee", "yoo", "thomas"], {def: 8}],
+      ["Clan des démons", ["esil", "igris"], {cr: 5}]
+    ]
+  },
+
+  outilsRunes: [
+    ["Vente automatique", "Au lancement d'un farm : « Automatique » ou « Je choisis moi-même », et le bouton <b>Règles</b> (catégories à vendre, emplacements 2 / 4 / 6 à stat fixe — jamais une ★6 —, sets à toujours garder). Aussi dans l'inventaire : bouton « Vente auto ». Une rune équipée n'est jamais vendue."],
+    ["Légendaires ★6 à part", "Étiquette rose « Légendaire ★6 », séparée des ★5 dans les filtres, le choix de rune, la vente rapide et les règles. Le tri « Rareté » met les ★6 en premier."],
+    ["Verrou de runes", "Fiche du héros, onglet Runes : « Verrouiller ses runes ». Plus personne ne peut retirer, remplacer ou lui prendre une rune. Tu peux toujours les regarder et les améliorer."],
+    ["Build sur mesure", "Fiche du héros, onglet Runes : indique des minimums de stats et les sets voulus, puis « Chercher ». Jusqu'à 5 builds trouvés dans ton inventaire, avec un bouton « Équiper ». Option pour utiliser aussi les runes des autres héros (jamais celles d'un héros verrouillé)."]
   ]
 };

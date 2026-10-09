@@ -39,6 +39,9 @@
     return '<span class="av tete" style="--c:' + CL[h.cl].coul + ';--r:var(--' + h.ra + ');' + (t ? '--t:' + t + 'px' : '') + '" aria-hidden="true"><img src="img/heros/' + h.id + '.webp" alt="" loading="lazy" width="160" height="160">' + (chef ? '<span class="lead">CHEF</span>' : '') + '</span>';
   }
   function faibleContre(el){ return Object.keys(J.elements).filter(function(k){ return J.elements[k].bat === el; }); }
+  var LBL = {hp: 'PV', atk: 'ATQ', def: 'DÉF', spd: 'VIT', cr: 'Taux Crit', cd: 'Dég. Crit', res: 'RÉS'};
+  function bonusTxt(b){ return Object.keys(b).map(function(k){ return LBL[k] + ' +' + b[k] + (k === 'res' ? '' : ' %'); }).join(' · '); }
+  function liensDe(id){ return ((G.liens && G.liens.liste) || []).filter(function(l){ return l[1].indexOf(id) > -1; }); }
   function setChip(id){ var s = SETS[id]; return s ? '<span class="setc" style="--s:' + s.c + '" title="' + esc(s.d) + '"><i>' + s.e + '</i>' + esc(s.nom) + '</span>' : ''; }
   function ouSet(id){ for(var i = 0; i < G.farmSets.length; i++) if(G.farmSets[i][2].indexOf(id) > -1) return G.farmSets[i]; return null; }
 
@@ -121,6 +124,7 @@
         '<p class="f-sous">Sous-stats : ' + b.sous.map(esc).join(' › ') + '</p>' +
         '<button type="button" class="lien" data-voir-runes="' + h.cl + '">Tout le build ' + esc(c.nom) + ' →</button></div>' +
       '<h4>Compétences</h4><ol class="f-comp">' + h.comp.map(function(k, i){ return '<li><b>' + esc(k.n) + '</b><span class="f-cd">' + (i ? 'Recharge ' + k.cd + ' tours' : 'Attaque de base') + '</span><p>' + esc(k.d.replace(/\s*(Aucun temps de recharge|Recharge : \d+ tours)\.$/, '')) + '</p></li>'; }).join('') + '</ol>' +
+      (liensDe(id).length ? '<h4>Liens de héros</h4><div class="f-liens">' + liensDe(id).map(function(l){ return '<div class="f-lien"><b>' + esc(l[0]) + '</b><span class="bonus">' + bonusTxt(l[2]) + '</span><span class="f-lien-m">' + l[1].map(function(m){ return H[m] ? '<button type="button" data-h="' + m + '" title="' + esc(H[m].nom) + '">' + tete(H[m], 30) + '</button>' : ''; }).join('') + '</span></div>'; }).join('') + '</div><p class="f-niv">Bonus permanent quand tu possèdes tous les héros du lien.</p>' : '') +
       (eqs.length ? '<h4>Dans les équipes conseillées</h4><div class="f-eqs">' + eqs.map(function(e){ return '<button type="button" data-charger="' + esc(e.nom) + '">' + (e.m[0] === id ? '<span class="f-chef">Chef</span>' : '') + esc(e.nom) + '</button>'; }).join('') + '</div>' : '') +
       '</div>';
     fond.hidden = false;
@@ -132,6 +136,7 @@
     var b;
     if((b = e.target.closest('[data-charger]'))){ fermer(); return charger(b.dataset.charger); }
     if((b = e.target.closest('[data-ajout]'))){ fermer(); return ajouter(b.dataset.ajout, true); }
+    if((b = e.target.closest('[data-h]'))){ return fiche(b.dataset.h); }
     if((b = e.target.closest('[data-voir-runes]'))){ fermer(); voirRunes(b.dataset.voirRunes); }
   });
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !fond.hidden) fermer(); });
@@ -303,6 +308,7 @@
       '<h2>Les ' + J.sets.length + ' sets <small>et où les farmer</small></h2><div class="sets-g">' +
       groupes.map(function(g){ return '<div class="sets-bloc carte"><h3>' + g[0] + '</h3><ul>' + g[1].map(function(s){ var o = ouSet(s.id); return '<li style="--s:' + s.c + '"><i>' + s.e + '</i><span><b>' + esc(s.nom) + '</b><small>' + esc(s.d) + '</small></span>' + (o ? '<em style="--e:' + J.elements[o[1]].coul + '">' + esc(o[0]) + '</em>' : '') + '</li>'; }).join('') + '</ul></div>'; }).join('') + '</div>' +
       '<h2>Les 4 donjons de runes</h2><div class="donjons">' + G.farmSets.map(function(d){ return '<div class="dj carte" style="--e:' + J.elements[d[1]].coul + '"><h3>' + esc(d[0]) + '</h3>' + pEl(d[1]) + '<div class="dj-s">' + d[2].map(setChip).join('') + '</div></div>'; }).join('') + '</div>' +
+      (G.outilsRunes ? '<h2>Outils de runes <span class="neuf">Nouveau</span></h2><div class="bases deux">' + G.outilsRunes.map(function(o){ return '<div class="base carte"><b>' + esc(o[0]) + '</b><p>' + o[1] + '</p></div>'; }).join('') + '</div>' : '') +
       '<h2>Conseils</h2><ol class="prio">' + G.conseilsRunes.map(function(p){ return '<li>' + p + '</li>'; }).join('') + '</ol>';
     $('#v-runes').innerHTML = h;
   }
@@ -352,6 +358,48 @@
     $('#v-debuter').innerHTML = h;
   }
 
+  /* ---------- Modes de jeu ---------- */
+  function rendreModes(){
+    var d = G.difficile, t = G.tours;
+    var h = '<h2>Histoire · Mode Difficile <small>120 étages</small></h2><p class="intro">' + esc(d.acces) + '</p>' +
+      '<div class="mode carte"><p>' + d.regle + '</p><dl class="gains">' + d.gains.map(function(g){ return '<div><dt>' + esc(g[0]) + '</dt><dd>' + esc(g[1]) + '</dd></div>'; }).join('') + '</dl>' +
+      '<div class="niv">' + d.niveau.map(function(n){ return '<span><b>' + esc(n[0]) + '</b>' + esc(n[1]) + '</span>'; }).join('') + '</div></div>' +
+      '<h2>Tours d\'univers <small>4 × 40 étages</small></h2><p class="intro">' + esc(t.acces) + '</p>' +
+      '<div class="tours">' + t.liste.map(function(x){ var u = J.univers[x[1]]; var hs = J.heros.filter(function(z){ return z.uni === x[1]; }).length;
+        return '<div class="tour carte" style="--u:' + u.coul + '"><b>' + esc(x[0]) + '</b>' + pUni(x[1]) + '<small>' + hs + ' héros peuvent entrer</small></div>'; }).join('') + '</div>' +
+      '<div class="mode carte"><p>' + t.regle + '</p><p>' + t.note + '</p>' +
+      '<ul class="paliers">' + t.paliers.map(function(p){ return '<li><span>' + esc(p[0]) + '</span><b>' + esc(p[1]) + '</b></li>'; }).join('') + '</ul>' +
+      '<div class="niv">' + t.niveau.map(function(n){ return '<span><b>' + esc(n[0]) + '</b>' + esc(n[1]) + '</span>'; }).join('') + '</div></div>';
+    $('#v-modes').innerHTML = h;
+  }
+
+  /* ---------- Esprits & liens ---------- */
+  var fLien = '';
+  function rendreEsprits(){
+    var e = G.esprits, L = G.liens;
+    var h = '<h2>Esprits gardiens <small>' + esc(e.acces) + '</small></h2><p class="intro">' + e.regle + '</p>' +
+      '<div class="esprits">' + e.liste.map(function(x){
+        return '<div class="esp carte" style="--k:' + x[2] + '"><div class="esp-t"><i aria-hidden="true"></i><span><b>' + esc(x[0]) + '</b><small>' + esc(x[1]) + '</small></span></div>' +
+          '<p class="esp-par">' + esc(x[3]) + '</p><ul><li><span>Niv. 5</span>' + esc(x[4]) + '</li><li><span>Niv. 10</span>' + esc(x[5]) + '</li></ul></div>'; }).join('') + '</div>' +
+      '<div class="bases deux"><div class="base carte"><b>Coût</b><p>' + e.cout + '</p></div><div class="base carte"><b>Poussière d\'esprit</b><p>' + esc(e.source) + '</p></div></div>' +
+      '<h2>Liens de héros <small>' + L.liste.length + ' liens</small></h2><p class="intro">' + L.regle + '</p>' +
+      '<div class="pilules" role="group" aria-label="Univers"><button type="button" data-flien="" aria-pressed="' + (fLien === '') + '">Tous</button>' +
+        Object.keys(J.univers).map(function(k){ return '<button type="button" data-flien="' + k + '" aria-pressed="' + (fLien === k) + '">' + esc(J.univers[k].nom) + '</button>'; }).join('') + '</div>' +
+      '<div class="liens">' + L.liste.filter(function(l){ return !fLien || H[l[1][0]].uni === fLien; }).map(function(l){
+        return '<div class="lien-c carte"><div class="lien-h"><b>' + esc(l[0]) + '</b><span class="bonus">' + bonusTxt(l[2]) + '</span></div><div class="lien-m">' +
+          l[1].map(function(m){ var x = H[m]; return x ? '<button type="button" data-h="' + m + '" title="' + esc(x.nom) + '">' + tete(x, 44) + '<span>' + esc(court(x)) + '</span></button>' : ''; }).join('') + '</div></div>'; }).join('') + '</div>' +
+      '<p class="f-niv">' + esc(L.acces) + '</p>';
+    $('#v-esprits').innerHTML = h;
+  }
+
+  /* ---------- Bandeau « Nouveau » ---------- */
+  function rendreNouveau(){
+    var n = G.nouveau, el = $('#nouveau'); if(!n || !el) return;
+    el.innerHTML = '<span class="nv-t"><b>Nouveau</b> · mise à jour « ' + esc(n.nom) + ' »</span>' +
+      n.points.map(function(p){ return '<button type="button" data-aller="' + p[0] + '" title="' + esc(p[2]) + '">' + esc(p[1]) + '</button>'; }).join('');
+    el.hidden = false;
+  }
+
   /* ---------- Codes ---------- */
   var KCODES = 'optih-aethel-codes', faits = {};
   try { (JSON.parse(localStorage.getItem(KCODES) || '[]') || []).forEach(function(c){ faits[c] = 1; }); } catch(e){}
@@ -380,7 +428,7 @@
   });
 
   /* ---------- Onglets ---------- */
-  var VUES = ['equipe', 'heros', 'equipes', 'runes', 'valeurs', 'debuter', 'codes'];
+  var VUES = ['equipe', 'heros', 'equipes', 'runes', 'valeurs', 'modes', 'esprits', 'debuter', 'codes'];
   function montrer(v, pousser){
     if(VUES.indexOf(v) < 0) v = 'equipe';
     VUES.forEach(function(x){ $('#v-' + x).hidden = x !== v; });
@@ -393,11 +441,13 @@
     var b;
     if((b = e.target.closest('[data-h]'))) return fiche(b.dataset.h);
     if((b = e.target.closest('[data-rcl]'))){ rCl = b.dataset.rcl; return rendreRunes(); }
+    if((b = e.target.closest('[data-flien]'))){ fLien = b.dataset.flien; return rendreEsprits(); }
+    if((b = e.target.closest('[data-aller]'))){ var v = b.dataset.aller; if(v === 'progres') v = 'esprits'; if(v === 'runes'){ montrer('runes', true); var o = $('#v-runes h2 .neuf'); if(o) o.closest('h2').scrollIntoView({behavior: 'smooth', block: 'start'}); return; } montrer(v, true); return haut(); }
     if((b = e.target.closest('[data-cat]'))){ catEq = +b.dataset.cat; return rendreEquipes(); }
     if((b = e.target.closest('#v-equipes [data-charger]'))) return charger(b.dataset.charger);
   });
 
-  rendreEquipe(); rendreHeros(); rendreEquipes(); rendreRunes(); rendreValeurs(); rendreDebuter(); rendreCodes();
+  rendreEquipe(); rendreHeros(); rendreEquipes(); rendreRunes(); rendreValeurs(); rendreModes(); rendreEsprits(); rendreDebuter(); rendreCodes(); rendreNouveau();
   $('#maj').textContent = J.heros.length + ' héros · guide mis à jour le ' + G.maj + '.';
   montrer(location.hash.slice(1));
   addEventListener('hashchange', function(){ montrer(location.hash.slice(1)); });
