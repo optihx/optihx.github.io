@@ -317,6 +317,7 @@
       '<div class="mini-hs"><span>Les ' + esc(c.nom) + ' :</span>' + mH.map(function(x){ return '<button type="button" class="mini-h" data-h="' + x.id + '">' + tete(x, 26) + esc(court(x)) + '</button>'; }).join('') + '</div>' +
       '<h2>Les ' + J.sets.length + ' sets <small>et où les farmer</small></h2><div class="sets-g">' +
       groupes.map(function(g){ return '<div class="sets-bloc carte"><h3>' + g[0] + '</h3><ul>' + g[1].map(function(s){ var o = ouSet(s.id); return '<li style="--s:' + s.c + '"><i>' + s.e + '</i><span><b>' + esc(s.nom) + '</b><small>' + esc(s.d) + '</small></span>' + (o ? '<em style="--e:' + J.elements[o[1]].coul + '">' + esc(o[0]) + '</em>' : '') + '</li>'; }).join('') + '</ul></div>'; }).join('') + '</div>' +
+      (G.setsAntiques ? '<h2 id="sets-antiques">Sets antiques <small>4 ou 6 pièces, jamais 2</small></h2><div class="sets-g">' + G.setsAntiques.map(function(g){ return '<div class="sets-bloc carte antique"><h3>' + esc(g[0]) + '</h3><ul>' + g[1].map(function(x){ return '<li style="--s:#b3261e"><i>' + x[1] + '</i><span><b>' + esc(x[0]) + '</b><small>' + esc(x[2]) + '</small></span></li>'; }).join('') + '</ul></div>'; }).join('') + '</div><p class="cpt-note">Avec un set antique de 4 pièces, il reste 2 emplacements pour un set classique de 2 pièces. Mêmes valeurs qu\'une rune Arc-en-ciel ★7.</p>' : '') +
       '<h2>Les 4 donjons de runes</h2><div class="donjons">' + G.farmSets.map(function(d){ return '<div class="dj carte" style="--e:' + J.elements[d[1]].coul + '"><h3>' + esc(d[0]) + '</h3>' + pEl(d[1]) + '<div class="dj-s">' + d[2].map(setChip).join('') + '</div></div>'; }).join('') + '</div>' +
       (G.outilsRunes ? '<h2>Outils de runes <span class="neuf">Nouveau</span></h2><div class="bases deux">' + G.outilsRunes.map(function(o){ return '<div class="base carte"><b>' + esc(o[0]) + '</b><p>' + o[1] + '</p></div>'; }).join('') + '</div>' : '') +
       '<h2>Conseils</h2><ol class="prio">' + G.conseilsRunes.map(function(p){ return '<li>' + p + '</li>'; }).join('') + '</ol>';
@@ -362,8 +363,11 @@
         '<div class="carte"><h3>Chaque semaine</h3><ul>' + G.hebdo.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' +
         '<div class="carte"><h3>Chaque mois</h3><p>' + esc(G.mensuel) + '</p></div>' +
       '</div>' +
-      '<h2>Invocations</h2><div class="invoc"><div class="taux carte">' + G.invocations.map(function(r){ return '<div style="--k:' + r[2] + '"><b>' + r[1] + '</b><span>' + r[0] + '</span></div>'; }).join('') + '</div>' +
-        '<div class="bases deux">' + G.banniere.map(function(b){ return '<div class="base carte"><b>' + esc(b[0]) + '</b><p>' + esc(b[1]) + '</p></div>'; }).join('') + '</div></div>' +
+      (G.evenements ? '<h2 id="evenements">Événements de la semaine <span class="neuf">Nouveau</span></h2><p class="intro">' + G.evenements.regle + '</p><div class="evts">' + G.evenements.liste.map(function(x){ return '<div class="evt carte"><b>' + esc(x[0]) + '</b><p><span>Missions</span>' + esc(x[1]) + '</p><p><span>Gains</span>' + esc(x[2]) + '</p><p class="evt-c"><span>Coffre final</span>' + esc(x[3]) + '</p></div>'; }).join('') + '</div>' +
+        '<p class="astuce">' + svg('etoile') + '<span>' + esc(G.evenements.note) + '</span></p>' : '') +
+      (G.classements ? '<h2>Classements</h2><div class="bases deux">' + G.classements.map(function(c){ return '<div class="base carte"><b>' + esc(c[0]) + '</b><p>' + c[1] + '</p></div>'; }).join('') + '</div>' : '') +
+      '<h2 id="invocations">Invocations</h2><div class="invoc"><div class="taux carte">' + G.invocations.map(function(r){ return '<div style="--k:' + r[2] + '"><b>' + r[1] + '</b><span>' + r[0] + '</span></div>'; }).join('') + '</div>' +
+        '<div class="bases deux">' + G.banniere.map(function(b){ return '<div class="base carte"><b>' + esc(b[0]) + '</b><p>' + b[1] + '</p></div>'; }).join('') + '</div></div>' +
       '<p class="astuce">' + svg('etoile') + '<span>' + esc(G.astuceInvoc) + '</span></p>';
     $('#v-debuter').innerHTML = h;
   }
@@ -411,6 +415,11 @@
       '<div class="mode carte arc"><p><b>Arc-en-ciel 14, 15 et 16</b> — ' + dh.arc + '</p><p>' + dh.butin + '</p>' +
       '<div class="chances">' + dh.chances.map(function(c){ return '<div><span><b>' + esc(c[0]) + '</b><small>' + esc(c[1]) + '</small></span><span class="jauge7"><i style="width:' + c[2] + '%"></i></span><b class="pc7">' + c[2] + ' %</b></div>'; }).join('') + '</div>' +
       '<p class="f-niv">Chance d\'obtenir une ★7, pour chaque rune gagnée.</p></div>';
+    var an = G.antiques;
+    if(an) h += '<h2 id="antiques">Donjons antiques <span class="neuf">Nouveau</span></h2><p class="intro">' + esc(an.acces) + '</p>' +
+      '<div class="tours">' + an.donjons.map(function(d){ return '<div class="tour carte" style="--u:' + J.elements[d[1]].coul + '"><b>' + esc(d[0]) + '</b>' + pEl(d[1]) + '<small>Runes antiques : ' + esc(d[2]) + '</small></div>'; }).join('') + '</div>' +
+      '<div class="mode carte antique"><p>' + an.regle + ' ' + an.deblocage + '</p><p>' + an.niveau + '</p><p><b>Butin</b> — ' + an.butin + '</p>' +
+      '<button type="button" class="lien" data-aller="runes" data-ancre="sets-antiques">Voir les sets antiques →</button></div>';
     $('#v-modes').innerHTML = h;
   }
 
@@ -423,6 +432,9 @@
       '<div class="etapes">' + ev.etapes.map(function(x){ return '<div class="base carte"><span class="base-n">' + x[0] + '</span><b>' + esc(x[1]) + '</b><p>' + x[2] + '</p></div>'; }).join('') + '</div>' +
       '<p class="astuce">' + svg('etoile') + '<span>' + ev.exemple + '</span></p>' +
       '<div class="mode carte" style="margin-top:10px"><p><b>Doublons</b> — ' + ev.doublons + '</p></div>';
+    var tr = G.transcendance;
+    if(tr) h += '<h2>Transcendance <span class="neuf">Nouveau</span></h2><p class="intro">' + tr.regle + '</p><div class="bases trois">' + tr.niveaux.map(function(n){ return '<div class="base carte"><b>' + esc(n[0]) + '</b><p>' + esc(n[1]) + '</p></div>'; }).join('') + '</div>' +
+      '<p class="cpt-note">' + esc(tr.note) + '</p>' + (G.boiteUR ? '<div class="mode carte" style="margin-top:10px"><p>' + G.boiteUR + '</p></div>' : '');
     h += '<h2>Esprits gardiens <small>' + esc(e.acces) + '</small></h2><p class="intro">' + e.regle + '</p>' +
       '<div class="esprits">' + e.liste.map(function(x){
         return '<div class="esp carte" style="--k:' + x[2] + '"><div class="esp-t"><i aria-hidden="true"></i><span><b>' + esc(x[0]) + '</b><small>' + esc(x[1]) + '</small></span></div>' +
@@ -442,7 +454,7 @@
   function rendreNouveau(){
     var n = G.nouveau, el = $('#nouveau'); if(!n || !el) return;
     el.innerHTML = '<span class="nv-t"><b>Nouveau</b> · mise à jour « ' + esc(n.nom) + ' »</span>' +
-      n.points.map(function(p){ return '<button type="button" data-aller="' + p[0] + '" title="' + esc(p[2]) + '">' + esc(p[1]) + '</button>'; }).join('');
+      n.points.map(function(p){ return '<button type="button" data-aller="' + p[0] + '"' + (p[3] ? ' data-ancre="' + p[3] + '"' : '') + ' title="' + esc(p[2]) + '">' + esc(p[1]) + '</button>'; }).join('');
     el.hidden = false;
   }
 
@@ -489,6 +501,7 @@
     if((b = e.target.closest('[data-tcl]'))){ tCl = b.dataset.tcl; return rendreTier(); }
     if((b = e.target.closest('[data-rcl]'))){ rCl = b.dataset.rcl; return rendreRunes(); }
     if((b = e.target.closest('[data-flien]'))){ fLien = b.dataset.flien; return rendreEsprits(); }
+    if((b = e.target.closest('[data-aller][data-ancre]'))){ var va = b.dataset.aller === 'progres' ? 'esprits' : b.dataset.aller; if(!fond.hidden) fermer(); montrer(va, true); var an2 = document.getElementById(b.dataset.ancre); if(an2) setTimeout(function(){ an2.scrollIntoView({behavior: 'smooth', block: 'start'}); }, 30); return; }
     if((b = e.target.closest('[data-aller]'))){ var v = b.dataset.aller; if(v === 'progres') v = 'esprits'; if(v === 'modes' && /Arc/.test(b.textContent)){ montrer('modes', true); var a7 = $('#arc'); if(a7) a7.scrollIntoView({behavior: 'smooth', block: 'start'}); return; } if(v === 'runes'){ montrer('runes', true); var o = $('#v-runes h2 .neuf'); if(o) o.closest('h2').scrollIntoView({behavior: 'smooth', block: 'start'}); return; } montrer(v, true); return haut(); }
     if((b = e.target.closest('[data-cat]'))){ catEq = +b.dataset.cat; return rendreEquipes(); }
     if((b = e.target.closest('#v-equipes [data-charger]'))) return charger(b.dataset.charger);

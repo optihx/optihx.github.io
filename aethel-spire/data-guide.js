@@ -3,7 +3,7 @@
    Builds de runes, équipes conseillées, valeurs des runes, astuces, codes.
    ========================================================== */
 window.GUIDE = {
-  maj: "9 octobre 2026 (mise à jour « Ascension »)",
+  maj: "9 octobre 2026 (mise à jour « Transcendance »)",
 
   /* 1. Les bases */
   bases: [
@@ -94,17 +94,14 @@ window.GUIDE = {
 
   /* 5. Valeurs des runes */
   etoiles: ["★7", "★6", "★5", "★4", "★3", "★2"],
-  categories: [["Normale", "★2", "#e6e8ef"], ["Basique", "★3", "#5fd38d"], ["Rare", "★4", "#a77bff"], ["Légendaire", "★5", "#f2a33d"], ["Légendaire ★6", "★6", "#ff6b8b"], ["Arc-en-ciel", "★7", "#5ae0ff"]],
+  categories: [["Normale", "★2", "#e6e8ef"], ["Basique", "★3", "#5fd38d"], ["Rare", "★4", "#a77bff"], ["Légendaire", "★5", "#f2a33d"], ["Légendaire ★6", "★6", "#ff6b8b"], ["Arc-en-ciel", "★7", "#5ae0ff"], ["Antique", "★7", "#b3261e"]],
   principale: [
     ["PV", 2815, 2448, 1860, 1544, 1228, 930], ["ATQ", 184, 160, 135, 112, 89, 68], ["DÉF", 184, 160, 135, 112, 89, 68],
     ["PV %", "72 %", "63 %", "51 %", "42 %", "34 %", "26 %"], ["ATQ %", "72 %", "63 %", "51 %", "42 %", "34 %", "26 %"], ["DÉF %", "72 %", "63 %", "51 %", "42 %", "34 %", "26 %"],
     ["VIT", 48, 42, 39, 32, 26, 20], ["Taux Crit %", "67 %", "58 %", "47 %", "39 %", "31 %", "24 %"], ["Dég. Crit %", "92 %", "80 %", "65 %", "54 %", "43 %", "33 %"],
     ["RÉS %", "74 %", "64 %", "51 %", "42 %", "34 %", "26 %"], ["PRÉ %", "74 %", "64 %", "51 %", "42 %", "34 %", "26 %"]
   ],
-  emplacements: [
-    [1, ["ATQ"]], [2, ["ATQ", "ATQ %", "DÉF", "DÉF %", "PV", "PV %", "VIT"]], [3, ["DÉF"]],
-    [4, ["ATQ %", "DÉF %", "PV %", "Taux Crit %", "Dég. Crit %"]], [5, ["PV"]], [6, ["ATQ %", "DÉF %", "PV %", "RÉS %", "PRÉ %"]]
-  ],
+  emplacements: [[1, ["ATQ"]], [2, ["ATQ %", "DÉF %", "PV %", "VIT"]], [3, ["DÉF"]], [4, ["ATQ %", "DÉF %", "PV %", "Taux Crit %", "Dég. Crit %"]], [5, ["PV"]], [6, ["ATQ %", "DÉF %", "PV %", "RÉS %", "PRÉ %"]]],
   sousStats: [
     ["PV", 503, 375, 300, 249, 198, 150], ["PV %", "11 %", "8 %", "6 %", "5 %", "4 %", "3 %"], ["ATQ", 27, 20, 16, 13, 11, 8], ["ATQ %", "11 %", "8 %", "6 %", "5 %", "4 %", "3 %"],
     ["DÉF", 27, 20, 16, 13, 11, 8], ["DÉF %", "11 %", "8 %", "6 %", "5 %", "4 %", "3 %"], ["VIT", 8, 6, 5, 4, 3, 2], ["Taux Crit %", "8 %", "6 %", "5 %", "4 %", "3 %", "2 %"],
@@ -122,7 +119,9 @@ window.GUIDE = {
     "Un malus a entre <b>15 % et 85 %</b> de chances de passer, quelle que soit la RÉS de la cible.",
     "Atelier 💠 : chaque sous-stat peut en plus être renforcée <b>5 fois</b> (+14 % à +30 % d'un jet à chaque fois), soit jusqu'à +1,5 jet de plus.",
     "<b>Runes ★6</b> : chaque jet de sous-stat vaut au minimum le meilleur jet d'une ★5 (VIT : 5 ou 6 ; PV % : 6 à 8), aussi à +3, +6, +9, +12 et à l'Atelier. Les ★6 déjà possédées ont été relevées.",
-    "<b>Runes Arc-en-ciel ★7</b> : stat principale d'une ★6 <b>+15 %</b>. Un jet de sous-stat vaut au minimum le meilleur jet d'une ★5 et peut monter <b>un tiers au-dessus</b> du maximum d'une ★6 (VIT : 5 à 8 ; PV % : 6 à 11). Elles ne tombent qu'aux étages Arc-en-ciel."
+    "<b>Runes Arc-en-ciel ★7</b> : stat principale d'une ★6 <b>+15 %</b>. Un jet de sous-stat vaut au minimum le meilleur jet d'une ★5 et peut monter <b>un tiers au-dessus</b> du maximum d'une ★6 (VIT : 5 à 8 ; PV % : 6 à 11). Elles ne tombent qu'aux étages Arc-en-ciel.",
+    "<b>Emplacements 2, 4 et 6</b> : plus jamais de stat fixe (PV, ATQ, DÉF sans %). La VIT reste possible, seulement en 2. Les anciennes runes fixes ont été converties en %.",
+    "<b>Runes antiques</b> (rouge foncé) : mêmes valeurs qu'une Arc-en-ciel ★7, avec des sets qui réunissent deux sets classiques."
   ],
 
   /* Où farmer chaque set (donjon → sets) */
@@ -157,10 +156,10 @@ window.GUIDE = {
     ["UR", "1 %", "#ff4d7a"], ["SSR", "3 %", "#ffd34a"], ["SR", "96 %", "#b88cff"]
   ],
   banniere: [
-    ["Vedette", "Taux doublés pour le héros en vedette."],
-    ["Univers", "Uniquement les héros de cet univers."],
+    ["Vedette", "Taux doublés pour le héros en vedette. Change <b>chaque jour</b> à minuit."],
+    ["Univers", "Uniquement les héros de cet univers. Change <b>tous les 2 jours</b> à minuit."],
     ["Pity", "Un SSR est garanti au 100ᵉ tirage sans SSR ni UR."],
-    ["Rotation", "Les bannières changent chaque lundi."]
+    ["Compte à rebours", "Chaque bannière affiche le sien. Missions hebdo, Labyrinthe et événements restent à la semaine."]
   ],
   astuceInvoc: "Garde tes tickets pour la bannière Vedette quand elle met en avant un héros qu'il te manque.",
 
@@ -178,17 +177,17 @@ window.GUIDE = {
 
   /* ===== Mise à jour « Ascension » ===== */
   nouveau: {
-    nom: "Ascension",
+    nom: "Transcendance",
     points: [
-      ["modes", "Mode Difficile", "Les 12 chapitres de l'Histoire, en bien plus dur."],
-      ["modes", "Tours d'univers", "4 tours de 40 étages, une par univers."],
-      ["progres", "Esprits gardiens", "Un compagnon qui renforce toute l'équipe."],
-      ["progres", "Liens de héros", "20 liens : bonus permanents si tu as tous les héros."],
-      ["esprits", "Éveil forcé · niveau 60", "Deux exemplaires au rang max : le héros monte jusqu'au niveau 60."],
-      ["modes", "Étages Arc-en-ciel", "Donjons 14 à 16 et runes ★7."],
-      ["runes", "Outils de runes", "Vente auto, verrou, build sur mesure, ★6 à part."]
+      ["modes", "Donjons antiques", "3 donjons niveau 80 et leurs runes antiques.", "antiques"],
+      ["runes", "Runes antiques", "Des sets qui réunissent deux sets classiques.", "sets-antiques"],
+      ["esprits", "Transcendance", "Les doublons après l'Éveil forcé : jusqu'à +20 % de stats."],
+      ["debuter", "Événements", "Un événement par semaine : 5 missions et un coffre.", "evenements"],
+      ["debuter", "Bannières", "Vedette chaque jour, Univers tous les 2 jours.", "invocations"],
+      ["valeurs", "Runes 2 / 4 / 6", "Plus de stat fixe sur les emplacements 2, 4 et 6."]
     ]
   },
+
 
   difficile: {
     acces: "Bouton « Mode Difficile » en haut de la liste des chapitres, ou Menu → Difficile.",
@@ -215,6 +214,41 @@ window.GUIDE = {
     note: "Récompenses de 1ʳᵉ victoire : cristaux, mana, Poussière d'esprit, et des fragments d'un héros <b>de cet univers</b>.",
     niveau: [["Étage 20", "Milieu de partie"], ["Étage 30", "Avec de bonnes runes"], ["Étage 40", "Fin de partie"]]
   },
+
+  transcendance: {
+    regle: "Une fois un héros en <b>Éveil forcé</b>, ses nouveaux doublons ne vont plus au Rangement : chacun donne <b>+1 niveau de Transcendance</b>.",
+    niveaux: [["Par niveau", "+2 % de PV, d'ATQ et de DÉF"], ["Maximum", "Niveau 10 : +20 %"], ["Au-delà", "Éclats d'invocation : 5 (SR), 25 (SSR), 100 (UR)"]],
+    note: "Le niveau s'affiche sur la fiche du héros (bouton « Éveil forcé ✓ » → « Transcendance »). Les doublons déjà stockés ont été convertis."
+  },
+  boiteUR: "<b>Boîte UR au choix</b> (dans le Sac) : choisis n'importe quel UR, donné directement Arc-en-ciel 5★. Si tu l'as déjà sans être au rang max, c'est ton exemplaire qui monte (il garde son niveau et ses runes).",
+
+  antiques: {
+    acces: "Menu → Antiques, ou depuis l'écran des donjons de runes.",
+    deblocage: "Débloqués en terminant l'étage <b>Arc-en-ciel 3</b> d'un donjon de runes.",
+    regle: "3 donjons de <b>10 étages</b>. 5 ennemis par étage, dont 2 boss, tous <b>niveau 80</b>.",
+    niveau: "Pour une équipe d'<b>UR en Éveil forcé (niveau 60)</b> avec des runes ★6 et ★7 et tous les bonus (guilde, esprits, liens, Transcendance). Les derniers étages demandent déjà des runes antiques.",
+    butin: "1 rune antique par victoire, et une 2e de plus en plus souvent à partir de l'étage 6 (30 % à l'étage 6, garantie à l'étage 10). Farm ×30 sur les étages terminés.",
+    donjons: [["Forge Antique", "fire", "attaque"], ["Crypte Antique", "dark", "vitesse"], ["Bastion Antique", "light", "survie et contrôle"]]
+  },
+  setsAntiques: [
+    ["Forge Antique", [["Fatal antique", 4, "ATQ +35 % et Taux Crit +12 %"], ["Rage antique", 4, "Dég. Crit +40 % et Taux Crit +12 %"], ["Carnage", 6, "ATQ +35 % et Dég. Crit +40 %"]]],
+    ["Crypte Antique", [["Rapidité antique", 4, "VIT +25 % et PRÉ +20"], ["Violent antique", 4, "22 % de chances de rejouer et immunité au 1er tour"], ["Tempête", 6, "VIT +25 % et 22 % de chances de rejouer"]]],
+    ["Bastion Antique", [["Vampire antique", 4, "Vol de vie 35 % et PV +15 %"], ["Désespoir antique", 4, "25 % de chances d'étourdir et DÉF +15 %"], ["Fléau", 6, "Vol de vie 35 % et 25 % de chances d'étourdir"]]]
+  ],
+
+  evenements: {
+    regle: "Menu → Événements. Un événement <b>par semaine</b>, du lundi au dimanche ; chacun revient 2 semaines plus tard. 5 missions et un coffre final.",
+    liste: [
+      ["Festival des runes", "Donjons, runes, Flèche et Tours", "Gemmes d'enchantement, coffres de runes", "3 runes légendaires"],
+      ["Appel des héros", "Invocations, Histoire, arène", "Tickets, fragments SSR, parchemins", "15 fragments UR et 10 tickets"],
+      ["Semaine des esprits", "Histoire Difficile, boss de guilde, Labyrinthe", "Poussière d'esprit, points de guilde", "600 Poussière, 300 points de guilde"]
+    ],
+    note: "La progression et les récompenses non réclamées sont perdues le lundi : pense à réclamer avant !"
+  },
+  classements: [
+    ["Puissance du compte", "Celle de <b>tous</b> tes héros (le meilleur exemplaire de chaque personnage, rangés compris), plus seulement l'équipe. Le classement « Puissance » l'utilise."],
+    ["Classement des guildes", "Nouvel onglet « Guildes » : puissance de guilde = somme de la puissance de tous ses membres."]
+  ],
 
   donjonsHaut: {
     legende: "Les étages <b>Légende 1, 2 et 3</b> sont nettement plus forts, avec une montée régulière. Légende 3 demande des <b>UR au rang maximum avec des runes ★6</b>.",
@@ -276,8 +310,10 @@ window.GUIDE = {
   },
 
   outilsRunes: [
-    ["Vente automatique", "Au lancement d'un farm : « Automatique » ou « Je choisis moi-même », et le bouton <b>Règles</b> (catégories à vendre, emplacements 2 / 4 / 6 à stat fixe — jamais une ★6 —, sets à toujours garder). Aussi dans l'inventaire : bouton « Vente auto ». Une rune équipée n'est jamais vendue."],
+    ["Vente automatique", "Au lancement d'un farm : « Automatique » ou « Je choisis moi-même », et le bouton <b>Règles</b> (catégories à vendre, sets à toujours garder). Aussi dans l'inventaire : bouton « Vente auto ». Une rune équipée n'est jamais vendue."],
     ["Légendaires ★6 à part", "Étiquette rose « Légendaire ★6 », séparée des ★5 dans les filtres, le choix de rune, la vente rapide et les règles. Le tri « Rareté » met les ★6 en premier."],
+    ["Déplacer les runes", "Fiche du héros, onglet Runes : « Déplacer les runes » vers un autre héros. S'il en portait déjà, les deux builds sont <b>échangés</b>. Impossible si l'un des deux a ses runes verrouillées."],
+    ["Améliorer tout", "Fiche du héros ou inventaire : « Améliorer tout » monte les runes au palier choisi (+3 à +15), avec le coût total affiché. S'il manque du mana, les meilleures runes passent en premier."],
     ["Verrou de runes", "Fiche du héros, onglet Runes : « Verrouiller ses runes ». Plus personne ne peut retirer, remplacer ou lui prendre une rune. Tu peux toujours les regarder et les améliorer."],
     ["Build sur mesure", "Fiche du héros, onglet Runes : indique des minimums de stats et les sets voulus, puis « Chercher ». Jusqu'à 5 builds trouvés dans ton inventaire, avec un bouton « Équiper ». Option pour utiliser aussi les runes des autres héros (jamais celles d'un héros verrouillé)."]
   ]

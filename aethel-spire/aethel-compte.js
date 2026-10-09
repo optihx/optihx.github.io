@@ -17,7 +17,14 @@
     fight: {n: 2, al: 'atk'}, determination: {n: 2, al: 'def'}, enhance: {n: 2, al: 'hp'},
     accuracy: {n: 2, st: {acc: 10}}, tolerance: {n: 2, st: {res: 10}}
   };
+  /* sets antiques (donjons antiques) : 4 ou 6 pièces */
+  [['a_fatal', 'Fatal antique', 4, {atkP: 35, cr: 12}], ['a_rage', 'Rage antique', 4, {cd: 40, cr: 12}], ['a_carnage', 'Carnage', 6, {atkP: 35, cd: 40}],
+   ['a_swift', 'Rapidité antique', 4, {spdP: 25, acc: 20}], ['a_violent', 'Violent antique', 4, null, 'violent'], ['a_tempest', 'Tempête', 6, {spdP: 25}, 'violent'],
+   ['a_vampire', 'Vampire antique', 4, {hpP: 15}, 'vampire'], ['a_despair', 'Désespoir antique', 4, {defP: 15}, 'despair'], ['a_scourge', 'Fléau', 6, null, 'vampire']
+  ].forEach(function(x){ SETS[x[0]] = {n: x[2], st: x[3] || undefined, pr: x[4]}; });
   var SINFO = {}; J.sets.forEach(function(s){ SINFO[s.id] = s; });
+  ['a_fatal:Fatal antique', 'a_rage:Rage antique', 'a_carnage:Carnage', 'a_swift:Rapidité antique', 'a_violent:Violent antique', 'a_tempest:Tempête', 'a_vampire:Vampire antique', 'a_despair:Désespoir antique', 'a_scourge:Fléau']
+    .forEach(function(x){ var k = x.split(':'); SINFO[k[0]] = {id: k[0], nom: k[1], e: '◆', c: '#b3261e'}; });
   var LAB = {hp: 'PV', atk: 'ATQ', def: 'DÉF', spd: 'VIT', hpP: 'PV %', atkP: 'ATQ %', defP: 'DÉF %', cr: 'Taux Crit', cd: 'Dég. Crit', res: 'RÉS', acc: 'PRÉ'};
   var PCTS = {hpP: 1, atkP: 1, defP: 1, cr: 1, cd: 1, res: 1, acc: 1};
   function vtxt(stat, v){ return '+' + v + (PCTS[stat] ? ' %' : ''); }
