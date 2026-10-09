@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Aethel Spire — opti'H ✗</title>
-<meta name="description" content="Le guide d'Aethel Spire, mon jeu : tier list des héros, meilleures équipes, runes par classe et donjons.">
+<meta name="description" content="Le guide d'Aethel Spire, mon jeu : les 60 héros, un créateur d'équipe, les équipes conseillées, les runes et les codes.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="opti'H ✗">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:title" content="Aethel Spire — le guide du jeu">
-<meta property="og:description" content="Tier list des héros, meilleures équipes, runes par classe et donjons.">
-<meta property="og:url" content="https://optihx.netlify.app/aethel-spire/">
-<meta property="og:image" content="https://optihx.netlify.app/assets/partage/aethel.jpg">
+<meta property="og:description" content="Les 60 héros, un créateur d'équipe, les équipes conseillées, les runes et les codes.">
+<meta property="og:url" content="https://optihx.github.io/aethel-spire/">
+<meta property="og:image" content="https://optihx.github.io/assets/partage/aethel.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -39,16 +39,15 @@
   <div class="entete-txt">
     <p class="sur">Le guide du jeu</p>
     <h1>Aethel <span>Spire</span></h1>
-    <p class="chapeau">Crée tes équipes, découvre les 40 héros, la tier list et les meilleures runes : tout pour gravir la tour.</p>
+    <p class="chapeau">Crée tes équipes, découvre les 60 héros, les meilleures équipes et les bonnes runes : tout pour gravir la tour.</p>
     <div class="beta">
       <a class="b-jouer" href="https://aethel-spire.onrender.com" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg>Tester le jeu (bêta)</a>
       <p><b>Le jeu est en bêta : il n'est pas fini.</b> Des mises à jour et des améliorations arriveront petit à petit.</p>
     </div>
     <details class="sim">
-      <summary><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>D'où viennent les chiffres ?</summary>
-      <p>De <b>simulations automatiques</b> : héros niveau 40, IA en mode AUTO.
-      Runes « best » = ★6 légendaires +15 avec les stats adaptées à la classe et les sets conseillés ; « basic » = ★5 rares +9.
-      Un joueur qui contrôle ses compétences fera mieux que l'IA.</p>
+      <summary><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>D'où viennent les infos ?</summary>
+      <p>Du <b>guide du joueur</b> du jeu. Les stats des héros sont au <b>niveau 40, sans runes</b>.
+      Les équipes conseillées ont été vérifiées par des simulations ; un joueur qui contrôle ses compétences fera encore mieux.</p>
     </details>
   </div>
 </section>
@@ -56,21 +55,19 @@
 <nav class="as-tabs" role="tablist" aria-label="Sections du guide">
   <button type="button" role="tab" data-v="equipe" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18l2-9 5 4 5-4 2 9z"/><path d="M5 21h14"/></svg>Mon équipe</button>
   <button type="button" role="tab" data-v="heros" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Héros</button>
-  <button type="button" role="tab" data-v="tier" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12l-1 6a5 5 0 0 1-10 0zM9 20h6M12 15v5M6 6H3a3 3 0 0 0 3 4M18 6h3a3 3 0 0 1-3 4"/></svg>Tier list</button>
-  <button type="button" role="tab" data-v="equipes" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="9" r="2.5"/><path d="M3 19a6 6 0 0 1 12 0M15 19a4.5 4.5 0 0 1 6.5-4"/></svg>Top équipes</button>
+  <button type="button" role="tab" data-v="equipes" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="9" r="2.5"/><path d="M3 19a6 6 0 0 1 12 0M15 19a4.5 4.5 0 0 1 6.5-4"/></svg>Équipes</button>
   <button type="button" role="tab" data-v="runes" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 8v8M9 10l3-2 3 2"/></svg>Runes</button>
-  <button type="button" role="tab" data-v="classes" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/></svg>Classes</button>
-  <button type="button" role="tab" data-v="donjons" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4v-4h4v-4h4V8h4"/></svg>Donjons</button>
+  <button type="button" role="tab" data-v="valeurs" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Valeurs des runes</button>
+  <button type="button" role="tab" data-v="debuter" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M9 8h6"/></svg>Débuter</button>
   <button type="button" role="tab" data-v="codes" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18M12 8c-2-4-6-4-6-1.5S10 8 12 8zm0 0c2-4 6-4 6-1.5S14 8 12 8z"/></svg>Codes</button>
 </nav>
 
 <section class="vue" id="v-equipe" role="tabpanel"></section>
 <section class="vue" id="v-heros" role="tabpanel" hidden></section>
-<section class="vue" id="v-tier" role="tabpanel" hidden></section>
 <section class="vue" id="v-equipes" role="tabpanel" hidden></section>
 <section class="vue" id="v-runes" role="tabpanel" hidden></section>
-<section class="vue" id="v-classes" role="tabpanel" hidden></section>
-<section class="vue" id="v-donjons" role="tabpanel" hidden></section>
+<section class="vue" id="v-valeurs" role="tabpanel" hidden></section>
+<section class="vue" id="v-debuter" role="tabpanel" hidden></section>
 <section class="vue" id="v-codes" role="tabpanel" hidden></section>
 
 <p class="maj" id="maj"></p>
@@ -93,7 +90,7 @@
 <script src="../assets/js/jeux.js"></script>
 <script src="../assets/js/carte.js"></script>
 <script src="data-jeu.js"></script>
-<script src="data-aethel.js"></script>
+<script src="data-guide.js"></script>
 <script src="aethel.js"></script>
 <script src="../assets/js/app.js"></script>
 </body>
