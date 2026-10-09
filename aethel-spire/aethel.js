@@ -29,6 +29,7 @@
   function $(s, r){ return (r || document).querySelector(s); }
   var COURT = {jinwoo: 'Jinwoo', law: 'Law', zoro: 'Zoro', ace: 'Ace', khun: 'Khun', thomas: 'Thomas', hancock: 'Hancock', yoo: 'Yoo Jinho', luffy: 'Luffy',
     mihawk: 'Mihawk', marco: 'Marco', evankhell: 'Evankhell', yuhansung: 'Yu Han Sung', limtaegyu: 'Lim Tae-Gyu', chopper: 'Chopper'};
+  var POS = {laure: '100% 50%', esil: '76% 0%', mihawk: '42% 20%', sachi: '30% 0%', marco: '35% 0%', quant: '35% 0%'};
   function court(h){ return COURT[h.id] || h.nom.split(' ')[0]; }
   function pCl(k){ var c = CL[k]; return '<span class="cl" style="--c:' + c.coul + '">' + svg(c.ico) + esc(c.nom) + '</span>'; }
   function pRa(ra){ return ra ? '<span class="ra" style="--r:var(--' + ra + ')">' + ra + '</span>' : ''; }
@@ -86,7 +87,7 @@
   }
   function carteHeros(h, attr){
     var e = J.elements[h.el] || {coul: '#5ec8ff'};
-    return '<button type="button" class="hcard" ' + attr + ' style="--e:' + e.coul + ';--r:var(--' + h.ra + ')"><span class="hc-art"><img src="img/heros/corps/' + h.id + '.webp" alt="" loading="lazy"></span>' +
+    return '<button type="button" class="hcard" ' + attr + ' style="--e:' + e.coul + ';--r:var(--' + h.ra + ')"><span class="hc-art"><img src="img/heros/corps/' + h.id + '.webp" alt="" loading="lazy"' + (POS[h.id] ? ' style="object-position:' + POS[h.id] + '"' : '') + '></span>' +
       '<span class="hc-ra">' + h.ra + '</span>' + (h.lead ? '<span class="hc-lead" title="A un talent de chef">★</span>' : '') +
       '<span class="hc-nom">' + esc(court(h)) + '</span><span class="hc-cl" style="--c:' + CL[h.cl].coul + '">' + svg(CL[h.cl].ico) + esc(CL[h.cl].nom) + '</span></button>';
   }
