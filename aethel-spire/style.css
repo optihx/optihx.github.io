@@ -598,3 +598,18 @@ code{font-family:"Martian Mono",ui-monospace,monospace;font-size:.84em;padding:1
 .evt-c{padding:8px 10px;border-radius:10px;background:rgba(242,200,107,.08);color:#f3dfae!important}
 #antiques,#sets-antiques,#evenements,#invocations{scroll-margin-top:130px}
 @media (max-width:720px){ .evts{grid-template-columns:minmax(0,1fr)} }
+.f-talent{padding:10px 12px;border-radius:12px;border:1px solid rgba(242,200,107,.35);background:rgba(242,200,107,.07)}
+.f-talent b{color:var(--or);font-size:15px}
+.f-talent p{margin:3px 0 0!important;font-size:14px!important}
+.f-combat{font-size:14px!important}
+.talents-i{margin:-4px 0 14px}
+.a-tal{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+.a-tal li{display:grid;gap:1px;padding:7px 10px;border-radius:10px;background:rgba(242,200,107,.06);font-size:12.5px}
+.a-tal b{font-size:13px;color:var(--or)}
+.a-tal span{color:#c9d5f2}
+.affixes{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:10px}
+.afx{display:grid;gap:3px;padding:10px 12px;border-top:3px solid #ff8a9d}
+.afx b{font-family:var(--titre);font-size:15px}
+.afx span{color:#c9d5f2;font-size:13px}
+#affixes,#talents-info{scroll-margin-top:130px}
+@media (max-width:980px){ .affixes{grid-template-columns:repeat(2,minmax(0,1fr))} }

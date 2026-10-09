@@ -8,7 +8,7 @@
    page à garder hors ligne, change le numéro de VERSION ci-dessous
    (ex. "optih-v1" → "optih-v2").
    ========================================================== */
-var VERSION = "optih-v32";
+var VERSION = "optih-v33";
 var COEUR = [
   "./", "index.html", "offline.html", "manifest.webmanifest",
   "assets/fonts/fonts.css", "assets/css/base.css", "assets/css/app.css",

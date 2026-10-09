@@ -123,6 +123,8 @@
       '<dl class="f-st"><div><dt>PV</dt><dd>' + nb(h.st.pv) + '</dd></div><div><dt>ATQ</dt><dd>' + nb(h.st.atq) + '</dd></div><div><dt>DÉF</dt><dd>' + nb(h.st.def) + '</dd></div><div><dt>VIT</dt><dd>' + h.st.vit + '</dd></div></dl><p class="f-niv">Niveau 40, sans runes (jusqu\'au niveau 60 avec l\'Éveil forcé).</p>' +
       '<button type="button" class="b-ajout" data-ajout="' + id + '">+ Ajouter à mon équipe</button></div></div>' +
       '<h4>Talent de chef</h4><p class="' + (h.lead ? 'f-lead' : 'f-sans') + '">' + (h.lead ? '<b>' + esc(h.lead.txt) + '</b>' : 'Pas de talent de chef : ne le mets pas en 1ʳᵉ place.') + '</p>' +
+      (G.talents && G.talents[id] ? '<h4>Talent unique</h4><div class="f-talent"><b>' + esc(G.talents[id][0]) + '</b><p>' + esc(G.talents[id][1]) + '</p></div>' +
+        '<h4>En combat</h4><p class="f-combat">' + esc(G.talents[id][2]) + '</p>' : '') +
       '<h4>Élément</h4><p class="f-elem">Fort contre : ' + (el.bat ? pEl(el.bat) : '—') + ' <span class="f-ou">·</span> Faible contre : ' + (faibleContre(h.el).map(pEl).join('') || '—') + '</p>' +
       '<h4>Runes conseillées</h4><div class="f-runes"><p><b>' + esc(b.best) + '</b> <span class="f-ou">ou</span> ' + esc(b.alt[0]) + '</p>' +
         '<p class="f-emp">Emp. 2 : <b>' + esc(b.e2[0]) + '</b> · Emp. 4 : <b>' + esc(b.e4[0]) + '</b> · Emp. 6 : <b>' + esc(b.e6[0]) + '</b></p>' +
@@ -152,6 +154,7 @@
   function rendreHeros(){
     var L = filtrer(hf);
     $('#v-heros').innerHTML = '<h2>Les héros <small>' + L.length + ' / ' + J.heros.length + '</small></h2>' +
+      (G.talentsInfo ? '<div class="mode carte talents-i" id="talents-info"><p><b>Talents uniques</b> <span class="neuf">Nouveau</span> — ' + esc(G.talentsInfo) + ' Touche un héros pour voir le sien.</p></div>' : '') +
       '<p class="intro">Touche un héros pour voir ses compétences, son talent de chef et ses runes. ★ = a un talent de chef.</p>' + barreFiltres(hf, 'hf') +
       (L.length ? '<div class="hgrille">' + L.map(function(h){ return carteHeros(h, 'data-h="' + h.id + '"'); }).join('') + '</div>' : '<p class="aucun">Aucun héros avec ces filtres.</p>');
   }
@@ -219,6 +222,7 @@
            : '<p class="a-warn">' + esc(court(chef)) + ' n\'a pas de talent de chef : l\'équipe ne reçoit aucun bonus.</p>');
       if(mc && mc.id !== t[0] && (!L || mc.sc > nL * L.p.reduce(function(a, p){ return a + p[1]; }, 0)))
         h += '<p class="a-conseil">Conseil : mets <b>' + esc(court(H[mc.id])) + '</b> en chef (' + esc(H[mc.id].lead.txt) + '). <button type="button" data-chef="' + mc.id + '">Le mettre chef</button></p>';
+      if(G.talents) h += '<h3>Talents de l\'équipe</h3><ul class="a-tal">' + t.map(function(c){ var x = G.talents[c]; return x ? '<li><b>' + esc(court(H[c])) + ' · ' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></li>' : ''; }).join('') + '</ul>';
       h += '<h3>Synergies</h3><ul class="a-syn">' + syn.map(function(s){ return '<li class="' + (s.ok ? 'ok' : '') + '"><b>' + s.nom + '</b><span>' + s.txt + ' → ' + s.bonus + '</span>' + (s.ok ? '<em>Active</em>' : '<small>Il manque ' + s.manque.join(', ') + '</small>') + '</li>'; }).join('') + '</ul>';
       var els = {}; t.forEach(function(id){ els[H[id].el] = 1; });
       var fort = Object.keys(els).map(function(e){ return J.elements[e].bat; }).filter(function(e, k, a){ return e && a.indexOf(e) === k; });
@@ -357,7 +361,7 @@
         cy.map(function(e, i){ return '<span class="cyc">' + pEl(e) + '</span><span class="fl" aria-hidden="true">→</span>' + (i === cy.length - 1 ? '<span class="cyc">' + pEl(cy[0]) + '</span>' : ''); }).join('') +
         '<span class="cyc-sep" aria-hidden="true"></span><span class="cyc">' + pEl('light') + '</span><span class="fl" aria-hidden="true">⇄</span><span class="cyc">' + pEl('dark') + '</span>' +
         '<p>La flèche veut dire « bat ». Lumière et Ténèbres se battent l\'un l\'autre.</p></div>' +
-      '<h2>Farmer</h2><div class="bases trois">' + G.farm.map(function(f){ return '<div class="base carte"><b>' + esc(f[0]) + '</b><p>' + f[1] + '</p></div>'; }).join('') + '</div>' +
+      '<h2>Farmer</h2><div class="bases deux">' + G.farm.map(function(f){ return '<div class="base carte"><b>' + esc(f[0]) + '</b><p>' + f[1] + '</p></div>'; }).join('') + '</div>' +
       '<div class="routine">' +
         '<div class="carte"><h3>Chaque jour</h3><ul>' + G.quotidien.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' +
         '<div class="carte"><h3>Chaque semaine</h3><ul>' + G.hebdo.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' +
@@ -415,6 +419,10 @@
       '<div class="mode carte arc"><p><b>Arc-en-ciel 14, 15 et 16</b> — ' + dh.arc + '</p><p>' + dh.butin + '</p>' +
       '<div class="chances">' + dh.chances.map(function(c){ return '<div><span><b>' + esc(c[0]) + '</b><small>' + esc(c[1]) + '</small></span><span class="jauge7"><i style="width:' + c[2] + '%"></i></span><b class="pc7">' + c[2] + ' %</b></div>'; }).join('') + '</div>' +
       '<p class="f-niv">Chance d\'obtenir une ★7, pour chaque rune gagnée.</p></div>';
+    var af = G.affixes;
+    if(af) h += '<h2 id="affixes">Affixes des boss <span class="neuf">Nouveau</span></h2><p class="intro">' + af.regle + '</p>' +
+      '<div class="affixes">' + af.liste.map(function(a){ return '<div class="afx carte"><b>' + esc(a[0]) + '</b><span>' + esc(a[1]) + '</span></div>'; }).join('') + '</div>' +
+      '<div class="mode carte"><p><b>Où ?</b> ' + esc(af.ou) + '</p><p>' + esc(af.conseil) + '</p><p><b>Équilibrage</b> — ' + esc(af.equilibrage) + '</p></div>';
     var an = G.antiques;
     if(an) h += '<h2 id="antiques">Donjons antiques <span class="neuf">Nouveau</span></h2><p class="intro">' + esc(an.acces) + '</p>' +
       '<div class="tours">' + an.donjons.map(function(d){ return '<div class="tour carte" style="--u:' + J.elements[d[1]].coul + '"><b>' + esc(d[0]) + '</b>' + pEl(d[1]) + '<small>Runes antiques : ' + esc(d[2]) + '</small></div>'; }).join('') + '</div>' +
@@ -439,8 +447,8 @@
       '<div class="esprits">' + e.liste.map(function(x){
         return '<div class="esp carte" style="--k:' + x[2] + '"><div class="esp-t"><i aria-hidden="true"></i><span><b>' + esc(x[0]) + '</b><small>' + esc(x[1]) + '</small></span></div>' +
           '<p class="esp-par">' + esc(x[3]) + '</p><ul><li><span>Niv. 5</span>' + esc(x[4]) + '</li><li><span>Niv. 10</span>' + esc(x[5]) + '</li></ul></div>'; }).join('') + '</div>' +
-      '<div class="bases deux"><div class="base carte"><b>Coût</b><p>' + e.cout + '</p></div><div class="base carte"><b>Poussière d\'esprit</b><p>' + esc(e.source) + '</p></div></div>' +
-      '<h2>Liens de héros <small>' + L.liste.length + ' liens</small></h2><p class="intro">' + L.regle + '</p>' +
+      '<div class="bases deux"><div class="base carte"><b>Coût</b><p>' + e.cout + '</p></div><div class="base carte"><b>Poussière d\'esprit</b><p>' + esc(e.source) + '</p></div></div>' + (e.conseil ? '<p class="astuce">' + svg('etoile') + '<span>' + e.conseil + '</span></p>' : '') +
+      '<h2>Liens de héros <small>' + L.liste.length + ' liens</small></h2><p class="intro">' + L.regle + (L.conseil ? ' ' + L.conseil : '') + '</p>' +
       '<div class="pilules" role="group" aria-label="Univers"><button type="button" data-flien="" aria-pressed="' + (fLien === '') + '">Tous</button>' +
         Object.keys(J.univers).map(function(k){ return '<button type="button" data-flien="' + k + '" aria-pressed="' + (fLien === k) + '">' + esc(J.univers[k].nom) + '</button>'; }).join('') + '</div>' +
       '<div class="liens">' + L.liste.filter(function(l){ return !fLien || H[l[1][0]].uni === fLien; }).map(function(l){
