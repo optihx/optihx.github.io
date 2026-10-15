@@ -28,7 +28,7 @@
   var LAB = {hp: 'PV', atk: 'ATQ', def: 'DÉF', spd: 'VIT', hpP: 'PV %', atkP: 'ATQ %', defP: 'DÉF %', cr: 'Taux Crit', cd: 'Dég. Crit', res: 'RÉS', acc: 'PRÉ'};
   var PCTS = {hpP: 1, atkP: 1, defP: 1, cr: 1, cd: 1, res: 1, acc: 1};
   function vtxt(stat, v){ return '+' + v + (PCTS[stat] ? ' %' : ''); }
-  var DPS = {dps_phys: 1, dps_mag: 1, dps_range: 1, assassin: 1};
+  var DPS = {dps: 1};
 
   /* ---------- état ---------- */
   var RESG = '', C = null, RB = {}, MOD = {}, PLAN = null, RES = null, ERR = '', CALC = false, palier = 'd9';
@@ -86,15 +86,13 @@
 
   /* note d'un héros selon sa classe (plus c'est haut, mieux c'est) */
   var PROC = {
-    violent: {dps: .15, x: .1}, vampire: {dps: .07, tank: .06, x: .03}, despair: {dps: .07, x: .05}, will: {healer: .06, x: .02},
+    violent: {dps: .15, support: .1, x: .1}, vampire: {dps: .07, tank: .06, x: .03}, despair: {dps: .07, support: .08, x: .05}, will: {healer: .06, support: .06, x: .02},
     nemesis: {tank: .05, x: .01}, revenge: {tank: .05, x: .02}, shield: {healer: .05, tank: .05, x: .02}
   };
   function note(cl, t, mode){
     var L = Math.log, ehp = t.hp * (1 + t.def / 800), crit = 1 + Math.min(t.cr, 100) / 100 * t.cd / 100, dmg = t.atk * crit, s = 0;
-    if(cl === 'dps_phys') s = L(dmg) + .45 * L(t.spd) + .25 * L(ehp);
-    else if(cl === 'dps_mag') s = L(t.atk) + .3 * L(crit) + .5 * L(t.spd) + .25 * L(30 + t.acc) + .25 * L(ehp);
-    else if(cl === 'dps_range') s = L(dmg * (1 + t.acc / 200)) + .5 * L(t.spd) + .25 * L(ehp);
-    else if(cl === 'assassin') s = L(dmg) + .9 * L(t.spd) + .2 * L(ehp);
+    if(cl === 'dps') s = L(dmg) + .5 * L(t.spd) + .25 * L(ehp);
+    else if(cl === 'support') s = 1 * L(t.spd) + .5 * L(30 + t.acc) + .4 * L(t.hp) + .3 * L(ehp) + .2 * L(40 + t.res);
     else if(cl === 'tank') s = L(ehp) + .5 * L(40 + Math.min(t.res, 83)) + .3 * L(t.spd) + .15 * L(t.atk + .4 * t.def);
     else s = .9 * L(t.spd) + .6 * L(t.hp) + .3 * L(t.atk) + .3 * L(ehp) + .2 * L(40 + t.res);
     if(mode === 'pvp') s += .35 * L(t.spd);
@@ -186,7 +184,7 @@
     C.heros.forEach(function(h){ if(h.rl && ids.indexOf(h.c) < 0) (h.r || []).forEach(function(id){ if(id) bloque[id] = 1; }); });
     return C.runes.filter(function(r){ return !bloque[r.id]; });
   }
-  var ORDRE = {dps_phys: 0, assassin: 0, dps_range: 1, dps_mag: 1, healer: 2, tank: 3};
+  var ORDRE = {dps: 0, support: 1, healer: 2, tank: 3};
   /* runes pour 4 héros : chaque rune ne va que sur un seul héros */
   function repartir(ids, mode){
     var Ms = ids.map(function(c){ return MOD[c]; }).filter(Boolean), pool = poolPour(ids), best = null;

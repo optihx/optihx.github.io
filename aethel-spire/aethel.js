@@ -8,8 +8,8 @@
   var SETS = {}; J.sets.forEach(function(s){ SETS[s.id] = s; });
   var ORDRE_CL = G.ordreClasses;
   var CL = {
-    tank: {coul: '#4aa3ff', ico: 'bouclier'}, healer: {coul: '#4fd18b', ico: 'soin'}, dps_phys: {coul: '#ff6a5f', ico: 'epee'},
-    dps_mag: {coul: '#a77bff', ico: 'orbe'}, dps_range: {coul: '#38c6e0', ico: 'arc'}, assassin: {coul: '#f2b33d', ico: 'dague'}
+    tank: {coul: '#4aa3ff', ico: 'bouclier'}, healer: {coul: '#4fd18b', ico: 'soin'}, dps: {coul: '#ff6a5f', ico: 'epee'},
+    support: {coul: '#c38bff', ico: 'orbe'}
   };
   ORDRE_CL.forEach(function(k){ CL[k].nom = G.nomsClasses[k]; });
 
@@ -51,13 +51,13 @@
   function synergies(ids){
     var cl = ids.map(function(id){ return H[id].cl; });
     var n = function(c){ return cl.filter(function(x){ return x === c; }).length; };
-    var dps = cl.filter(function(c){ return /^dps_|assassin/.test(c); }).length, nbCl = {}; cl.forEach(function(c){ nbCl[c] = 1; });
-    var div = Object.keys(nbCl).length;
+    var dps = n('dps');
     return [
-      {nom: 'Trinité', ok: !!(n('tank') && n('healer') && dps), txt: 'Tank + Soutien + DPS', bonus: 'PV +8 % · DÉF +8 %', b: {pv: 8, def: 8},
-       manque: [n('tank') ? '' : 'un Tank', n('healer') ? '' : 'un Soutien', dps ? '' : 'un DPS'].filter(Boolean)},
+      {nom: 'Trinité', ok: !!(n('tank') && n('healer') && dps), txt: 'Tank + Soigneur + DPS', bonus: 'PV +8 % · DÉF +8 %', b: {pv: 8, def: 8},
+       manque: [n('tank') ? '' : 'un Tank', n('healer') ? '' : 'un Soigneur', dps ? '' : 'un DPS'].filter(Boolean)},
       {nom: 'Assaut', ok: dps >= 3, txt: '3 DPS ou plus', bonus: 'ATQ +10 %', b: {atq: 10}, manque: dps >= 3 ? [] : [(3 - dps) + ' DPS de plus']},
-      {nom: 'Équipe variée', ok: div >= 4, txt: '4 classes différentes', bonus: 'VIT +8 %', b: {vit: 8}, manque: div >= 4 ? [] : [(4 - div) + ' classe(s) différente(s) de plus']}
+      {nom: 'Équipe complète', ok: !!(n('tank') && n('healer') && dps && n('support')), txt: 'Les 4 rôles', bonus: 'VIT +8 %', b: {vit: 8},
+       manque: [n('tank') ? '' : 'un Tank', n('healer') ? '' : 'un Soigneur', dps ? '' : 'un DPS', n('support') ? '' : 'un Buffer'].filter(Boolean)}
     ];
   }
   var LST = {atkP: 'atq', defP: 'def', hpP: 'pv', spdP: 'vit'};
@@ -106,7 +106,7 @@
   var TIER = {};
   if(G.tier){
     G.tier.classes.forEach(function(c){ c.l.forEach(function(r, i){ TIER[r[1]] = {t: r[0], place: i + 1, n: c.l.length, ry: r[7], quoi: CL[c.cl].nom}; }); });
-    (G.tier.reel || []).forEach(function(r, i){ TIER[r[1]] = {t: r[0], place: i + 1, n: G.tier.reel.length, dg: r[2], quoi: 'DPS en combat réel'}; });
+    (G.tier.reel || []).forEach(function(r, i){ TIER[r[1]] = {t: r[0], place: i + 1, n: G.tier.reel.length, dg: r[4], quoi: 'DPS en combat réel'}; });
   }
   if(G.farmEquipes && !G._farm){ G.equipes = G.farmEquipes.concat(G.equipes); G._farm = 1; }
   var EQS = []; G.equipes.forEach(function(c, ci){ c.liste.forEach(function(e){ e.ci = ci; EQS.push(e); }); });
@@ -123,7 +123,7 @@
       '<div class="f-haut"><div class="f-art" style="--e:' + el.coul + '"><img src="img/heros/corps/' + id + '.webp" alt="" loading="lazy"></div>' +
       '<div class="f-id"><h3 id="f-nom">' + esc(h.nom) + '</h3><p class="f-titre">' + esc(h.titre) + '</p>' +
       '<div class="meta">' + pCl(h.cl) + pRa(h.ra) + (TIER[id] ? '<span class="tierb t' + TIER[id].t + '">Tier ' + TIER[id].t + '</span>' : '') + '</div><div class="meta">' + pEl(h.el) + '<span class="pu" style="--u:' + (h.ld ? '#e9d27a' : '#8fa6d8') + '">' + (h.ld ? 'Invocation Lumière & Ténèbres' : 'Invocation Standard') + '</span></div>' +
-      (TIER[id] ? '<p class="f-tier">' + (TIER[id].place === 1 ? '1ᵉʳ' : TIER[id].place + 'ᵉ') + ' sur ' + TIER[id].n + ' ' + esc(TIER[id].quoi) + (TIER[id].dg ? ' · ' + nb(TIER[id].dg) + ' dégâts en 90 s' : ' · rythme ' + nb(TIER[id].ry)) + ' <button type="button" class="lien" data-voir-tier="' + (TIER[id].dg ? 'tous' : h.cl) + '">Tier list →</button></p>' : '') +
+      (TIER[id] ? '<p class="f-tier">' + (TIER[id].place === 1 ? '1ᵉʳ' : TIER[id].place + 'ᵉ') + ' sur ' + TIER[id].n + ' ' + esc(TIER[id].quoi) + (TIER[id].dg ? ' · score ' + nb(TIER[id].dg / 1000) + ' k' : ' · rythme ' + nb(TIER[id].ry)) + ' <button type="button" class="lien" data-voir-tier="' + (TIER[id].dg ? 'tous' : h.cl) + '">Tier list →</button></p>' : '') +
       '<dl class="f-st"><div><dt>PV</dt><dd>' + nb(h.st.pv) + '</dd></div><div><dt>ATQ</dt><dd>' + nb(h.st.atq) + '</dd></div><div><dt>DÉF</dt><dd>' + nb(h.st.def) + '</dd></div><div><dt>VIT</dt><dd>' + h.st.vit + '</dd></div></dl><p class="f-niv">Niveau 40, sans runes (jusqu\'au niveau 60 avec l\'Éveil forcé).</p>' +
       '<button type="button" class="b-ajout" data-ajout="' + id + '">+ Ajouter à mon équipe</button></div></div>' +
       '<h4>Talent de chef</h4><p class="' + (h.lead ? 'f-lead' : 'f-sans') + '">' + (h.lead ? '<b>' + esc(h.lead.txt) + '</b>' : 'Pas de talent de chef : ne le mets pas en 1ʳᵉ place.') + '</p>' +
@@ -312,7 +312,9 @@
       ['Sets 2 pièces', J.sets.filter(function(s){ return s.n === 2 && !/tous les alliés/.test(s.d); })],
       ['Sets d\'équipe', J.sets.filter(function(s){ return /tous les alliés/.test(s.d); })]
     ];
-    var h = '<h2>Les runes par classe</h2>' +
+    var ro = G.roles, ar = G.artefacts;
+    var h = (ro ? '<h2 id="roles">' + esc(ro.titre) + ' <span class="neuf">Nouveau</span></h2><div class="roles">' + ro.liste.map(function(x, i){ var k = ORDRE_CL[i]; return '<div class="role carte" style="--c:' + CL[k].coul + '"><b>' + svg(CL[k].ico) + esc(x[0]) + '</b><p>' + x[1] + '</p></div>'; }).join('') + '</div><p class="cpt-note">' + esc(ro.note) + '</p>' : '') +
+      '<h2>Les runes par rôle</h2>' +
       '<p class="intro">Les emplacements 1, 3 et 5 ont une stat fixe (ATQ, DÉF, PV). Tu choisis les emplacements <b>2, 4 et 6</b>.</p>' +
       '<div class="cl-tabs" role="group" aria-label="Classe">' + ORDRE_CL.map(function(k){ var x = CL[k]; return '<button type="button" data-rcl="' + k + '" style="--c:' + x.coul + '" aria-pressed="' + (k === rCl) + '">' + svg(x.ico) + x.nom + '</button>'; }).join('') + '</div>' +
       '<div class="rune-grille" style="--c:' + c.coul + '"><div class="plateau carte">' + plateau(b, c.coul) + '</div>' +
@@ -330,7 +332,10 @@
       groupes.map(function(g){ return '<div class="sets-bloc carte"><h3>' + g[0] + '</h3><ul>' + g[1].map(function(s){ var o = ouSet(s.id); return '<li style="--s:' + s.c + '"><i>' + s.e + '</i><span><b>' + esc(s.nom) + '</b><small>' + esc(s.d) + '</small></span>' + (o ? '<em style="--e:' + J.elements[o[1]].coul + '">' + esc(o[0]) + '</em>' : '') + '</li>'; }).join('') + '</ul></div>'; }).join('') + '</div>' +
       (G.setsAntiques ? '<h2 id="sets-antiques">Sets antiques <small>4 ou 6 pièces, jamais 2</small></h2><div class="sets-g">' + G.setsAntiques.map(function(g){ return '<div class="sets-bloc carte antique"><h3>' + esc(g[0]) + '</h3><ul>' + g[1].map(function(x){ return '<li style="--s:#b3261e"><i>' + x[1] + '</i><span><b>' + esc(x[0]) + '</b><small>' + esc(x[2]) + '</small></span></li>'; }).join('') + '</ul></div>'; }).join('') + '</div><p class="cpt-note">Avec un set antique de 4 pièces, il reste 2 emplacements pour un set classique de 2 pièces. Mêmes valeurs qu\'une rune Arc-en-ciel ★7.</p>' : '') +
       '<h2>Les 4 donjons de runes</h2><div class="donjons">' + G.farmSets.map(function(d){ return '<div class="dj carte" style="--e:' + J.elements[d[1]].coul + '"><h3>' + esc(d[0]) + '</h3>' + pEl(d[1]) + '<div class="dj-s">' + d[2].map(setChip).join('') + '</div></div>'; }).join('') + '</div>' +
-      (G.outilsRunes ? '<h2 id="outils-runes">Outils de runes <span class="neuf">Nouveau</span></h2><div class="bases deux">' + G.outilsRunes.map(function(o){ return '<div class="base carte"><b>' + esc(o[0]) + '</b><p>' + o[1] + '</p></div>'; }).join('') + '</div>' : '') +
+      (G.outilsRunes ? '<h2 id="outils-runes">Outils de runes</h2><div class="bases deux">' + G.outilsRunes.map(function(o){ return '<div class="base carte"><b>' + esc(o[0]) + '</b><p>' + o[1] + '</p></div>'; }).join('') + '</div>' : '') +
+      (ar ? '<h2 id="artefacts">Artefacts <span class="neuf">Nouveau</span></h2><p class="intro">' + ar.regle + '</p><div class="bases deux"><div class="base carte"><b>Sous-stats et plafonds par héros</b><ul class="paliers">' +
+        ar.stats.map(function(x){ return '<li><span>' + esc(x[0]) + '</span><b>max ' + esc(x[1]) + '</b></li>'; }).join('') + '</ul></div><div class="base carte"><b>Rareté et amélioration</b><p>' + esc(ar.rarete) + '</p><b>Où les trouver</b><p>' + esc(ar.sources) + '</p></div></div>' +
+        '<p class="astuce">' + svg('etoile') + '<span>' + ar.conseil + '</span></p>' : '') +
       '<h2>Conseils</h2><ol class="prio">' + G.conseilsRunes.map(function(p){ return '<li>' + p + '</li>'; }).join('') + '</ol>';
     $('#v-runes').innerHTML = h;
   }
@@ -374,6 +379,7 @@
         '<div class="carte"><h3>Chaque semaine</h3><ul>' + G.hebdo.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' +
         '<div class="carte"><h3>Chaque mois</h3><p>' + esc(G.mensuel) + '</p></div>' +
       '</div>' +
+      (G.saison ? '<h2 id="saison">Saison, costumes et animations <span class="neuf">Nouveau</span></h2><div class="bases trois3">' + G.saison.map(function(x){ return '<div class="base carte"><b>' + esc(x[0]) + '</b><p>' + x[1] + '</p></div>'; }).join('') + '</div>' : '') +
       (G.evenements ? '<h2 id="evenements">Événements de la semaine</h2><p class="intro">' + G.evenements.regle + '</p><div class="evts">' + G.evenements.liste.map(function(x){ return '<div class="evt carte"><b>' + esc(x[0]) + '</b><p><span>Missions</span>' + esc(x[1]) + '</p><p><span>Gains</span>' + esc(x[2]) + '</p><p class="evt-c"><span>Coffre final</span>' + esc(x[3]) + '</p></div>'; }).join('') + '</div>' +
         '<p class="astuce">' + svg('etoile') + '<span>' + esc(G.evenements.note) + '</span></p>' : '') +
       (G.classements ? '<h2>Classements</h2><div class="bases deux">' + G.classements.map(function(c){ return '<div class="base carte"><b>' + esc(c[0]) + '</b><p>' + c[1] + '</p></div>'; }).join('') + '</div>' : '') +
@@ -398,12 +404,12 @@
         return '<section class="tl-top carte"><h3>' + titre + '</h3><ol>' + L.map(function(x, i){ return '<li><span class="tl-n">' + (i + 1) + '</span>' + ligneH(x.r[1]) + '<span class="tl-v"><i style="width:' + (x.r[cle] / mx * 100).toFixed(1) + '%;--c:' + CL[x.c].coul + '"></i><b>' + nb(x.r[cle]) + '</b></span></li>'; }).join('') + '</ol></section>';
       };
       if(T.reel){
-        var mx1 = T.reel[0][2], mx2 = Math.max.apply(null, T.reel.map(function(r){ return r[3]; }));
-        h += '<div class="tab-wrap"><table class="tab tl-tab tl-reel"><thead><tr><th>#</th><th>Héros</th><th>Tier</th><th class="tl-o">Classe</th><th>Une cible <small>(90 s)</small></th><th class="tl-o">Zone <small>(3 cibles)</small></th></tr></thead><tbody>' +
+        var mx1 = Math.max.apply(null, T.reel.map(function(r){ return r[2]; })), mx2 = Math.max.apply(null, T.reel.map(function(r){ return r[3]; }));
+        h += '<div class="tab-wrap"><table class="tab tl-tab tl-reel"><thead><tr><th>#</th><th>Héros</th><th>Tier</th><th class="tl-o">Classe</th><th class="tl-o">Une cible <small>(90 s)</small></th><th class="tl-o">Zone <small>(3 cibles)</small></th><th>Score</th></tr></thead><tbody>' +
           T.reel.map(function(r, i){ var x = H[r[1]]; return '<tr><td>' + (i + 1) + '</td><td>' + ligneH(r[1]) + '</td><td><span class="tierb t' + r[0] + '">' + r[0] + '</span></td><td class="tl-o">' + pCl(x.cl) + '</td>' +
-            '<td class="tl-ry"><span class="tl-v"><i style="width:' + (r[2] / mx1 * 100).toFixed(1) + '%;--c:' + CL[x.cl].coul + '"></i><b>' + nb(r[2] / 1000) + ' k</b></span></td>' +
-            '<td class="tl-o tl-ry"><span class="tl-v"><i style="width:' + (r[3] / mx2 * 100).toFixed(1) + '%;--c:' + CL[x.cl].coul + '"></i><b>' + nb(r[3] / 1000) + ' k</b></span></td></tr>'; }).join('') +
-          '</tbody></table></div><p class="cpt-note">Dégâts totaux en 90 secondes, en milliers (k). Les Tanks et les Soutiens sont classés dans leur onglet : leur rôle est ailleurs.</p>';
+            '<td class="tl-o tl-ry"><span class="tl-v"><i style="width:' + (r[2] / mx1 * 100).toFixed(1) + '%;--c:' + CL[x.cl].coul + '"></i><b>' + nb(r[2] / 1000) + ' k</b></span></td>' +
+            '<td class="tl-o tl-ry"><span class="tl-v"><i style="width:' + (r[3] / mx2 * 100).toFixed(1) + '%;--c:' + CL[x.cl].coul + '"></i><b>' + nb(r[3] / 1000) + ' k</b></span></td><td><b>' + nb(r[4] / 1000) + ' k</b></td></tr>'; }).join('') +
+          '</tbody></table></div><p class="cpt-note">Dégâts totaux en 90 secondes, en milliers (k). Score = moyenne des deux tests. Les Tanks, Soigneurs et Buffers sont dans leur onglet : leur rôle est ailleurs.</p>';
       }
       h += '<div class="tl-tops">' + top('Top 10 · plus gros coup', 4, 10) + top('Top 10 · attaque de zone', 5, 10) + '</div>';
     } else {
@@ -416,12 +422,22 @@
     $('#v-tier').innerHTML = h;
   }
 
+function gainsDl(L){ return '<dl class="gains">' + L.map(function(g){ return '<div><dt>' + esc(g[0]) + '</dt><dd>' + esc(g[1]) + '</dd></div>'; }).join('') + '</dl>'; }
+  function nivs(L){ return '<div class="niv">' + L.map(function(n){ return '<span><b>' + esc(n[0]) + '</b>' + esc(n[1]) + '</span>'; }).join('') + '</div>'; }
   /* ---------- Modes de jeu ---------- */
   function rendreModes(){
-    var d = G.difficile, t = G.tours, hl = G.hall, sc = G.secrets, h = '';
-    if(hl) h += '<h2 id="hall">Hall des héros <span class="neuf">Nouveau</span> <small>un SSR par mois</small></h2><p class="intro">' + esc(hl.acces) + '</p>' +
+    var d = G.difficile, t = G.tours, hl = G.hall, sc = G.secrets, h = '', fa = G.faille, rd = G.raid, gw = G.guerre;
+    if(fa) h += '<h2 id="faille">Faille des dimensions <span class="neuf">Nouveau</span> <small>7 failles × 5 niveaux</small></h2><p class="intro">' + esc(fa.acces) + '</p>' +
+      '<div class="mode carte"><p>' + fa.regle + '</p>' + gainsDl(fa.gains) + nivs(fa.niveau) + '</div><p class="astuce">' + svg('etoile') + '<span>' + esc(fa.conseil) + '</span></p>';
+    if(rd) h += '<h2 id="raid">Raid coopératif <span class="neuf">Nouveau</span> <small>R1 à R5</small></h2>' +
+      '<div class="mode carte"><p>' + rd.regle + '</p>' + gainsDl(rd.gains) + nivs(rd.niveau) + '</div>';
+    if(gw) h += '<h2 id="guerre">Guerre de guilde <span class="neuf">Nouveau</span></h2><p class="intro">' + gw.regle + '</p>' +
+      '<div class="bases deux"><div class="base carte"><b>Attaque</b>' + gainsDl(gw.points) + '<p>' + gw.defense + '</p></div>' +
+      '<div class="base carte"><b>Boutique ⚑</b><ul class="paliers">' + gw.boutique.map(function(x){ return '<li><span>' + esc(x[0]) + '</span><b>' + esc(x[1]) + '</b></li>'; }).join('') + '</ul></div></div>' +
+      '<p class="astuce">' + svg('etoile') + '<span>' + esc(gw.conseil) + '</span></p>';
+    if(hl) h += '<h2 id="hall">Hall des héros <small>un SSR par mois</small></h2><p class="intro">' + esc(hl.acces) + '</p>' +
       '<div class="mode carte"><p>' + hl.regle + '</p><dl class="gains">' + hl.gains.map(function(g){ return '<div><dt>' + esc(g[0]) + '</dt><dd>' + esc(g[1]) + '</dd></div>'; }).join('') + '</dl><p>' + esc(hl.niveau) + '</p></div>';
-    if(sc) h += '<h2 id="secrets">Donjons secrets <span class="neuf">Nouveau</span></h2>' +
+    if(sc) h += '<h2 id="secrets">Donjons secrets</h2>' +
       '<div class="mode carte"><p>' + sc.regle + '</p><dl class="gains">' + sc.niveaux.map(function(g){ return '<div><dt>' + esc(g[0]) + '</dt><dd>' + esc(g[1]) + '</dd></div>'; }).join('') + '</dl><p>' + esc(sc.note) + '</p></div>';
     h += '<h2>Histoire · Mode Difficile <small>120 étages</small></h2><p class="intro">' + esc(d.acces) + '</p>' +
       '<div class="mode carte"><p>' + d.regle + '</p><dl class="gains">' + d.gains.map(function(g){ return '<div><dt>' + esc(g[0]) + '</dt><dd>' + esc(g[1]) + '</dd></div>'; }).join('') + '</dl>' +
@@ -437,7 +453,8 @@
       '<div class="mode carte"><p><b>Légende 1 à 3</b> — ' + dh.legende + '</p></div>' +
       '<div class="mode carte arc"><p><b>Arc-en-ciel 14, 15 et 16</b> — ' + dh.arc + '</p><p>' + dh.butin + '</p>' +
       '<div class="chances">' + dh.chances.map(function(c){ return '<div><span><b>' + esc(c[0]) + '</b><small>' + esc(c[1]) + '</small></span><span class="jauge7"><i style="width:' + c[2] + '%"></i></span><b class="pc7">' + c[2] + ' %</b></div>'; }).join('') + '</div>' +
-      '<p class="f-niv">Chance d\'obtenir une ★7, pour chaque rune gagnée.</p></div>';
+      '<p class="f-niv">Chance d\'obtenir une ★7, pour chaque rune gagnée.</p></div>' +
+      (dh.fin ? '<div class="mode carte"><p><b>Mise à jour 4.1</b> <span class="neuf">Nouveau</span> — ' + dh.fin + '</p>' + (dh.res ? nivs(dh.res) : '') + '</div>' : '');
     var af = G.affixes;
     if(af) h += '<h2 id="affixes">Affixes des boss</h2><p class="intro">' + af.regle + '</p>' +
       '<div class="affixes">' + af.liste.map(function(a){ return '<div class="afx carte"><b>' + esc(a[0]) + '</b><span>' + esc(a[1]) + '</span></div>'; }).join('') + '</div>' +
@@ -454,17 +471,19 @@
   var fLien = '';
   function rendreEsprits(){
     var e = G.esprits, L = G.liens;
-    var ev = G.eveil, h = '', ma = G.maitrise, fu = G.fusion, gl = G.gloire;
-    if(ma) h += '<h2 id="maitrise">Maîtrise et Formation <span class="neuf">Nouveau</span></h2><p class="intro">' + esc(ma.acces) + '</p>' +
+    var ev = G.eveil, h = '', ma = G.maitrise, fu = G.fusion, gl = G.gloire, rv = G.reveil;
+    if(rv) h += '<h2 id="reveil">Réveil <span class="neuf">Nouveau</span> <small>2ᵉ éveil</small></h2><p class="intro">' + rv.regle + '</p>' +
+      '<div class="mode carte"><p><b>Coût</b> — ' + esc(rv.cout) + '</p>' + gainsDl(rv.effets) + '</div><p class="astuce">' + svg('etoile') + '<span>' + esc(rv.conseil) + '</span></p>';
+    if(ma) h += '<h2 id="maitrise">Maîtrise et Formation</h2><p class="intro">' + esc(ma.acces) + '</p>' +
       '<div class="bases deux"><div class="base carte"><b>Maîtrise</b><p>' + ma.maitrise + '</p></div><div class="base carte"><b>Formation</b><p>' + ma.formation + '</p>' +
       '<div class="noeuds">' + ma.noeuds.map(function(n){ return '<span style="--k:' + n[2] + '"><b>' + esc(n[0]) + '</b>' + esc(n[1]) + '</span>'; }).join('') + '</div></div></div>' +
       '<div class="mode carte" style="margin-top:10px"><p><b>Insignes 🎖</b> — ' + esc(ma.insignes) + '</p></div>' +
       '<p class="astuce">' + svg('etoile') + '<span>' + ma.conseil + '</span></p>';
-    if(fu) h += '<h2 id="fusion">Fusion <span class="neuf">Nouveau</span> <small>4 héros → 1 UR</small></h2><p class="intro">' + fu.regle + '</p>' +
+    if(fu) h += '<h2 id="fusion">Fusion <small>4 héros → 1 UR</small></h2><p class="intro">' + fu.regle + '</p>' +
       '<div class="fusions">' + fu.liste.map(function(f){ var u = H[f[0]]; return '<div class="fus carte" style="--e:' + J.elements[u.el].coul + '"><div class="fus-m">' +
         f[1].map(function(m){ var x = H[m]; return '<button type="button" data-h="' + m + '" title="' + esc(x.nom) + '">' + tete(x, 40) + '<span>' + esc(court(x)) + '</span></button>'; }).join('<i aria-hidden="true">+</i>') +
         '</div><span class="fus-fl" aria-hidden="true">→</span><button type="button" class="fus-ur" data-h="' + u.id + '">' + tete(u, 56) + '<span class="fus-n"><b>' + esc(court(u)) + '</b><span class="fus-tags">' + pRa('UR') + pEl(u.el) + '</span></span></button></div>'; }).join('') + '</div>';
-    if(gl) h += '<h2 id="gloire">Bâtiments de gloire <span class="neuf">Nouveau</span></h2><p class="intro">' + gl.regle + '</p>' +
+    if(gl) h += '<h2 id="gloire">Bâtiments de gloire</h2><p class="intro">' + gl.regle + '</p>' +
       '<div class="gloire">' + gl.batiments.map(function(b){ return '<div class="bat carte"><i aria-hidden="true">' + b[1] + '</i><b>' + esc(b[0]) + '</b><small>' + esc(b[2]) + ' au niveau 10</small></div>'; }).join('') + '</div>' +
       '<div class="mode carte" style="margin-top:10px"><p>' + gl.sanct + '</p></div><p class="astuce">' + svg('etoile') + '<span>' + gl.conseil + '</span></p>';
     if(ev) h += '<h2>Éveil forcé · niveau 60</h2>' +
