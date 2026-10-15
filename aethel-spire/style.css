@@ -613,3 +613,14 @@ code{font-family:"Martian Mono",ui-monospace,monospace;font-size:.84em;padding:1
 .afx span{color:#c9d5f2;font-size:13px}
 #affixes,#talents-info{scroll-margin-top:130px}
 @media (max-width:980px){ .affixes{grid-template-columns:repeat(2,minmax(0,1fr))} }
+/* runage par héros + build antique */
+.f-why{font-size:13.5px!important;color:#c9d5f2!important;line-height:1.45}
+.f-ant{margin-top:6px;padding:9px 11px;border-radius:10px;border:1px solid rgba(179,38,30,.45);background:rgba(179,38,30,.10);display:grid;gap:3px}
+.f-ant p{margin:0}
+.f-ant-t{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#ff8a7a}
+.rb-ant{display:grid;gap:8px;padding:12px 14px;border-radius:14px;border:1px solid rgba(179,38,30,.45);background:rgba(179,38,30,.08)}
+.rb-ant h3{margin:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rb-ant-t{font-family:var(--corps,inherit);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#ff8a7a}
+.rb-ant .rb-best{color:#ff9d8f}
+.rb-ant .rb-why{background:rgba(179,38,30,.10)}
+.rb-ant p{margin:0}

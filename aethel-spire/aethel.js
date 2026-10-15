@@ -116,6 +116,7 @@
   var fond = $('#fiche'), avant = null;
   function fiche(id){
     var h = H[id], c = CL[h.cl], b = G.builds[h.cl], el = J.elements[h.el];
+    var R = (G.runesHeros && G.runesHeros[id]) || {best: b.best, alt: b.alt[0], e2: b.e2, e4: b.e4, e6: b.e6, sous: b.sous, pourquoi: ''};
     var eqs = EQS.filter(function(e){ return e.m.indexOf(id) > -1; });
     avant = document.activeElement;
     fond.innerHTML = '<div class="fiche" role="dialog" aria-modal="true" aria-labelledby="f-nom" style="--c:' + c.coul + '"><button type="button" class="f-x" aria-label="Fermer">×</button>' +
@@ -127,11 +128,13 @@
       '<button type="button" class="b-ajout" data-ajout="' + id + '">+ Ajouter à mon équipe</button></div></div>' +
       '<h4>Talent de chef</h4><p class="' + (h.lead ? 'f-lead' : 'f-sans') + '">' + (h.lead ? '<b>' + esc(h.lead.txt) + '</b>' : 'Pas de talent de chef : ne le mets pas en 1ʳᵉ place.') + '</p>' +
       (h.pas ? '<h4>Passif</h4><div class="f-talent"><b>' + esc(h.pas.n) + '</b><p>' + esc(h.pas.d) + '</p><p class="f-combat">' + esc(h.pas.c) + '</p></div>' : '') +
-      '<h4>Élément</h4><p class="f-elem">Fort contre : ' + (el.bat ? pEl(el.bat) : '—') + ' <span class="f-ou">·</span> Faible contre : ' + (faibleContre(h.el).map(pEl).join('') || '—') + '</p>' +
-      '<h4>Runes conseillées</h4><div class="f-runes"><p><b>' + esc(b.best) + '</b> <span class="f-ou">ou</span> ' + esc(b.alt[0]) + '</p>' +
-        '<p class="f-emp">Emp. 2 : <b>' + esc(b.e2[0]) + '</b> · Emp. 4 : <b>' + esc(b.e4[0]) + '</b> · Emp. 6 : <b>' + esc(b.e6[0]) + '</b></p>' +
-        '<p class="f-sous">Sous-stats : ' + b.sous.map(esc).join(' › ') + '</p>' +
+      '<h4>Runage conseillé pour ' + esc(court(h)) + '</h4><div class="f-runes"><p><b>' + esc(R.best) + '</b> <span class="f-ou">ou</span> ' + esc(R.alt) + '</p>' +
+        '<p class="f-emp">Emp. 2 : <b>' + esc(R.e2[0]) + '</b>' + (R.e2[1] ? ' <span class="f-ou">(ou ' + esc(R.e2[1]) + ')</span>' : '') + ' · Emp. 4 : <b>' + esc(R.e4[0]) + '</b>' + (R.e4[1] ? ' <span class="f-ou">(ou ' + esc(R.e4[1]) + ')</span>' : '') + ' · Emp. 6 : <b>' + esc(R.e6[0]) + '</b>' + (R.e6[1] ? ' <span class="f-ou">(ou ' + esc(R.e6[1]) + ')</span>' : '') + '</p>' +
+        '<p class="f-sous">Sous-stats : ' + R.sous.map(esc).join(' › ') + '</p>' +
+        (R.pourquoi ? '<p class="f-why">' + esc(R.pourquoi) + '</p>' : '') +
+        (R.ant ? '<div class="f-ant"><span class="f-ant-t">Runes antiques · joueurs avancés</span><p><b>' + esc(R.ant) + '</b> <span class="f-ou">ou</span> ' + esc(R.antAlt) + '</p>' + (R.antPq ? '<p class="f-why">' + esc(R.antPq) + '</p>' : '') + '</div>' : '') +
         '<button type="button" class="lien" data-voir-runes="' + h.cl + '">Tout le build ' + esc(c.nom) + ' →</button></div>' +
+      '<h4>Élément</h4><p class="f-elem">Fort contre : ' + (el.bat ? pEl(el.bat) : '—') + ' <span class="f-ou">·</span> Faible contre : ' + (faibleContre(h.el).map(pEl).join('') || '—') + '</p>' +
       '<h4>Compétences</h4><ol class="f-comp">' + h.comp.map(function(k, i){ return '<li><b>' + esc(k.n) + '</b><span class="f-cd">' + (i ? 'Recharge ' + k.cd + ' tours' : 'Attaque de base') + '</span><p>' + esc(k.d.replace(/\s*(Aucun temps de recharge|Recharge : \d+ tours)\.$/, '')) + '</p></li>'; }).join('') + '</ol>' +
       (liensDe(id).length ? '<h4>Liens de héros</h4><div class="f-liens">' + liensDe(id).map(function(l){ return '<div class="f-lien"><b>' + esc(l[0]) + '</b><span class="bonus">' + bonusTxt(l[2]) + '</span><span class="f-lien-m">' + l[1].map(function(m){ return H[m] ? '<button type="button" data-h="' + m + '" title="' + esc(H[m].nom) + '">' + tete(H[m], 30) + '</button>' : ''; }).join('') + '</span></div>'; }).join('') + '</div><p class="f-niv">Bonus permanent quand tu possèdes tous les héros du lien.</p>' : '') +
       (eqs.length ? '<h4>Dans les équipes conseillées</h4><div class="f-eqs">' + eqs.map(function(e){ return '<button type="button" data-charger="' + esc(e.nom) + '">' + (e.m[0] === id ? '<span class="f-chef">Chef</span>' : '') + esc(e.nom) + '</button>'; }).join('') + '</div>' : '') +
@@ -319,6 +322,8 @@
         '<div><h3>Stat principale</h3><div class="emps">' + [2, 4, 6].map(function(n){ var e = b['e' + n]; return '<div class="emp"><small>Emp. ' + n + '</small><b>' + esc(e[0]) + '</b>' + (e[1] ? '<small>ou ' + esc(e[1]) + '</small>' : '') + '</div>'; }).join('') + '</div></div>' +
         '<div><h3>Sous-stats à viser</h3><div class="sous-st">' + b.sous.map(function(s, i){ return '<span class="puce"><span class="n">' + (i + 1) + '</span>' + esc(s) + '</span>'; }).join('') + '</div></div>' +
         '<p class="rb-why"><b>Pourquoi ?</b> ' + esc(b.pourquoi) + '</p>' +
+        (G.buildsAnt && G.buildsAnt[rCl] ? '<div class="rb-ant"><h3>Build antique <span class="rb-ant-t">joueurs avancés</span></h3><p class="rb-best">' + esc(G.buildsAnt[rCl].best) + '</p><p class="rb-alt">Ou : ' + G.buildsAnt[rCl].alt.map(esc).join(' · ') + '</p>' +
+          '<p class="rb-why">' + esc(G.buildsAnt[rCl].pourquoi) + '</p><p class="rb-alt">Mêmes stats principales qu\'au-dessus. Les runes antiques tombent dans les donjons antiques. <button type="button" class="lien" data-aller="runes" data-ancre="sets-antiques">Voir les sets antiques →</button></p></div>' : '') +
       '</div></div>' +
       '<div class="mini-hs"><span>Les ' + esc(c.nom) + ' :</span>' + mH.map(function(x){ return '<button type="button" class="mini-h" data-h="' + x.id + '">' + tete(x, 26) + esc(court(x)) + '</button>'; }).join('') + '</div>' +
       '<h2>Les ' + J.sets.length + ' sets <small>et où les farmer</small></h2><div class="sets-g">' +
