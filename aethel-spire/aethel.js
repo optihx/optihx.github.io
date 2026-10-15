@@ -330,7 +330,7 @@
       groupes.map(function(g){ return '<div class="sets-bloc carte"><h3>' + g[0] + '</h3><ul>' + g[1].map(function(s){ var o = ouSet(s.id); return '<li style="--s:' + s.c + '"><i>' + s.e + '</i><span><b>' + esc(s.nom) + '</b><small>' + esc(s.d) + '</small></span>' + (o ? '<em style="--e:' + J.elements[o[1]].coul + '">' + esc(o[0]) + '</em>' : '') + '</li>'; }).join('') + '</ul></div>'; }).join('') + '</div>' +
       (G.setsAntiques ? '<h2 id="sets-antiques">Sets antiques <small>4 ou 6 pièces, jamais 2</small></h2><div class="sets-g">' + G.setsAntiques.map(function(g){ return '<div class="sets-bloc carte antique"><h3>' + esc(g[0]) + '</h3><ul>' + g[1].map(function(x){ return '<li style="--s:#b3261e"><i>' + x[1] + '</i><span><b>' + esc(x[0]) + '</b><small>' + esc(x[2]) + '</small></span></li>'; }).join('') + '</ul></div>'; }).join('') + '</div><p class="cpt-note">Avec un set antique de 4 pièces, il reste 2 emplacements pour un set classique de 2 pièces. Mêmes valeurs qu\'une rune Arc-en-ciel ★7.</p>' : '') +
       '<h2>Les 4 donjons de runes</h2><div class="donjons">' + G.farmSets.map(function(d){ return '<div class="dj carte" style="--e:' + J.elements[d[1]].coul + '"><h3>' + esc(d[0]) + '</h3>' + pEl(d[1]) + '<div class="dj-s">' + d[2].map(setChip).join('') + '</div></div>'; }).join('') + '</div>' +
-      (G.outilsRunes ? '<h2>Outils de runes</h2><div class="bases deux">' + G.outilsRunes.map(function(o){ return '<div class="base carte"><b>' + esc(o[0]) + '</b><p>' + o[1] + '</p></div>'; }).join('') + '</div>' : '') +
+      (G.outilsRunes ? '<h2 id="outils-runes">Outils de runes <span class="neuf">Nouveau</span></h2><div class="bases deux">' + G.outilsRunes.map(function(o){ return '<div class="base carte"><b>' + esc(o[0]) + '</b><p>' + o[1] + '</p></div>'; }).join('') + '</div>' : '') +
       '<h2>Conseils</h2><ol class="prio">' + G.conseilsRunes.map(function(p){ return '<li>' + p + '</li>'; }).join('') + '</ol>';
     $('#v-runes').innerHTML = h;
   }
@@ -368,7 +368,7 @@
         cy.map(function(e, i){ return '<span class="cyc">' + pEl(e) + '</span><span class="fl" aria-hidden="true">→</span>' + (i === cy.length - 1 ? '<span class="cyc">' + pEl(cy[0]) + '</span>' : ''); }).join('') +
         '<span class="cyc-sep" aria-hidden="true"></span><span class="cyc">' + pEl('light') + '</span><span class="fl" aria-hidden="true">⇄</span><span class="cyc">' + pEl('dark') + '</span>' +
         '<p>La flèche veut dire « bat ». Lumière et Ténèbres se battent l\'un l\'autre.</p></div>' +
-      '<h2>Farmer</h2><div class="bases deux">' + G.farm.map(function(f){ return '<div class="base carte"><b>' + esc(f[0]) + '</b><p>' + f[1] + '</p></div>'; }).join('') + '</div>' +
+      '<h2 id="farmer">Farmer</h2><div class="bases deux">' + G.farm.map(function(f){ return '<div class="base carte"><b>' + esc(f[0]) + '</b><p>' + f[1] + '</p></div>'; }).join('') + '</div>' +
       '<div class="routine">' +
         '<div class="carte"><h3>Chaque jour</h3><ul>' + G.quotidien.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' +
         '<div class="carte"><h3>Chaque semaine</h3><ul>' + G.hebdo.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' +
@@ -377,7 +377,7 @@
       (G.evenements ? '<h2 id="evenements">Événements de la semaine</h2><p class="intro">' + G.evenements.regle + '</p><div class="evts">' + G.evenements.liste.map(function(x){ return '<div class="evt carte"><b>' + esc(x[0]) + '</b><p><span>Missions</span>' + esc(x[1]) + '</p><p><span>Gains</span>' + esc(x[2]) + '</p><p class="evt-c"><span>Coffre final</span>' + esc(x[3]) + '</p></div>'; }).join('') + '</div>' +
         '<p class="astuce">' + svg('etoile') + '<span>' + esc(G.evenements.note) + '</span></p>' : '') +
       (G.classements ? '<h2>Classements</h2><div class="bases deux">' + G.classements.map(function(c){ return '<div class="base carte"><b>' + esc(c[0]) + '</b><p>' + c[1] + '</p></div>'; }).join('') + '</div>' : '') +
-      '<h2 id="invocations">Invocations <span class="neuf">Nouveau</span></h2><div class="invoc"><div class="taux carte">' + G.invocations.map(function(r){ return '<div style="--k:' + r[2] + '"><b>' + r[1] + '</b><span>' + r[0] + '</span></div>'; }).join('') + '</div>' +
+      '<h2 id="invocations">Invocations</h2><div class="invoc"><div class="taux carte">' + G.invocations.map(function(r){ return '<div style="--k:' + r[2] + '"><b>' + r[1] + '</b><span>' + r[0] + '</span></div>'; }).join('') + '</div>' +
         '<div class="bases deux">' + G.banniere.map(function(b){ return '<div class="base carte"><b>' + esc(b[0]) + '</b><p>' + b[1] + '</p></div>'; }).join('') + '</div></div>' +
       '<p class="astuce">' + svg('etoile') + '<span>' + esc(G.astuceInvoc) + '</span></p>';
     $('#v-debuter').innerHTML = h;
@@ -418,11 +418,15 @@
 
   /* ---------- Modes de jeu ---------- */
   function rendreModes(){
-    var d = G.difficile, t = G.tours;
-    var h = '<h2>Histoire · Mode Difficile <small>120 étages</small></h2><p class="intro">' + esc(d.acces) + '</p>' +
+    var d = G.difficile, t = G.tours, hl = G.hall, sc = G.secrets, h = '';
+    if(hl) h += '<h2 id="hall">Hall des héros <span class="neuf">Nouveau</span> <small>un SSR par mois</small></h2><p class="intro">' + esc(hl.acces) + '</p>' +
+      '<div class="mode carte"><p>' + hl.regle + '</p><dl class="gains">' + hl.gains.map(function(g){ return '<div><dt>' + esc(g[0]) + '</dt><dd>' + esc(g[1]) + '</dd></div>'; }).join('') + '</dl><p>' + esc(hl.niveau) + '</p></div>';
+    if(sc) h += '<h2 id="secrets">Donjons secrets <span class="neuf">Nouveau</span></h2>' +
+      '<div class="mode carte"><p>' + sc.regle + '</p><dl class="gains">' + sc.niveaux.map(function(g){ return '<div><dt>' + esc(g[0]) + '</dt><dd>' + esc(g[1]) + '</dd></div>'; }).join('') + '</dl><p>' + esc(sc.note) + '</p></div>';
+    h += '<h2>Histoire · Mode Difficile <small>120 étages</small></h2><p class="intro">' + esc(d.acces) + '</p>' +
       '<div class="mode carte"><p>' + d.regle + '</p><dl class="gains">' + d.gains.map(function(g){ return '<div><dt>' + esc(g[0]) + '</dt><dd>' + esc(g[1]) + '</dd></div>'; }).join('') + '</dl>' +
       '<div class="niv">' + d.niveau.map(function(n){ return '<span><b>' + esc(n[0]) + '</b>' + esc(n[1]) + '</span>'; }).join('') + '</div></div>' +
-      '<h2 id="tours">Tours élémentaires <span class="neuf">Nouveau</span> <small>' + t.liste.length + ' × 40 étages</small></h2><p class="intro">' + esc(t.acces) + '</p>' +
+      '<h2 id="tours">Tours élémentaires <small>' + t.liste.length + ' × 40 étages</small></h2><p class="intro">' + esc(t.acces) + '</p>' +
       '<div class="tours">' + t.liste.map(function(x){ var e = J.elements[x[1]]; var hs = J.heros.filter(function(z){ return z.el === x[1]; }).length;
         return '<div class="tour carte" style="--u:' + e.coul + '"><b>' + esc(x[0]) + '</b>' + pEl(x[1]) + '<small>' + hs + ' héros peuvent entrer</small></div>'; }).join('') + '</div>' +
       '<div class="mode carte"><p>' + t.regle + '</p><p>' + t.note + '</p>' +
@@ -450,7 +454,19 @@
   var fLien = '';
   function rendreEsprits(){
     var e = G.esprits, L = G.liens;
-    var ev = G.eveil, h = '';
+    var ev = G.eveil, h = '', ma = G.maitrise, fu = G.fusion, gl = G.gloire;
+    if(ma) h += '<h2 id="maitrise">Maîtrise et Formation <span class="neuf">Nouveau</span></h2><p class="intro">' + esc(ma.acces) + '</p>' +
+      '<div class="bases deux"><div class="base carte"><b>Maîtrise</b><p>' + ma.maitrise + '</p></div><div class="base carte"><b>Formation</b><p>' + ma.formation + '</p>' +
+      '<div class="noeuds">' + ma.noeuds.map(function(n){ return '<span style="--k:' + n[2] + '"><b>' + esc(n[0]) + '</b>' + esc(n[1]) + '</span>'; }).join('') + '</div></div></div>' +
+      '<div class="mode carte" style="margin-top:10px"><p><b>Insignes 🎖</b> — ' + esc(ma.insignes) + '</p></div>' +
+      '<p class="astuce">' + svg('etoile') + '<span>' + ma.conseil + '</span></p>';
+    if(fu) h += '<h2 id="fusion">Fusion <span class="neuf">Nouveau</span> <small>4 héros → 1 UR</small></h2><p class="intro">' + fu.regle + '</p>' +
+      '<div class="fusions">' + fu.liste.map(function(f){ var u = H[f[0]]; return '<div class="fus carte" style="--e:' + J.elements[u.el].coul + '"><div class="fus-m">' +
+        f[1].map(function(m){ var x = H[m]; return '<button type="button" data-h="' + m + '" title="' + esc(x.nom) + '">' + tete(x, 40) + '<span>' + esc(court(x)) + '</span></button>'; }).join('<i aria-hidden="true">+</i>') +
+        '</div><span class="fus-fl" aria-hidden="true">→</span><button type="button" class="fus-ur" data-h="' + u.id + '">' + tete(u, 56) + '<span class="fus-n"><b>' + esc(court(u)) + '</b><span class="fus-tags">' + pRa('UR') + pEl(u.el) + '</span></span></button></div>'; }).join('') + '</div>';
+    if(gl) h += '<h2 id="gloire">Bâtiments de gloire <span class="neuf">Nouveau</span></h2><p class="intro">' + gl.regle + '</p>' +
+      '<div class="gloire">' + gl.batiments.map(function(b){ return '<div class="bat carte"><i aria-hidden="true">' + b[1] + '</i><b>' + esc(b[0]) + '</b><small>' + esc(b[2]) + ' au niveau 10</small></div>'; }).join('') + '</div>' +
+      '<div class="mode carte" style="margin-top:10px"><p>' + gl.sanct + '</p></div><p class="astuce">' + svg('etoile') + '<span>' + gl.conseil + '</span></p>';
     if(ev) h += '<h2>Éveil forcé · niveau 60</h2>' +
       '<div class="etapes">' + ev.etapes.map(function(x){ return '<div class="base carte"><span class="base-n">' + x[0] + '</span><b>' + esc(x[1]) + '</b><p>' + x[2] + '</p></div>'; }).join('') + '</div>' +
       '<p class="astuce">' + svg('etoile') + '<span>' + ev.exemple + '</span></p>' +
@@ -463,7 +479,7 @@
         return '<div class="esp carte" style="--k:' + x[2] + '"><div class="esp-t"><i aria-hidden="true"></i><span><b>' + esc(x[0]) + '</b><small>' + esc(x[1]) + '</small></span></div>' +
           '<p class="esp-par">' + esc(x[3]) + '</p><ul><li><span>Niv. 5</span>' + esc(x[4]) + '</li><li><span>Niv. 10</span>' + esc(x[5]) + '</li></ul></div>'; }).join('') + '</div>' +
       '<div class="bases deux"><div class="base carte"><b>Coût</b><p>' + e.cout + '</p></div><div class="base carte"><b>Poussière d\'esprit</b><p>' + esc(e.source) + '</p></div></div>' + (e.conseil ? '<p class="astuce">' + svg('etoile') + '<span>' + e.conseil + '</span></p>' : '') +
-      '<h2 id="liens">Liens de héros <span class="neuf">Nouveau</span> <small>' + L.liste.length + ' liens</small></h2><p class="intro">' + L.regle + (L.conseil ? ' ' + L.conseil : '') + '</p>' +
+      '<h2 id="liens">Liens de héros <small>' + L.liste.length + ' liens</small></h2><p class="intro">' + L.regle + (L.conseil ? ' ' + L.conseil : '') + '</p>' +
       '<div class="pilules" role="group" aria-label="Élément"><button type="button" data-flien="" aria-pressed="' + (fLien === '') + '">Tous</button>' +
         Object.keys(J.elements).map(function(k){ return '<button type="button" data-flien="' + k + '" aria-pressed="' + (fLien === k) + '">' + esc(J.elements[k].nom) + '</button>'; }).join('') + '</div>' +
       '<div class="liens">' + L.liste.filter(function(l){ return !fLien || l[1].some(function(m){ return H[m] && H[m].el === fLien; }); }).map(function(l){
