@@ -213,11 +213,11 @@
   /* ---------- meilleure équipe ---------- */
   var LST = {atkP: 'atk', defP: 'def', hpP: 'hp', spdP: 'spd'};
   function valeurEquipe(ids, pot, mode){
-    var chef = A.meilleurChef(ids), ord = chef ? [chef.id].concat(ids.filter(function(x){ return x !== chef.id; })) : ids.slice();
+    var ctx = mode === 'pvp' ? 'arena' : 'dungeon', chef = A.meilleurChef(ids, ctx), ord = chef ? [chef.id].concat(ids.filter(function(x){ return x !== chef.id; })) : ids.slice();
     var L = H[ord[0]].lead, syn = A.synergies(ord).filter(function(s){ return s.ok; }), v = 0, nb2 = {};
     ord.forEach(function(c){
       var t = pot[c].st, pct = {hp: 0, atk: 0, def: 0, spd: 0}, fl = {cr: 0, cd: 0, res: 0};
-      if(A.touche(L, H[c])) L.p.forEach(function(p){ if(LST[p[0]]) pct[LST[p[0]]] += p[1]; else if(p[0] in fl) fl[p[0]] += p[1]; });
+      if(A.touche(L, H[c], ctx)) L.p.forEach(function(p){ if(LST[p[0]]) pct[LST[p[0]]] += p[1]; else if(p[0] in fl) fl[p[0]] += p[1]; });
       syn.forEach(function(s){ Object.keys(s.b).forEach(function(k){ var kk = {pv: 'hp', atq: 'atk', def: 'def', vit: 'spd'}[k]; if(kk) pct[kk] += s.b[k]; }); });
       var u = {hp: t.hp * (1 + pct.hp / 100), atk: t.atk * (1 + pct.atk / 100), def: t.def * (1 + pct.def / 100), spd: t.spd * (1 + pct.spd / 100), cr: Math.min(100, t.cr + fl.cr), cd: t.cd + fl.cd};
       var p = puissance(u);
@@ -227,7 +227,7 @@
     });
     var dps = ord.filter(function(c){ return DPS[H[c].cl]; }).length;
     if(mode === 'pvp'){ if(dps < 2) v *= .85; if((nb2.tank || 0) > 1) v *= .9; }
-    else { if(!nb2.tank) v *= .82; if(!nb2.healer) v *= .78; if(!dps) v *= .7; if((nb2.healer || 0) > 1) v *= .93; if((nb2.tank || 0) > 1) v *= .85; }
+    else { if(!nb2.tank) v *= (mode === 'd9' ? .9 : .82); if(!nb2.healer) v *= .78; if(!dps) v *= .7; if((nb2.healer || 0) > 1) v *= .93; if((nb2.tank || 0) > 1) v *= .85; }
     return {v: v, ord: ord};
   }
   function meilleureEquipe(mode){
@@ -262,7 +262,7 @@
     var ids = t.ord, cl = {}, dps = 0, nbB = 0, nbD = 0;
     ids.forEach(function(c){ var h = H[c]; cl[h.cl] = (cl[h.cl] || 0) + 1; if(DPS[h.cl]) dps++;
       h.comp.forEach(function(k){ if(BUFF.test(k.d)) nbB++; if(DEBUFF.test(k.d)) nbD++; }); });
-    var L = H[ids[0]].lead, nL = L ? ids.filter(function(c){ return A.touche(L, H[c]); }).length : 0;
+    var L = H[ids[0]].lead, nL = L ? ids.filter(function(c){ return A.touche(L, H[c], mode === 'pvp' ? 'arena' : 'dungeon'); }).length : 0;
     var lead = nL >= 3 ? 1 : nL === 2 ? .55 : nL ? .25 : 0, buf = Math.min(1, nbB / 3), deb = Math.min(1, nbD / 3), varie = Object.keys(cl).length >= 4 ? 1 : Object.keys(cl).length === 3 ? .6 : .2;
     var compo = mode === 'pvp'
       ? .25 * (dps >= 2 ? 1 : dps ? .5 : 0) + .15 * (cl.healer ? 1 : 0) + .1 * (cl.tank ? 1 : 0) + .1 * buf + .15 * deb + .15 * lead + .1 * varie
@@ -362,11 +362,11 @@
       '<div class="cpt-act"><label class="b-sec2"><input type="file" accept=".json,application/json" data-asc-fichier hidden>Changer de fichier</label><button type="button" class="b-sec2" data-asc-oublier>Oublier</button></div></div>' +
       '<div class="outils">' +
         '<div class="outil"><b>Meilleur build</b><p>Les meilleures runes pour les 4 héros de ton équipe, chaque rune sur un seul héros.</p><button type="button" class="b-charger" data-asc-build' + (mesT ? '' : ' disabled') + '>' + (mesT ? '⚙ Mettre les runes' : 'Mets tes héros dans l\'équipe') + '</button></div>' +
-        '<div class="outil"><b>Meilleure team PvE</b><p>Choisis le palier :</p><div class="paliers-s">' + [['d9', 'Étage 9'], ['leg', 'Légende'], ['arc', 'Arc-en-ciel']].map(function(p){ return '<button type="button" data-asc-palier="' + p[0] + '" aria-pressed="' + (palier === p[0]) + '">' + p[1] + '</button>'; }).join('') + '</div><button type="button" class="b-charger" data-asc-pve>Trouver</button></div>' +
+        '<div class="outil"><b>Meilleure team PvE</b><p>Choisis le palier :</p><div class="paliers-s">' + [['d9', 'Étage 10'], ['leg', 'Légende'], ['arc', 'Arc-en-ciel']].map(function(p){ return '<button type="button" data-asc-palier="' + p[0] + '" aria-pressed="' + (palier === p[0]) + '">' + p[1] + '</button>'; }).join('') + '</div><button type="button" class="b-charger" data-asc-pve>Trouver</button></div>' +
         '<div class="outil"><b>Meilleure team PvP</b><p>Vitesse et dégâts pour l\'Arène.</p><button type="button" class="b-charger" data-asc-pvp>Trouver</button></div>' +
       '</div>' +
       (CALC ? '<p class="cpt-calc">Calcul en cours…</p>' : '') + (ERR ? '<p class="cpt-err">' + esc(ERR) + '</p>' : '') +
-      (RES ? '<h3 class="res-titre">' + esc(RESG) + '</h3><p class="cpt-note">Classées sur 10 : 10 = la meilleure (force, tank, healer, DPS, buffs, debuffs, chef). Un même héros peut revenir dans plusieurs teams. Touche une team pour la charger avec ses runes.</p><div class="resultats">' + RES.map(function(x, i){ return carteResultat(x.res, x.titre, i); }).join('') + '</div>' : '') +
+      (RES ? '<h3 class="res-titre">' + esc(RESG) + '</h3><p class="cpt-note">Classées sur 10 : 10 = la meilleure (force, tank, soutien, DPS, buffs, debuffs, chef). Un même héros peut revenir dans plusieurs teams. Touche une team pour la charger avec ses runes.</p><div class="resultats">' + RES.map(function(x, i){ return carteResultat(x.res, x.titre, i); }).join('') + '</div>' : '') +
       '<p class="cpt-note">Calculs estimés à partir de ton fichier (stats sans chef ni synergies, comme dans le jeu). Pense à réexporter après tes changements.</p></div>';
   }
 
@@ -429,7 +429,7 @@
       return lancer(function(){ RES = null; PLAN = {cle: A.eq().join(','), runes: repartir(t, 'd9')}; sauverP(); setTimeout(function(){ var m = document.getElementById('mes-runes'); if(m) m.scrollIntoView({behavior: 'smooth', block: 'start'}); }, 60); });
     }
     if((b = e.target.closest('[data-asc-pve]'))){
-      var nomP = {d9: 'Étage 9', leg: 'Légende 1 à 3', arc: 'Arc-en-ciel 14 à 16'}[palier];
+      var nomP = {d9: 'Étage 10', leg: 'Légende 1 à 3', arc: 'Arc-en-ciel 14 à 16'}[palier];
       return lancer(function(){ var r = meilleureEquipe(palier); RESG = 'Teams PvE · ' + nomP; RES = r ? r.map(function(x, k){ return {res: x, titre: 'Team ' + (k + 1)}; }) : null; if(!r) ERR = 'Pas assez de héros dans ton fichier.'; });
     }
     if((b = e.target.closest('[data-asc-pvp]'))) return lancer(function(){ var r = meilleureEquipe('pvp'); RESG = 'Teams PvP · Arène'; RES = r ? r.map(function(x, k){ return {res: x, titre: 'Team ' + (k + 1)}; }) : null; if(!r) ERR = 'Pas assez de héros dans ton fichier.'; });
