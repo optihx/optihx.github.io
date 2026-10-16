@@ -267,7 +267,7 @@
       : .2 * (cl.tank ? 1 : 0) + .2 * (cl.healer ? 1 : 0) + .15 * (dps >= 2 ? 1 : dps ? .5 : 0) + .1 * buf + .1 * deb + .15 * lead + .1 * varie;
     var r = Math.max(0, Math.min(1, t.v / vMax)), note = 10 * (.55 * r * r + .45 * compo);
     var hs = ids.map(function(c){ return MOD[c].src; });
-    if(mode === 'leg') note *= .6 + .4 * hs.filter(function(h){ return h.ra === 'UR' && h.rk >= 16; }).length / 4;
+    if(mode === 'leg') note *= .6 + .4 * hs.filter(function(h){ return h.ra === 'UR' && h.rk >= 3; }).length / 4;
     if(mode === 'arc') note *= .5 + .5 * hs.filter(function(h){ return h.ra === 'UR' && h.fa; }).length / 4;
     return Math.max(1, Math.min(10, Math.round(note * 10) / 10));
   }
@@ -281,8 +281,8 @@
     if(res.mode === 'leg'){
       /* héros pas assez up : on propose un remplaçant de la box (UR au rang max, même rôle) */
       var pris = {}, grp = function(c){ return DPS[H[c].cl] ? 'dps' : H[c].cl; };
-      hs.filter(function(h){ return !(h.ra === 'UR' && h.rk >= 16); }).forEach(function(h){
-        var rep = Object.keys(MOD).filter(function(c){ var x = MOD[c].src; return ids.indexOf(c) < 0 && !pris[c] && x.ra === 'UR' && x.rk >= 16 && grp(c) === grp(h.c); })
+      hs.filter(function(h){ return !(h.ra === 'UR' && h.rk >= 3); }).forEach(function(h){
+        var rep = Object.keys(MOD).filter(function(c){ var x = MOD[c].src; return ids.indexOf(c) < 0 && !pris[c] && x.ra === 'UR' && x.rk >= 3 && grp(c) === grp(h.c); })
           .sort(function(a, b){ return MOD[b].src.p - MOD[a].src.p; })[0];
         if(rep){ pris[rep] = 1; out.push(['warn', A.court(H[h.c]) + ' n\'est pas assez up pour Légende 3 : tu peux mettre ' + A.court(H[rep]) + ' (' + rangNom(MOD[rep].src) + ') à sa place.']); }
       });
@@ -318,10 +318,9 @@
   function rangNom(h){
     var k = h.rk || 0;
     if(h.rn) return h.rn;
-    if(k <= 0) return 'Violet'; if(k === 1) return 'Orange';
-    if(k <= 6) return 'Jaune ' + (k - 1) + '★'; if(k <= 11) return 'Rouge ' + (k - 6) + '★'; return 'Arc-en-ciel ' + Math.min(5, k - 11) + '★';
+    return ['Violet 3★', 'Jaune 4★', 'Orange 5★', 'Arc-en-ciel 6★'][Math.max(0, Math.min(3, k))];
   }
-  function rangHtml(h, court){ var mx = h.rk >= 16; return '<span class="rang' + (mx ? ' max' : '') + '" title="' + esc(rangNom(h)) + '">' + (court && mx ? '★ max' : esc(rangNom(h)) + (mx ? ' · max' : '')) + '</span>'; }
+  function rangHtml(h, court){ var mx = h.rk >= 3; return '<span class="rang' + (mx ? ' max' : '') + '" title="' + esc(rangNom(h)) + '">' + (court && mx ? '★ max' : esc(rangNom(h)) + (mx ? ' · max' : '')) + '</span>'; }
 
   function nomBuild(sets){
     var k = Object.keys(sets || {}).sort(function(a, b){ return SETS[b].n - SETS[a].n; });
@@ -436,7 +435,7 @@
   window.ASC = {
     charge: function(){ return !!C; },
     possede: function(id){ return !!MOD[id]; },
-    badge: function(id){ if(!C) return ''; var m = MOD[id]; return m ? '<span class="hc-mine' + (m.src.rk >= 16 ? ' max' : '') + '" title="' + esc(rangNom(m.src)) + '">niv. ' + m.src.lv + (m.src.rk >= 16 ? ' · ★max' : '') + '</span>' : '<span class="hc-pas">pas à toi</span>'; },
+    badge: function(id){ if(!C) return ''; var m = MOD[id]; return m ? '<span class="hc-mine' + (m.src.rk >= 3 ? ' max' : '') + '" title="' + esc(rangNom(m.src)) + '">niv. ' + m.src.lv + (m.src.rk >= 3 ? ' · ★max' : '') + '</span>' : '<span class="hc-pas">pas à toi</span>'; },
     panneau: panneau, runesEquipe: runesEquipe
   };
   indexer();

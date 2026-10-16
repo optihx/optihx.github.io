@@ -107,6 +107,8 @@
   if(G.tier){
     G.tier.classes.forEach(function(c){ c.l.forEach(function(r, i){ TIER[r[1]] = {t: r[0], place: i + 1, n: c.l.length, ry: r[7], quoi: CL[c.cl].nom}; }); });
     (G.tier.reel || []).forEach(function(r, i){ TIER[r[1]] = {t: r[0], place: i + 1, n: G.tier.reel.length, dg: r[4], quoi: 'DPS en combat réel'}; });
+    if(G.tier.mesure) Object.keys(G.tier.mesure.roles).forEach(function(k){ var R = G.tier.mesure.roles[k], tot = 0, i = 0; R.forEach(function(r){ tot += r[1].length; });
+      R.forEach(function(r){ r[1].forEach(function(x){ i++; TIER[x[0]] = {t: r[0], place: i, n: tot, pct: x[1], quoi: CL[k].nom}; }); }); });
   }
   if(G.farmEquipes && !G._farm){ G.equipes = G.farmEquipes.concat(G.equipes); G._farm = 1; }
   var EQS = []; G.equipes.forEach(function(c, ci){ c.liste.forEach(function(e){ e.ci = ci; EQS.push(e); }); });
@@ -123,7 +125,7 @@
       '<div class="f-haut"><div class="f-art" style="--e:' + el.coul + '"><img src="img/heros/corps/' + id + '.webp" alt="" loading="lazy"></div>' +
       '<div class="f-id"><h3 id="f-nom">' + esc(h.nom) + '</h3><p class="f-titre">' + esc(h.titre) + '</p>' +
       '<div class="meta">' + pCl(h.cl) + pRa(h.ra) + (TIER[id] ? '<span class="tierb t' + TIER[id].t + '">Tier ' + TIER[id].t + '</span>' : '') + '</div><div class="meta">' + pEl(h.el) + '<span class="pu" style="--u:' + (h.ld ? '#e9d27a' : '#8fa6d8') + '">' + (h.ld ? 'Invocation Lumière & Ténèbres' : 'Invocation Standard') + '</span></div>' +
-      (TIER[id] ? '<p class="f-tier">' + (TIER[id].place === 1 ? '1ᵉʳ' : TIER[id].place + 'ᵉ') + ' sur ' + TIER[id].n + ' ' + esc(TIER[id].quoi) + (TIER[id].dg ? ' · score ' + nb(TIER[id].dg / 1000) + ' k' : ' · rythme ' + nb(TIER[id].ry)) + ' <button type="button" class="lien" data-voir-tier="' + (TIER[id].dg ? 'tous' : h.cl) + '">Tier list →</button></p>' : '') +
+      (TIER[id] ? '<p class="f-tier">' + (TIER[id].place === 1 ? '1ᵉʳ' : TIER[id].place + 'ᵉ') + ' sur ' + TIER[id].n + ' ' + esc(TIER[id].quoi) + (TIER[id].pct != null ? ' · ' + TIER[id].pct + ' % de victoires' : TIER[id].dg ? ' · score ' + nb(TIER[id].dg / 1000) + ' k' : ' · rythme ' + nb(TIER[id].ry)) + ' <button type="button" class="lien" data-voir-tier="' + h.cl + '">Tier list →</button></p>' : '') +
       '<dl class="f-st"><div><dt>PV</dt><dd>' + nb(h.st.pv) + '</dd></div><div><dt>ATQ</dt><dd>' + nb(h.st.atq) + '</dd></div><div><dt>DÉF</dt><dd>' + nb(h.st.def) + '</dd></div><div><dt>VIT</dt><dd>' + h.st.vit + '</dd></div></dl><p class="f-niv">Niveau 40, sans runes (jusqu\'au niveau 60 avec l\'Éveil forcé).</p>' +
       '<button type="button" class="b-ajout" data-ajout="' + id + '">+ Ajouter à mon équipe</button></div></div>' +
       '<h4>Talent de chef</h4><p class="' + (h.lead ? 'f-lead' : 'f-sans') + '">' + (h.lead ? '<b>' + esc(h.lead.txt) + '</b>' : 'Pas de talent de chef : ne le mets pas en 1ʳᵉ place.') + '</p>' +
@@ -379,7 +381,8 @@
         '<div class="carte"><h3>Chaque semaine</h3><ul>' + G.hebdo.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' +
         '<div class="carte"><h3>Chaque mois</h3><p>' + esc(G.mensuel) + '</p></div>' +
       '</div>' +
-      (G.souvenirs ? '<h2 id="souvenirs">Souvenirs et personnalisation <span class="neuf">Nouveau</span> <small>100 % cosmétique</small></h2><div class="bases trois3">' + G.souvenirs.map(function(x){ return '<div class="base carte"><b>' + esc(x[0]) + '</b><p>' + x[1] + '</p></div>'; }).join('') + '</div>' : '') +
+      (G.pratique ? '<h2 id="pratique">Outils pratiques <span class="neuf">Nouveau</span></h2><div class="bases trois3">' + G.pratique.map(function(x){ return '<div class="base carte"><b>' + esc(x[0]) + '</b><p>' + x[1] + '</p></div>'; }).join('') + '</div>' : '') +
+      (G.souvenirs ? '<h2 id="souvenirs">Souvenirs et personnalisation <small>100 % cosmétique</small></h2><div class="bases trois3">' + G.souvenirs.map(function(x){ return '<div class="base carte"><b>' + esc(x[0]) + '</b><p>' + x[1] + '</p></div>'; }).join('') + '</div>' : '') +
       (G.saison ? '<h2 id="saison">Saison, costumes et animations</h2><div class="bases trois3">' + G.saison.map(function(x){ return '<div class="base carte"><b>' + esc(x[0]) + '</b><p>' + x[1] + '</p></div>'; }).join('') + '</div>' : '') +
       (G.evenements ? '<h2 id="evenements">Événements de la semaine</h2><p class="intro">' + G.evenements.regle + '</p><div class="evts">' + G.evenements.liste.map(function(x){ return '<div class="evt carte"><b>' + esc(x[0]) + '</b><p><span>Missions</span>' + esc(x[1]) + '</p><p><span>Gains</span>' + esc(x[2]) + '</p><p class="evt-c"><span>Coffre final</span>' + esc(x[3]) + '</p></div>'; }).join('') + '</div>' +
         '<p class="astuce">' + svg('etoile') + '<span>' + esc(G.evenements.note) + '</span></p>' : '') +
@@ -394,32 +397,34 @@
   var tCl = 'tous';
   function rendreTier(){
     var T = G.tier; if(!T) return;
+    var M = T.mesure;
     var tous = []; T.classes.forEach(function(c){ c.l.forEach(function(r){ tous.push({c: c.cl, r: r}); }); });
     var ligneH = function(id){ var x = H[id]; return '<button type="button" class="tl-h" data-h="' + id + '">' + tete(x, 34) + '<span><b>' + esc(court(x)) + '</b><span class="tl-m">' + pRa(x.ra) + pEl(x.el) + '</span></span></button>'; };
-    var h = '<h2>Tier list <small>qui tape le plus fort</small></h2><p class="intro">' + (tCl === 'tous' && T.reel ? '<b>Combat réel</b> — ' + esc(T.reelHyp) : esc(T.hyp) + ' Le classement suit le <b>rythme</b> : dégâts par tour × VIT / 100 (un héros rapide joue plus souvent).') + '</p>' +
-      '<div class="cl-tabs tl-tabs" role="group" aria-label="Classe"><button type="button" data-tcl="tous" aria-pressed="' + (tCl === 'tous') + '" style="--c:var(--or)">' + svg('etoile') + 'Toutes</button>' +
+    var bloc = function(k){ var R = M.roles[k]; if(!R) return '';
+      return '<section class="tm carte" style="--c:' + CL[k].coul + '"><h3>' + svg(CL[k].ico) + esc(CL[k].nom) + '</h3>' + R.map(function(r){
+        return '<div class="tm-r"><span class="tierb t' + r[0] + '">' + r[0] + '</span><div class="tm-h">' + r[1].map(function(x){ var y = H[x[0]]; if(!y) return '';
+          return '<button type="button" data-h="' + x[0] + '" title="' + esc(y.nom) + ' · ' + y.ra + '">' + tete(y, 40) + '<span>' + esc(court(y)) + '</span><small>' + x[1] + ' %</small></button>'; }).join('') + '</div></div>'; }).join('') + '</section>'; };
+    var h = '<h2>Tier list <small>' + J.heros.length + ' héros</small></h2><p class="intro">' + esc(M ? M.hyp : T.hyp) + '</p>' +
+      '<div class="cl-tabs tl-tabs" role="group" aria-label="Rôle"><button type="button" data-tcl="tous" aria-pressed="' + (tCl === 'tous') + '" style="--c:var(--or)">' + svg('etoile') + 'Tous</button>' +
       ORDRE_CL.map(function(k){ var x = CL[k]; return '<button type="button" data-tcl="' + k + '" style="--c:' + x.coul + '" aria-pressed="' + (k === tCl) + '">' + svg(x.ico) + x.nom + '</button>'; }).join('') + '</div>';
     if(tCl === 'tous'){
-      var top = function(titre, cle, n, unite){
-        var L = tous.filter(function(x){ return x.r[cle] != null; }).sort(function(a, b){ return b.r[cle] - a.r[cle]; }).slice(0, n), mx = L.length ? L[0].r[cle] : 1;
-        return '<section class="tl-top carte"><h3>' + titre + '</h3><ol>' + L.map(function(x, i){ return '<li><span class="tl-n">' + (i + 1) + '</span>' + ligneH(x.r[1]) + '<span class="tl-v"><i style="width:' + (x.r[cle] / mx * 100).toFixed(1) + '%;--c:' + CL[x.c].coul + '"></i><b>' + nb(x.r[cle]) + '</b></span></li>'; }).join('') + '</ol></section>';
-      };
-      if(T.reel){
+      h += M ? '<div class="tms">' + ORDRE_CL.map(bloc).join('') + '</div>' : '';
+    } else {
+      h += M ? bloc(tCl) : '';
+      if(tCl === 'dps' && T.reel){
         var mx1 = Math.max.apply(null, T.reel.map(function(r){ return r[2]; })), mx2 = Math.max.apply(null, T.reel.map(function(r){ return r[3]; }));
-        h += '<div class="tab-wrap"><table class="tab tl-tab tl-reel"><thead><tr><th>#</th><th>Héros</th><th>Tier</th><th class="tl-o">Classe</th><th class="tl-o">Une cible <small>(90 s)</small></th><th class="tl-o">Zone <small>(3 cibles)</small></th><th>Score</th></tr></thead><tbody>' +
-          T.reel.map(function(r, i){ var x = H[r[1]]; return '<tr><td>' + (i + 1) + '</td><td>' + ligneH(r[1]) + '</td><td><span class="tierb t' + r[0] + '">' + r[0] + '</span></td><td class="tl-o">' + pCl(x.cl) + '</td>' +
+        h += '<details class="tl-det carte"><summary>Dégâts en combat réel <small>héros seul, 90 s contre 1 puis 3 mannequins</small></summary><div class="tab-wrap"><table class="tab tl-tab tl-reel"><thead><tr><th>#</th><th>Héros</th><th class="tl-o">Une cible</th><th class="tl-o">Zone <small>(3 cibles)</small></th><th>Score</th></tr></thead><tbody>' +
+          T.reel.map(function(r, i){ var x = H[r[1]]; return '<tr><td>' + (i + 1) + '</td><td>' + ligneH(r[1]) + '</td>' +
             '<td class="tl-o tl-ry"><span class="tl-v"><i style="width:' + (r[2] / mx1 * 100).toFixed(1) + '%;--c:' + CL[x.cl].coul + '"></i><b>' + nb(r[2] / 1000) + ' k</b></span></td>' +
             '<td class="tl-o tl-ry"><span class="tl-v"><i style="width:' + (r[3] / mx2 * 100).toFixed(1) + '%;--c:' + CL[x.cl].coul + '"></i><b>' + nb(r[3] / 1000) + ' k</b></span></td><td><b>' + nb(r[4] / 1000) + ' k</b></td></tr>'; }).join('') +
-          '</tbody></table></div><p class="cpt-note">Dégâts totaux en 90 secondes, en milliers (k). Score = moyenne des deux tests. Les Tanks, Soigneurs et Buffers sont dans leur onglet : leur rôle est ailleurs.</p>';
+          '</tbody></table></div><p class="cpt-note">Dégâts totaux en 90 secondes, en milliers (k). Score = moyenne des deux tests.</p></details>';
       }
-      h += '<div class="tl-tops">' + top('Top 10 · plus gros coup', 4, 10) + top('Top 10 · attaque de zone', 5, 10) + '</div>';
-    } else {
-      var C2 = T.classes.filter(function(c){ return c.cl === tCl; })[0], mx = Math.max.apply(null, C2.l.map(function(r){ return r[7]; }));
-      h += '<div class="tab-wrap"><table class="tab tl-tab"><thead><tr><th>#</th><th>Héros</th><th>Tier</th><th class="tl-o">ATQ</th><th>VIT</th><th class="tl-o">Gros coup</th><th class="tl-o">Zone</th><th class="tl-o">Par tour</th><th>Rythme</th></tr></thead><tbody>' +
-        C2.l.map(function(r, i){ return '<tr><td>' + (i + 1) + '</td><td>' + ligneH(r[1]) + '</td><td><span class="tierb t' + r[0] + '">' + r[0] + '</span></td><td class="tl-o">' + nb(r[2]) + '</td><td>' + r[3] + '</td><td class="tl-o">' + nb(r[4]) + '</td><td class="tl-o">' + (r[5] == null ? '—' : nb(r[5])) + '</td><td class="tl-o">' + nb(r[6]) + '</td><td class="tl-ry"><span class="tl-v"><i style="width:' + (r[7] / mx * 100).toFixed(1) + '%;--c:' + CL[tCl].coul + '"></i><b>' + nb(r[7]) + '</b></span></td></tr>'; }).join('') +
-        '</tbody></table></div><p class="cpt-note">Gros coup = meilleure attaque sur une cible (critiques compris) · Zone = par ennemi touché · Par tour = moyenne sur 12 tours en mode AUTO.</p>';
+      var C2 = T.classes.filter(function(c){ return c.cl === tCl; })[0];
+      if(C2){ var mx = Math.max.apply(null, C2.l.map(function(r){ return r[7]; })) || 1;
+        h += '<details class="tl-det carte"><summary>Dégâts théoriques <small>rang max, sans runes, contre 1 000 de DÉF</small></summary><div class="tab-wrap"><table class="tab tl-tab"><thead><tr><th>#</th><th>Héros</th><th class="tl-o">ATQ</th><th>VIT</th><th class="tl-o">Gros coup</th><th class="tl-o">Zone</th><th class="tl-o">Par tour</th><th>Rythme</th></tr></thead><tbody>' +
+          C2.l.map(function(r, i){ return '<tr><td>' + (i + 1) + '</td><td>' + ligneH(r[1]) + '</td><td class="tl-o">' + nb(r[2]) + '</td><td>' + r[3] + '</td><td class="tl-o">' + nb(r[4]) + '</td><td class="tl-o">' + (r[5] == null ? '—' : nb(r[5])) + '</td><td class="tl-o">' + nb(r[6]) + '</td><td class="tl-ry"><span class="tl-v"><i style="width:' + (r[7] / mx * 100).toFixed(1) + '%;--c:' + CL[tCl].coul + '"></i><b>' + nb(r[7]) + '</b></span></td></tr>'; }).join('') +
+          '</tbody></table></div><p class="cpt-note">Rythme = dégâts par tour × VIT / 100. Ne compte ni les passifs ni les malus : le classement mesuré au-dessus est plus fiable.</p></details>'; }
     }
-    h += '<ul class="notes tl-notes">' + T.notes.map(function(n){ return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>';
     $('#v-tier').innerHTML = h;
   }
 
@@ -428,11 +433,19 @@ function gainsDl(L){ return '<dl class="gains">' + L.map(function(g){ return '<d
   /* ---------- Modes de jeu ---------- */
   function rendreModes(){
     var d = G.difficile, t = G.tours, hl = G.hall, sc = G.secrets, h = '', fa = G.faille, rd = G.raid, gw = G.guerre;
-    var sz = G.saisonniers, aj = G.areneJ;
-    if(sz) h += '<h2 id="saisonniers">Événements saisonniers <span class="neuf">Nouveau</span></h2><p class="intro">' + esc(sz.acces) + '</p>' +
+    var sz = G.saisonniers, aj = G.areneJ, cq = G.conquete, ab = G.abysse, da = G.donjonsArt, to = G.tournoi, ga = G.guildeAmis;
+    if(cq) h += '<h2 id="conquete">Conquête <span class="neuf">Nouveau</span> <small>3 régions × 12 lieux</small></h2><p class="intro">' + esc(cq.acces) + ' ' + cq.regle + '</p>' +
+      '<div class="bases trois3">' + cq.regions.map(function(r){ return '<div class="base carte"><b>' + esc(r[0]) + '</b><p>' + esc(r[1]) + '</p><p class="f-niv">Boss : ' + esc(r[2]) + '</p></div>'; }).join('') + '</div><p class="cpt-note">' + esc(cq.note) + '</p>';
+    if(ab) h += '<h2 id="abysse">Abysse <span class="neuf">Nouveau</span> <small>tour infinie</small></h2><p class="intro">' + esc(ab.acces) + '</p>' +
+      '<div class="mode carte"><p>' + ab.regle + '</p>' + gainsDl(ab.gains) + nivs(ab.niveau) + '<p>' + esc(ab.note) + '</p></div>';
+    if(da) h += '<h2 id="donjons-art">Donjons d\'artefacts <span class="neuf">Nouveau</span></h2><p class="intro">' + esc(da.acces) + '</p>' +
+      '<div class="mode carte">' + gainsDl(da.liste) + gainsDl(da.gains) + '<p>' + esc(da.note) + '</p></div>';
+    if(to) h += '<h2 id="tournoi">Tournoi du week-end <span class="neuf">Nouveau</span></h2><div class="mode carte"><p>' + to.regle + '</p>' + gainsDl(to.gains) + '<p>' + esc(to.saison) + '</p></div>';
+    if(ga) h += '<h2 id="guilde-amis">Guilde et amis <span class="neuf">Nouveau</span></h2><div class="bases trois3">' + ga.map(function(x){ return '<div class="base carte"><b>' + esc(x[0]) + '</b><p>' + x[1] + '</p></div>'; }).join('') + '</div>';
+    if(sz) h += '<h2 id="saisonniers">Événements saisonniers</h2><p class="intro">' + esc(sz.acces) + '</p>' +
       '<div class="saisons">' + sz.liste.map(function(x){ return '<div class="sai carte"><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span><small>Monnaie : ' + esc(x[2]) + '</small></div>'; }).join('') + '</div>' +
       '<div class="mode carte" style="margin-top:10px"><p>' + sz.regle + '</p><p>' + sz.invoc + '</p><p>' + sz.boutique + '</p></div>';
-    if(aj) h += '<h2 id="arene-joueurs">Arène des joueurs <span class="neuf">Nouveau</span> <small>en ligne</small></h2>' +
+    if(aj) h += '<h2 id="arene-joueurs">Arène des joueurs <small>en ligne</small></h2>' +
       '<div class="mode carte"><p>' + aj.regle + '</p>' + gainsDl(aj.gains) + '<p>' + esc(aj.note) + '</p><p>' + aj.guilde + '</p></div>';
     if(fa) h += '<h2 id="faille">Faille des dimensions <small>7 failles × 5 niveaux</small></h2><p class="intro">' + esc(fa.acces) + '</p>' +
       '<div class="mode carte"><p>' + fa.regle + '</p>' + gainsDl(fa.gains) + nivs(fa.niveau) + '</div><p class="astuce">' + svg('etoile') + '<span>' + esc(fa.conseil) + '</span></p>';
@@ -479,6 +492,8 @@ function gainsDl(L){ return '<dl class="gains">' + L.map(function(g){ return '<d
   function rendreEsprits(){
     var e = G.esprits, L = G.liens;
     var ev = G.eveil, h = '', ma = G.maitrise, fu = G.fusion, gl = G.gloire, rv = G.reveil;
+    var et = G.etoiles10;
+    if(et) h += '<h2 id="etoiles">Étoiles des héros <span class="neuf">Nouveau</span> <small>3★ à 6★</small></h2><div class="mode carte"><p>' + et.regle + '</p>' + gainsDl(et.points) + '<p>' + esc(et.note) + '</p></div>';
     if(rv) h += '<h2 id="reveil">Réveil <small>2ᵉ éveil</small></h2><p class="intro">' + rv.regle + '</p>' +
       '<div class="mode carte"><p><b>Coût</b> — ' + esc(rv.cout) + '</p>' + gainsDl(rv.effets) + '</div><p class="astuce">' + svg('etoile') + '<span>' + esc(rv.conseil) + '</span></p>';
     if(ma) h += '<h2 id="maitrise">Maîtrise et Formation</h2><p class="intro">' + esc(ma.acces) + '</p>' +

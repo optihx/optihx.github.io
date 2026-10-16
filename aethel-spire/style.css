@@ -663,3 +663,19 @@ code{font-family:"Martian Mono",ui-monospace,monospace;font-size:.84em;padding:1
 .sai small{color:var(--soft);font-size:11.5px}
 @media (max-width:980px){ .saisons{grid-template-columns:repeat(3,minmax(0,1fr))} }
 @media (max-width:520px){ .saisons{grid-template-columns:repeat(2,minmax(0,1fr))} }
+/* tier list mesurée (mise à jour 9) */
+.tierb.tSS{background:linear-gradient(135deg,#ffd76a,#ff7ad9,#7ad0ff);color:#140c02}
+.tms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tm{padding:12px 14px;border-top:3px solid var(--c)}
+.tm h3{display:flex;align-items:center;gap:6px;margin:0 0 8px;color:var(--c)}
+.tm h3 svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2}
+.tm-r{display:grid;grid-template-columns:34px minmax(0,1fr);gap:8px;align-items:start;padding:6px 0;border-top:1px solid rgba(150,180,255,.08)}
+.tm-r .tierb{margin-top:10px}
+.tm-h{display:flex;flex-wrap:wrap;gap:6px}
+.tm-h button{display:grid;justify-items:center;gap:1px;width:60px;background:none;border:0;padding:0;color:var(--ink);font-size:11px;font-weight:700;cursor:pointer}
+.tm-h button span{max-width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tm-h small{color:var(--soft);font-size:10.5px}
+.tl-det{margin-top:12px;padding:10px 14px}
+.tl-det summary{cursor:pointer;font-weight:800}
+.tl-det summary small{color:var(--soft);font-weight:600;margin-left:6px}
+@media (max-width:980px){ .tms{grid-template-columns:minmax(0,1fr)} }
