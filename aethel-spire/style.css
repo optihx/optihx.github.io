@@ -654,3 +654,12 @@ code{font-family:"Martian Mono",ui-monospace,monospace;font-size:.84em;padding:1
 .base .paliers{margin:8px 0 0}
 @media (max-width:980px){ .roles{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (max-width:720px){ .roles,.bases.trois3{grid-template-columns:minmax(0,1fr)} }
+/* mise à jour 6 */
+.hc-nv{position:absolute;top:7px;left:44px;padding:1px 6px;border-radius:6px;background:#4fd18b;color:#06210f;font-size:10px;font-weight:900;letter-spacing:.04em}
+.saisons{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.sai{display:grid;gap:3px;padding:12px;text-align:center}
+.sai b{font-size:14px}
+.sai span{color:var(--or);font-weight:700;font-size:12.5px}
+.sai small{color:var(--soft);font-size:11.5px}
+@media (max-width:980px){ .saisons{grid-template-columns:repeat(3,minmax(0,1fr))} }
+@media (max-width:520px){ .saisons{grid-template-columns:repeat(2,minmax(0,1fr))} }

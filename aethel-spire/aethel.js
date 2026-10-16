@@ -92,7 +92,7 @@
   function carteHeros(h, attr){
     var e = J.elements[h.el] || {coul: '#5ec8ff'};
     return '<button type="button" class="hcard" ' + attr + ' style="--e:' + e.coul + ';--r:var(--' + h.ra + ')"><span class="hc-art"><img src="img/heros/corps/' + h.id + '.webp" alt="" loading="lazy"' + (POS[h.id] ? ' style="object-position:' + POS[h.id] + '"' : '') + '></span>' +
-      '<span class="hc-ra">' + h.ra + '</span>' + (h.lead ? '<span class="hc-lead" title="A un talent de chef">★</span>' : '') +
+      '<span class="hc-ra">' + h.ra + '</span>' + (h.nv ? '<span class="hc-nv">NEW</span>' : '') + (h.lead ? '<span class="hc-lead" title="A un talent de chef">★</span>' : '') +
       (window.ASC && attr.indexOf('data-pick') > -1 ? ASC.badge(h.id) : '') + '<span class="hc-nom">' + esc(court(h)) + '</span><span class="hc-cl" style="--c:' + CL[h.cl].coul + '">' + svg(CL[h.cl].ico) + esc(CL[h.cl].nom) + '</span></button>';
   }
   function majFiltre(e, f, rendre){
@@ -313,7 +313,7 @@
       ['Sets d\'équipe', J.sets.filter(function(s){ return /tous les alliés/.test(s.d); })]
     ];
     var ro = G.roles, ar = G.artefacts;
-    var h = (ro ? '<h2 id="roles">' + esc(ro.titre) + ' <span class="neuf">Nouveau</span></h2><div class="roles">' + ro.liste.map(function(x, i){ var k = ORDRE_CL[i]; return '<div class="role carte" style="--c:' + CL[k].coul + '"><b>' + svg(CL[k].ico) + esc(x[0]) + '</b><p>' + x[1] + '</p></div>'; }).join('') + '</div><p class="cpt-note">' + esc(ro.note) + '</p>' : '') +
+    var h = (ro ? '<h2 id="roles">' + esc(ro.titre) + '</h2><div class="roles">' + ro.liste.map(function(x, i){ var k = ORDRE_CL[i]; return '<div class="role carte" style="--c:' + CL[k].coul + '"><b>' + svg(CL[k].ico) + esc(x[0]) + '</b><p>' + x[1] + '</p></div>'; }).join('') + '</div><p class="cpt-note">' + esc(ro.note) + '</p>' : '') +
       '<h2>Les runes par rôle</h2>' +
       '<p class="intro">Les emplacements 1, 3 et 5 ont une stat fixe (ATQ, DÉF, PV). Tu choisis les emplacements <b>2, 4 et 6</b>.</p>' +
       '<div class="cl-tabs" role="group" aria-label="Classe">' + ORDRE_CL.map(function(k){ var x = CL[k]; return '<button type="button" data-rcl="' + k + '" style="--c:' + x.coul + '" aria-pressed="' + (k === rCl) + '">' + svg(x.ico) + x.nom + '</button>'; }).join('') + '</div>' +
@@ -333,7 +333,7 @@
       (G.setsAntiques ? '<h2 id="sets-antiques">Sets antiques <small>4 ou 6 pièces, jamais 2</small></h2><div class="sets-g">' + G.setsAntiques.map(function(g){ return '<div class="sets-bloc carte antique"><h3>' + esc(g[0]) + '</h3><ul>' + g[1].map(function(x){ return '<li style="--s:#b3261e"><i>' + x[1] + '</i><span><b>' + esc(x[0]) + '</b><small>' + esc(x[2]) + '</small></span></li>'; }).join('') + '</ul></div>'; }).join('') + '</div><p class="cpt-note">Avec un set antique de 4 pièces, il reste 2 emplacements pour un set classique de 2 pièces. Mêmes valeurs qu\'une rune Arc-en-ciel ★7.</p>' : '') +
       '<h2>Les 4 donjons de runes</h2><div class="donjons">' + G.farmSets.map(function(d){ return '<div class="dj carte" style="--e:' + J.elements[d[1]].coul + '"><h3>' + esc(d[0]) + '</h3>' + pEl(d[1]) + '<div class="dj-s">' + d[2].map(setChip).join('') + '</div></div>'; }).join('') + '</div>' +
       (G.outilsRunes ? '<h2 id="outils-runes">Outils de runes</h2><div class="bases deux">' + G.outilsRunes.map(function(o){ return '<div class="base carte"><b>' + esc(o[0]) + '</b><p>' + o[1] + '</p></div>'; }).join('') + '</div>' : '') +
-      (ar ? '<h2 id="artefacts">Artefacts <span class="neuf">Nouveau</span></h2><p class="intro">' + ar.regle + '</p><div class="bases deux"><div class="base carte"><b>Sous-stats et plafonds par héros</b><ul class="paliers">' +
+      (ar ? '<h2 id="artefacts">Artefacts</h2><p class="intro">' + ar.regle + '</p><div class="bases deux"><div class="base carte"><b>Sous-stats et plafonds par héros</b><ul class="paliers">' +
         ar.stats.map(function(x){ return '<li><span>' + esc(x[0]) + '</span><b>max ' + esc(x[1]) + '</b></li>'; }).join('') + '</ul></div><div class="base carte"><b>Rareté et amélioration</b><p>' + esc(ar.rarete) + '</p><b>Où les trouver</b><p>' + esc(ar.sources) + '</p></div></div>' +
         '<p class="astuce">' + svg('etoile') + '<span>' + ar.conseil + '</span></p>' : '') +
       '<h2>Conseils</h2><ol class="prio">' + G.conseilsRunes.map(function(p){ return '<li>' + p + '</li>'; }).join('') + '</ol>';
@@ -379,7 +379,8 @@
         '<div class="carte"><h3>Chaque semaine</h3><ul>' + G.hebdo.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' +
         '<div class="carte"><h3>Chaque mois</h3><p>' + esc(G.mensuel) + '</p></div>' +
       '</div>' +
-      (G.saison ? '<h2 id="saison">Saison, costumes et animations <span class="neuf">Nouveau</span></h2><div class="bases trois3">' + G.saison.map(function(x){ return '<div class="base carte"><b>' + esc(x[0]) + '</b><p>' + x[1] + '</p></div>'; }).join('') + '</div>' : '') +
+      (G.souvenirs ? '<h2 id="souvenirs">Souvenirs et personnalisation <span class="neuf">Nouveau</span> <small>100 % cosmétique</small></h2><div class="bases trois3">' + G.souvenirs.map(function(x){ return '<div class="base carte"><b>' + esc(x[0]) + '</b><p>' + x[1] + '</p></div>'; }).join('') + '</div>' : '') +
+      (G.saison ? '<h2 id="saison">Saison, costumes et animations</h2><div class="bases trois3">' + G.saison.map(function(x){ return '<div class="base carte"><b>' + esc(x[0]) + '</b><p>' + x[1] + '</p></div>'; }).join('') + '</div>' : '') +
       (G.evenements ? '<h2 id="evenements">Événements de la semaine</h2><p class="intro">' + G.evenements.regle + '</p><div class="evts">' + G.evenements.liste.map(function(x){ return '<div class="evt carte"><b>' + esc(x[0]) + '</b><p><span>Missions</span>' + esc(x[1]) + '</p><p><span>Gains</span>' + esc(x[2]) + '</p><p class="evt-c"><span>Coffre final</span>' + esc(x[3]) + '</p></div>'; }).join('') + '</div>' +
         '<p class="astuce">' + svg('etoile') + '<span>' + esc(G.evenements.note) + '</span></p>' : '') +
       (G.classements ? '<h2>Classements</h2><div class="bases deux">' + G.classements.map(function(c){ return '<div class="base carte"><b>' + esc(c[0]) + '</b><p>' + c[1] + '</p></div>'; }).join('') + '</div>' : '') +
@@ -427,11 +428,17 @@ function gainsDl(L){ return '<dl class="gains">' + L.map(function(g){ return '<d
   /* ---------- Modes de jeu ---------- */
   function rendreModes(){
     var d = G.difficile, t = G.tours, hl = G.hall, sc = G.secrets, h = '', fa = G.faille, rd = G.raid, gw = G.guerre;
-    if(fa) h += '<h2 id="faille">Faille des dimensions <span class="neuf">Nouveau</span> <small>7 failles × 5 niveaux</small></h2><p class="intro">' + esc(fa.acces) + '</p>' +
+    var sz = G.saisonniers, aj = G.areneJ;
+    if(sz) h += '<h2 id="saisonniers">Événements saisonniers <span class="neuf">Nouveau</span></h2><p class="intro">' + esc(sz.acces) + '</p>' +
+      '<div class="saisons">' + sz.liste.map(function(x){ return '<div class="sai carte"><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span><small>Monnaie : ' + esc(x[2]) + '</small></div>'; }).join('') + '</div>' +
+      '<div class="mode carte" style="margin-top:10px"><p>' + sz.regle + '</p><p>' + sz.invoc + '</p><p>' + sz.boutique + '</p></div>';
+    if(aj) h += '<h2 id="arene-joueurs">Arène des joueurs <span class="neuf">Nouveau</span> <small>en ligne</small></h2>' +
+      '<div class="mode carte"><p>' + aj.regle + '</p>' + gainsDl(aj.gains) + '<p>' + esc(aj.note) + '</p><p>' + aj.guilde + '</p></div>';
+    if(fa) h += '<h2 id="faille">Faille des dimensions <small>7 failles × 5 niveaux</small></h2><p class="intro">' + esc(fa.acces) + '</p>' +
       '<div class="mode carte"><p>' + fa.regle + '</p>' + gainsDl(fa.gains) + nivs(fa.niveau) + '</div><p class="astuce">' + svg('etoile') + '<span>' + esc(fa.conseil) + '</span></p>';
-    if(rd) h += '<h2 id="raid">Raid coopératif <span class="neuf">Nouveau</span> <small>R1 à R5</small></h2>' +
+    if(rd) h += '<h2 id="raid">Raid coopératif <small>R1 à R5</small></h2>' +
       '<div class="mode carte"><p>' + rd.regle + '</p>' + gainsDl(rd.gains) + nivs(rd.niveau) + '</div>';
-    if(gw) h += '<h2 id="guerre">Guerre de guilde <span class="neuf">Nouveau</span></h2><p class="intro">' + gw.regle + '</p>' +
+    if(gw) h += '<h2 id="guerre">Guerre de guilde</h2><p class="intro">' + gw.regle + '</p>' +
       '<div class="bases deux"><div class="base carte"><b>Attaque</b>' + gainsDl(gw.points) + '<p>' + gw.defense + '</p></div>' +
       '<div class="base carte"><b>Boutique ⚑</b><ul class="paliers">' + gw.boutique.map(function(x){ return '<li><span>' + esc(x[0]) + '</span><b>' + esc(x[1]) + '</b></li>'; }).join('') + '</ul></div></div>' +
       '<p class="astuce">' + svg('etoile') + '<span>' + esc(gw.conseil) + '</span></p>';
@@ -454,7 +461,7 @@ function gainsDl(L){ return '<dl class="gains">' + L.map(function(g){ return '<d
       '<div class="mode carte arc"><p><b>Arc-en-ciel 14, 15 et 16</b> — ' + dh.arc + '</p><p>' + dh.butin + '</p>' +
       '<div class="chances">' + dh.chances.map(function(c){ return '<div><span><b>' + esc(c[0]) + '</b><small>' + esc(c[1]) + '</small></span><span class="jauge7"><i style="width:' + c[2] + '%"></i></span><b class="pc7">' + c[2] + ' %</b></div>'; }).join('') + '</div>' +
       '<p class="f-niv">Chance d\'obtenir une ★7, pour chaque rune gagnée.</p></div>' +
-      (dh.fin ? '<div class="mode carte"><p><b>Mise à jour 4.1</b> <span class="neuf">Nouveau</span> — ' + dh.fin + '</p>' + (dh.res ? nivs(dh.res) : '') + '</div>' : '');
+      (dh.fin ? '<div class="mode carte"><p><b>Mise à jour 4.1</b> — ' + dh.fin + '</p>' + (dh.res ? nivs(dh.res) : '') + '</div>' : '');
     var af = G.affixes;
     if(af) h += '<h2 id="affixes">Affixes des boss</h2><p class="intro">' + af.regle + '</p>' +
       '<div class="affixes">' + af.liste.map(function(a){ return '<div class="afx carte"><b>' + esc(a[0]) + '</b><span>' + esc(a[1]) + '</span></div>'; }).join('') + '</div>' +
@@ -472,7 +479,7 @@ function gainsDl(L){ return '<dl class="gains">' + L.map(function(g){ return '<d
   function rendreEsprits(){
     var e = G.esprits, L = G.liens;
     var ev = G.eveil, h = '', ma = G.maitrise, fu = G.fusion, gl = G.gloire, rv = G.reveil;
-    if(rv) h += '<h2 id="reveil">Réveil <span class="neuf">Nouveau</span> <small>2ᵉ éveil</small></h2><p class="intro">' + rv.regle + '</p>' +
+    if(rv) h += '<h2 id="reveil">Réveil <small>2ᵉ éveil</small></h2><p class="intro">' + rv.regle + '</p>' +
       '<div class="mode carte"><p><b>Coût</b> — ' + esc(rv.cout) + '</p>' + gainsDl(rv.effets) + '</div><p class="astuce">' + svg('etoile') + '<span>' + esc(rv.conseil) + '</span></p>';
     if(ma) h += '<h2 id="maitrise">Maîtrise et Formation</h2><p class="intro">' + esc(ma.acces) + '</p>' +
       '<div class="bases deux"><div class="base carte"><b>Maîtrise</b><p>' + ma.maitrise + '</p></div><div class="base carte"><b>Formation</b><p>' + ma.formation + '</p>' +
