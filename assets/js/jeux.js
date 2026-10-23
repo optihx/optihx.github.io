@@ -22,6 +22,7 @@
                 (polices dispo : voir assets/fonts/fonts.css)
    - fond     : (facultatif) la couleur de la tranche
    - encre    : (facultatif) la couleur du texte sur la tranche
+   - icone    : (facultatif) une petite icône en haut de la tranche, à la place du trait de couleur
    ========================================================== */
 window.JEUX = [
   {
@@ -105,6 +106,7 @@ window.JEUX = [
     encre: "#eef3ff",
     lien: "aethel-spire/index.html",
     image: "assets/img/card-aethel.webp",
+    icone: "aethel-spire/img/icone.svg",
     couleur: "#5ec8ff",
     texte: "Mon propre jeu, en bêta (pas fini, il s'améliore petit à petit) ! Le lien pour le tester et le guide : tier list, équipes, runes.",
     type: "Mon jeu",

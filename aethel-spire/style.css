@@ -27,6 +27,10 @@ code{font-family:"Martian Mono",ui-monospace,monospace;font-size:.84em;padding:1
 .entete-txt{position:relative;width:100%;max-width:1180px;margin:0 auto;padding:48px clamp(16px,4vw,48px) 28px}
 .sur{margin:0 0 6px;color:var(--accent);font-weight:700;font-size:13px;letter-spacing:.28em;text-transform:uppercase}
 .entete h1{margin:0;font-family:var(--titre);font-weight:900;font-size:clamp(42px,7vw,80px);line-height:1;letter-spacing:.02em;text-shadow:0 4px 30px rgba(94,200,255,.25)}
+.entete h1.h1-logo{line-height:0;text-shadow:none}
+.h1-logo .logo-svg{display:block;width:clamp(260px,42vw,520px);height:auto;margin-left:-6px;filter:drop-shadow(0 4px 24px rgba(94,200,255,.25))}
+.badge-dev.avec-ic{display:inline-flex;align-items:center;gap:7px;padding-left:6px}
+.badge-dev img{display:inline-block;width:20px;height:20px;border-radius:5px}
 .entete h1 span{background:linear-gradient(180deg,#fff1c9,var(--or) 60%,var(--or2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .beta{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin:0 0 16px;max-width:680px}
 .b-jouer{display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border-radius:14px;background:linear-gradient(180deg,#ffe7a8,var(--or) 55%,var(--or2));color:#2a1a02;font-weight:800;font-size:15.5px;box-shadow:0 10px 30px -12px rgba(242,200,107,.7);transition:transform .15s,box-shadow .2s}
