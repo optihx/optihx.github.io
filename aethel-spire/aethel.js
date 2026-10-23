@@ -168,13 +168,13 @@
   $('#v-heros').addEventListener('input', function(e){ majFiltre(e, hf, rendreHeros); });
 
   /* ---------- Mon équipe ---------- */
-  var KEQ = 'optih-aethel-equipes', NEQ = 5, ME;
+  var KEQ = 'optih-aethel-equipes', NEQ = 5, TMAX = 5, ME;
   try { ME = JSON.parse(localStorage.getItem(KEQ) || 'null'); } catch(e){ ME = null; }
   if(!ME || !Array.isArray(ME.t)) ME = {cur: 0, t: []};
   if(!(ME.cur >= 0 && ME.cur < NEQ)) ME.cur = 0;
-  for(var qi = 0; qi < NEQ; qi++){ if(!Array.isArray(ME.t[qi])) ME.t[qi] = []; ME.t[qi] = ME.t[qi].filter(function(id){ return H[id]; }).slice(0, 4); }
+  for(var qi = 0; qi < NEQ; qi++){ if(!Array.isArray(ME.t[qi])) ME.t[qi] = []; ME.t[qi] = ME.t[qi].filter(function(id){ return H[id]; }).slice(0, TMAX); }
   var lienEq = new URLSearchParams(location.search).get('equipe');
-  if(lienEq){ ME.t[ME.cur] = lienEq.split(',').filter(function(id, i, a){ return H[id] && a.indexOf(id) === i; }).slice(0, 4); }
+  if(lienEq){ ME.t[ME.cur] = lienEq.split(',').filter(function(id, i, a){ return H[id] && a.indexOf(id) === i; }).slice(0, TMAX); }
   function sauver(){ try { localStorage.setItem(KEQ, JSON.stringify(ME)); } catch(e){} }
   var pf = {q: '', cl: '', el: '', ra: ''};
   function eq(){ return ME.t[ME.cur]; }
@@ -182,8 +182,8 @@
   function ajouter(id, aller){
     var t = eq();
     if(t.indexOf(id) > -1) t.splice(t.indexOf(id), 1);
-    else if(t.length < 4) t.push(id);
-    else message('L\'équipe est pleine (4 héros). Retire quelqu\'un d\'abord.');
+    else if(t.length < TMAX) t.push(id);
+    else message('L\'équipe est pleine (' + TMAX + ' héros). Retire quelqu\'un d\'abord.');
     sauver(); rendreEquipe();
     if(aller){ montrer('equipe', true); haut(); }
   }
@@ -203,11 +203,11 @@
   }
   function rendreEquipe(){
     var t = eq(), L = t.length ? H[t[0]].lead : null, S = statsEquipe(t), syn = synergies(t);
-    var h = '<h2>Mon équipe <small>4 héros · le 1ᵉʳ est le chef</small></h2>' +
+    var h = '<h2>Mon équipe <small>' + TMAX + ' héros · le 1ᵉʳ est le chef</small></h2>' +
       '<p class="intro">Choisis tes héros dans la liste en dessous. Le héros en <b>1ʳᵉ place</b> est le <b>chef</b> : son talent s\'applique à l\'équipe. Tes équipes restent gardées sur cet appareil.</p>' + (window.ASC ? ASC.panneau() : '') +
-      '<div class="eq-onglets" role="tablist" aria-label="Mes équipes">' + ME.t.map(function(x, i){ return '<button type="button" role="tab" data-eqi="' + i + '" aria-selected="' + (i === ME.cur) + '">Équipe ' + (i + 1) + '<small>' + x.length + '/4</small></button>'; }).join('') + '</div>' +
+      '<div class="eq-onglets" role="tablist" aria-label="Mes équipes">' + ME.t.map(function(x, i){ return '<button type="button" role="tab" data-eqi="' + i + '" aria-selected="' + (i === ME.cur) + '">Équipe ' + (i + 1) + '<small>' + x.length + '/' + TMAX + '</small></button>'; }).join('') + '</div>' +
       '<div class="mon-eq"><div class="slots">';
-    for(var i = 0; i < 4; i++){
+    for(var i = 0; i < TMAX; i++){
       var id = t[i], x = id && H[id];
       if(!x){ h += '<div class="slot vide' + (i === 0 ? ' chef' : '') + '">' + (i === 0 ? '<span class="s-chef">Chef</span>' : '') + '<span class="s-plus">+</span><small>' + (i === 0 ? 'Le chef d\'équipe' : 'Héros ' + (i + 1)) + '</small></div>'; continue; }
       var st = S[i].t;
