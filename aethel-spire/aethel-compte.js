@@ -185,7 +185,7 @@
     return C.runes.filter(function(r){ return !bloque[r.id]; });
   }
   var ORDRE = {dps: 0, support: 1, healer: 2, tank: 3};
-  /* runes pour 4 héros : chaque rune ne va que sur un seul héros */
+  /* runes pour 5 héros : chaque rune ne va que sur un seul héros */
   function repartir(ids, mode){
     var Ms = ids.map(function(c){ return MOD[c]; }).filter(Boolean), pool = poolPour(ids), best = null;
     var ordres = Ms.map(function(m0){ return [m0].concat(Ms.filter(function(m){ return m !== m0; }).sort(function(a, b){ return ORDRE[a.cl] - ORDRE[b.cl]; })); });
@@ -230,7 +230,7 @@
   }
   function meilleureEquipe(mode){
     var cands = Object.keys(MOD).filter(function(c){ return MOD[c].src.lv > 1 || Object.keys(MOD).length <= 8; });
-    if(cands.length < 4) cands = Object.keys(MOD);
+    if(cands.length < 5) cands = Object.keys(MOD);
     if(cands.length < 1) return null;
     var pool = poolPour([]), pot = {};
     cands.forEach(function(c){ var r = optimiser(MOD[c], pool, mode); pot[c] = r; });
@@ -238,9 +238,9 @@
     var garde = tri.slice(0, 11);
     ['tank', 'healer'].forEach(function(cl){ tri.filter(function(c){ return H[c].cl === cl; }).slice(0, 2).forEach(function(c){ if(garde.indexOf(c) < 0) garde.push(c); }); });
     var tous = [], n = garde.length;
-    if(n <= 4) tous.push(valeurEquipe(garde, pot, mode));
-    else for(var a = 0; a < n; a++) for(var b = a + 1; b < n; b++) for(var c = b + 1; c < n; c++) for(var d = c + 1; d < n; d++)
-      tous.push(valeurEquipe([garde[a], garde[b], garde[c], garde[d]], pot, mode));
+    if(n <= 5) tous.push(valeurEquipe(garde, pot, mode));
+    else for(var a = 0; a < n; a++) for(var b = a + 1; b < n; b++) for(var c = b + 1; c < n; c++) for(var d = c + 1; d < n; d++) for(var e = d + 1; e < n; e++)
+      tous.push(valeurEquipe([garde[a], garde[b], garde[c], garde[d], garde[e]], pot, mode));
     tous.sort(function(x, y){ return y.v - x.v; });
     /* 5 teams variées : chacune change au moins 2 héros par rapport aux précédentes (sinon 1) */
     var choix = [];
@@ -300,11 +300,11 @@
     if((res.mode === 'leg' || res.mode === 'arc') && r6 < tot) out.push(['info', r6 + ' rune(s) ★6 ou mieux sur ' + tot + ' : farme les étages hauts pour en avoir plus.']);
     return out;
   }
-  /* les 4 UR les plus utiles à monter */
+  /* les 5 UR les plus utiles à monter */
   function ursAUp(){
     var poss = Object.keys(MOD).filter(function(c){ return H[c].ra === 'UR'; }).sort(function(a, b){ return MOD[b].src.p - MOD[a].src.p; });
     var choix = [], cls = {};
-    function prendre(c, a){ if(choix.length < 4 && !choix.some(function(x){ return x.c === c; })){ choix.push({c: c, a: a}); cls[H[c].cl] = 1; } }
+    function prendre(c, a){ if(choix.length < 5 && !choix.some(function(x){ return x.c === c; })){ choix.push({c: c, a: a}); cls[H[c].cl] = 1; } }
     ['tank', 'healer'].forEach(function(cl){ var c = poss.filter(function(x){ return H[x].cl === cl; })[0]; if(c) prendre(c, 1); });
     poss.forEach(function(c){ prendre(c, 1); });
     var autres = J.heros.filter(function(h){ return h.ra === 'UR' && !MOD[h.id]; }).sort(function(x, y){ return (y.st.pv / 10 + y.st.atq * 1.2 + y.st.def + y.st.vit * 2) - (x.st.pv / 10 + x.st.atq * 1.2 + x.st.def + x.st.vit * 2); });
@@ -358,7 +358,7 @@
     return '<div class="compte carte"><div class="cpt-tete"><div><b>' + esc(C.nom) + '</b><span>niveau ' + C.niv + ' · ' + nH + ' héros · ' + C.runes.length + ' runes' + (d && !isNaN(d) ? ' · export du ' + d.toLocaleDateString('fr-FR') : '') + '</span></div>' +
       '<div class="cpt-act"><label class="b-sec2"><input type="file" accept=".json,application/json" data-asc-fichier hidden>Changer de fichier</label><button type="button" class="b-sec2" data-asc-oublier>Oublier</button></div></div>' +
       '<div class="outils">' +
-        '<div class="outil"><b>Meilleur build</b><p>Les meilleures runes pour les 4 héros de ton équipe, chaque rune sur un seul héros.</p><button type="button" class="b-charger" data-asc-build' + (mesT ? '' : ' disabled') + '>' + (mesT ? '⚙ Mettre les runes' : 'Mets tes héros dans l\'équipe') + '</button></div>' +
+        '<div class="outil"><b>Meilleur build</b><p>Les meilleures runes pour les 5 héros de ton équipe, chaque rune sur un seul héros.</p><button type="button" class="b-charger" data-asc-build' + (mesT ? '' : ' disabled') + '>' + (mesT ? '⚙ Mettre les runes' : 'Mets tes héros dans l\'équipe') + '</button></div>' +
         '<div class="outil"><b>Meilleure team PvE</b><p>Choisis le palier :</p><div class="paliers-s">' + [['d9', 'Étage 10'], ['leg', 'Légende'], ['arc', 'Arc-en-ciel']].map(function(p){ return '<button type="button" data-asc-palier="' + p[0] + '" aria-pressed="' + (palier === p[0]) + '">' + p[1] + '</button>'; }).join('') + '</div><button type="button" class="b-charger" data-asc-pve>Trouver</button></div>' +
         '<div class="outil"><b>Meilleure team PvP</b><p>Vitesse et dégâts pour l\'Arène.</p><button type="button" class="b-charger" data-asc-pvp>Trouver</button></div>' +
       '</div>' +
