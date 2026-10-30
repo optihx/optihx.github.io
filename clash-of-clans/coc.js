@@ -244,7 +244,7 @@
   }
   sousBtns.forEach(function(b){ b.addEventListener('click', function(){ montrer(b.dataset.sous); }); });
   window.COC_MONTRER = montrer;
-  function depuisAdresse(){ var h = location.hash.slice(1); if(/^coc-(encours|import|comptes)$/.test(h)) montrer(h); }
+  function depuisAdresse(){ var h = location.hash.slice(1); if(/^coc-(encours|import|comptes|meta)$/.test(h)) montrer(h); }
   depuisAdresse(); addEventListener('hashchange', depuisAdresse);
 
   /* ---------- Notifications « fin d'amélioration » (si activées sur l'accueil) ---------- */
@@ -261,6 +261,40 @@
       fetch((/netlify\.app$/.test(location.hostname) ? '' : 'https://optihx.netlify.app') + '/api/coc', {method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify({endpoint: n.endpoint, liste: L.slice(0, 120)})}).catch(function(){});
     }, 1200);
   }
+
+
+  /* ---------- Compos Légende (résumé daté + liens de copie en jeu) ---------- */
+  var boxM = document.getElementById('coc-meta');
+  function resetDans(){
+    var n = new Date(), h = Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate(), 5);
+    if(h <= n) h += 864e5;
+    var f = new Date(Date.UTC(n.getUTCFullYear(), n.getUTCMonth() + 1, 0, 5)); /* dernier lundi du mois, 5 h UTC */
+    while(f.getUTCDay() !== 1) f = new Date(f - 864e5);
+    if(f <= n){ f = new Date(Date.UTC(n.getUTCFullYear(), n.getUTCMonth() + 2, 0, 5)); while(f.getUTCDay() !== 1) f = new Date(f - 864e5); }
+    return {jour: h - n, saison: f - n};
+  }
+  function hm(ms){ var m = Math.max(0, Math.floor(ms / 6e4)), j = Math.floor(m / 1440), hh = Math.floor(m % 1440 / 60); return (j ? j + ' j ' : '') + hh + ' h ' + ('0' + (m % 60)).slice(-2) + ' min'; }
+  function rendreMeta(){
+    var M = window.COC_META; if(!M) return;
+    var r = resetDans();
+    boxM.innerHTML = '<div class="meta-tete"><div><b>Légende League 1 · ' + esc(M.date) + '</b><span>' + M.joueurs.toLocaleString('fr-FR') + ' joueurs relevés. Exemples d\'armées du jour, avec le lien pour les copier dans le jeu.</span></div>' +
+      '<div class="meta-reset"><span>Reset du jour dans <b id="meta-j">' + hm(r.jour) + '</b></span><span>Fin de saison dans <b id="meta-s">' + hm(r.saison) + '</b></span></div></div>' +
+      M.types.map(function(t){
+        return '<section class="mtype"><h3>' + esc(t.n) + ' <i>' + String(t.p).replace('.', ',') + ' %</i></h3><div class="marmees">' +
+          t.a.map(function(a, i){ return '<div class="marmee"><p><b>Exemple ' + (i + 1) + '</b> ' + esc(a.t.replace(/ x(\d+)/g, ' ×$1')) + '</p><div class="actions">' +
+            '<a class="b-prim" href="https://link.clashofclans.com/en?action=CopyArmy&army=' + esc(a.u) + '" target="_blank" rel="noopener">Copier dans le jeu</a>' +
+            '<button type="button" class="b-sec" data-lien="' + esc(a.u) + '">Copier le lien</button></div></div>'; }).join('') + '</div></section>';
+      }).join('') + '<p class="note">Résumé daté : les compos bougent chaque jour. Relevé sur Ranked Warden (non officiel). Les héros, équipements, sorts et troupes du château sont inclus dans le lien.</p>';
+  }
+  setInterval(function(){ var a = document.getElementById('meta-j'); if(a){ var r = resetDans(); a.textContent = hm(r.jour); document.getElementById('meta-s').textContent = hm(r.saison); } }, 30000);
+  document.getElementById('p-coc').addEventListener('click', function(e){
+    var b = e.target.closest('button[data-lien]'); if(!b) return;
+    var u = 'https://link.clashofclans.com/en?action=CopyArmy&army=' + b.dataset.lien, t = b.textContent;
+    function ok(){ b.textContent = 'Lien copié !'; setTimeout(function(){ b.textContent = t; }, 1800); }
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(u).then(ok, function(){ prompt('Copie ce lien :', u); });
+    else prompt('Copie ce lien :', u);
+  });
+  rendreMeta();
 
   rendre(); synchro();
   function tic(){ rendreEncours(); var f = document.activeElement; if(!(f && boxC.contains(f) && f.tagName === 'INPUT')) rendreComptes(); }

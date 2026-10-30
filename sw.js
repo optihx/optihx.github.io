@@ -8,7 +8,7 @@
    page à garder hors ligne, change le numéro de VERSION ci-dessous
    (ex. "optih-v1" → "optih-v2").
    ========================================================== */
-var VERSION = "optih-v42";
+var VERSION = "optih-v43";
 var COEUR = [
   "./", "index.html", "offline.html", "manifest.webmanifest",
   "assets/fonts/fonts.css", "assets/css/base.css", "assets/css/app.css",
@@ -22,7 +22,7 @@ var COEUR = [
   "wuthering-waves/data-materiaux.js", "wuthering-waves/data-echos.js", "wuthering-waves/materiaux.js", "wuthering-waves/data-calendrier.js", "wuthering-waves/calendrier.js", "wuthering-waves/tirages.js", "wuthering-waves/echos.js", "wuthering-waves/musique.js", "wuthering-waves/resets.js",
   "bdo/data-gear.js", "bdo/gear.js", "bdo/fiche-image.js", "bdo/data-taches.js", "bdo/taches.js", "tower-of-god/data-persos.js", "tower-of-god/equipes.js", "tower-of-god/team-image.js", "assets/js/partage-image.js",
   "tower-of-god/index.html", "tower-of-god/style.css",
-  "clash-of-clans/index.html", "clash-of-clans/style.css", "clash-of-clans/coc.js", "clash-of-clans/data-coc.js",
+  "clash-of-clans/index.html", "clash-of-clans/style.css", "clash-of-clans/coc.js", "clash-of-clans/data-coc.js", "clash-of-clans/data-meta.js",
   "palworld/index.html", "palworld/style.css", "palworld/pal.js", "palworld/data-pal.js"
 ];
 var MAX_IMAGES = 400;
