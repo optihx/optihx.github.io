@@ -245,7 +245,7 @@ button{font:inherit;color:inherit}
 .meta-tete{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:flex-end;margin:0 0 18px;padding:16px 18px;border-radius:18px;background:var(--carte);border:1px solid var(--ligne)}
 .meta-tete b{display:block;font-family:var(--titre);font-weight:400;font-size:20px}
 .meta-tete span{color:var(--soft);font-size:14px}
-.meta-reset{display:grid;gap:2px;text-align:right}.meta-reset b{display:inline;font-family:var(--corps);font-weight:800;font-size:14.5px;color:var(--coc)}
+.meta-reset{display:grid;gap:2px;text-align:left}.meta-reset b{display:inline;font-family:var(--corps);font-weight:800;font-size:14.5px;color:var(--coc)}
 .mtype{margin:0 0 22px}
 .mtype h3{margin:0 0 10px;font-family:var(--titre);font-weight:400;font-size:22px}
 .mtype h3 i{font-style:normal;font-size:14px;color:var(--coc);margin-left:6px}
