@@ -280,7 +280,7 @@
     boxM.innerHTML = '<div class="meta-tete"><div><b>Légende League 1 · ' + esc(M.date) + '</b><span>' + M.joueurs.toLocaleString('fr-FR') + ' joueurs relevés. Exemples d\'armées du jour, avec le lien pour les copier dans le jeu.</span></div>' +
       '<div class="meta-reset"><span>Reset du jour dans <b id="meta-j">' + hm(r.jour) + '</b></span><span>Fin de saison dans <b id="meta-s">' + hm(r.saison) + '</b></span></div></div>' +
       M.types.map(function(t){
-        return '<section class="mtype"><h3>' + esc(t.n) + ' <i>' + String(t.p).replace('.', ',') + ' %</i></h3><div class="marmees">' +
+        return '<section class="mtype"><h3>' + (t.i || []).map(function(id){ return '<img class="mtete" src="img/i/400' + ('0000' + id).slice(-4) + '.webp" alt="" width="44" height="44" loading="lazy">'; }).join('') + '<span>' + esc(t.n) + '</span> <i>' + String(t.p).replace('.', ',') + ' %</i></h3><div class="marmees">' +
           t.a.map(function(a, i){ return '<div class="marmee"><p><b>Exemple ' + (i + 1) + '</b> ' + esc(a.t.replace(/ x(\d+)/g, ' ×$1')) + '</p><div class="actions">' +
             '<a class="b-prim" href="https://link.clashofclans.com/en?action=CopyArmy&army=' + esc(a.u) + '" target="_blank" rel="noopener">Copier dans le jeu</a>' +
             '<button type="button" class="b-sec" data-lien="' + esc(a.u) + '">Copier le lien</button></div></div>'; }).join('') + '</div></section>';
