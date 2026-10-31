@@ -276,3 +276,4 @@ button{font:inherit;color:inherit}
 .qc{display:inline-flex;align-items:center;gap:6px;padding:3px 10px 3px 4px;border-radius:12px;background:var(--carte2);border:1px solid var(--ligne);font-size:13px}
 .qc:not(:has(img)){padding-left:10px}
 .qc img{width:26px;height:26px;border-radius:8px}.qc i{font-style:normal}.qc b{color:var(--coc)}
+@media (max-width:640px){.qheros{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.qheros button{flex-direction:column;gap:4px;padding:8px 4px;text-align:center;font-size:12.5px;line-height:1.2}.qheros button img{width:44px;height:44px}}
