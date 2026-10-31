@@ -244,7 +244,7 @@
   }
   sousBtns.forEach(function(b){ b.addEventListener('click', function(){ montrer(b.dataset.sous); }); });
   window.COC_MONTRER = montrer;
-  function depuisAdresse(){ var h = location.hash.slice(1); if(/^coc-(encours|import|comptes|meta)$/.test(h)) montrer(h); }
+  function depuisAdresse(){ var h = location.hash.slice(1); if(/^coc-(encours|import|comptes|meta|equip)$/.test(h)) montrer(h); }
   depuisAdresse(); addEventListener('hashchange', depuisAdresse);
 
   /* ---------- Notifications « fin d'amélioration » (si activées sur l'accueil) ---------- */
@@ -295,6 +295,36 @@
     else prompt('Copie ce lien :', u);
   });
   rendreMeta();
+
+
+  /* ---------- Équipements de héros (niveaux conseillés + combinaisons les plus jouées) ---------- */
+  var boxQ = document.getElementById('coc-equip'), eqHero = 0;
+  var TN = {80:'Super Bouliste', 57:'Ballon-fusée', 147:'Super Yéti', 81:'Super Dragon', 84:'Super gargouille'};
+  var PFX = {e: 90000000, p: 73000000, s: 26000000, t: 4000000};
+  function ent(k, id){
+    if(typeof id === 'string') return {nom: id, ico: ''};
+    var full = PFX[k] + id, nom = (k === 't' && TN[id]) || info(full)[0];
+    if(k === 's') nom = nom.replace(/^Sort d['e] ?(la |l')?/i, '').replace(/^./, function(m){ return m.toUpperCase(); });
+    return {nom: nom, ico: '<img src="img/i/' + full + '.webp" alt="" loading="lazy" onerror="this.remove()">'};
+  }
+  function chipQ(k, id, pct){ var o = ent(k, id); return '<span class="qc">' + o.ico + '<i>' + esc(o.nom) + '</i>' + (pct != null ? '<b>' + String(pct).replace('.', ',') + ' %</b>' : '') + '</span>'; }
+  function niveaux(l){ return '<ul class="qn">' + l.map(function(x){ var o = ent('e', x[0]); return '<li>' + o.ico + '<span>' + esc(o.nom) + '</span><b>niv. ' + x[1] + '</b></li>'; }).join('') + '</ul>'; }
+  function rendreEquip(){
+    var Q = window.COC_EQUIP; if(!Q) return;
+    var H = Q[eqHero];
+    boxQ.innerHTML = '<div class="qheros" role="group" aria-label="Choisir un héros">' + Q.map(function(x, i){
+      return '<button type="button" data-hero="' + i + '" aria-pressed="' + (i === eqHero) + '"><img src="img/i/' + x.h + '.webp" alt="" loading="lazy"><span>' + esc(info(x.h)[0]) + '</span></button>'; }).join('') + '</div>' +
+      '<div class="qcols"><section class="qbloc"><h3>Équipements épiques</h3>' + niveaux(H.ep) + '</section><section class="qbloc"><h3>Équipements communs</h3>' + niveaux(H.co) + '</section></div>' +
+      '<p class="note">Niveau conseillé : le plus bas qui donne déjà l\'essentiel de l\'effet (au moins 40 % pour un épique, 50 % pour un commun). « niv. 1 » : inutile de le monter pour le meta.</p>' +
+      '<h3 class="qtitre">Combinaisons les plus jouées</h3><div class="qcombos">' + H.c.map(function(r){
+        return '<div class="qcombo"><div class="qeq">' + r.e.map(function(id){ return chipQ('e', id); }).join('') + '</div>' +
+          '<div class="qlig"><em>Animal</em>' + r.p.map(function(x){ return chipQ('p', x[0], x[1]); }).join('') + '</div>' +
+          (r.s.length ? '<div class="qlig"><em>Sorts</em>' + r.s.map(function(id){ return chipQ('s', id); }).join('') + '</div>' : '') +
+          '<div class="qlig"><em>Armées</em>' + r.a.map(function(x){ return chipQ('t', x[0], x[1]); }).join('') + '</div></div>'; }).join('') + '</div>' +
+      '<p class="note">Relevé du ' + esc((window.COC_META && window.COC_META.date) || '') + ' sur Ranked Warden (Legend League 1, équipements du meta). Les pourcentages indiquent la part des joueurs qui utilisent chaque animal ou armée avec cette combinaison.</p>';
+  }
+  boxQ.addEventListener('click', function(e){ var b = e.target.closest('button[data-hero]'); if(!b) return; eqHero = +b.dataset.hero; rendreEquip(); });
+  rendreEquip();
 
   rendre(); synchro();
   function tic(){ rendreEncours(); var f = document.activeElement; if(!(f && boxC.contains(f) && f.tagName === 'INPUT')) rendreComptes(); }
