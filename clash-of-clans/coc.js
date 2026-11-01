@@ -263,8 +263,9 @@
   }
 
 
-  /* ---------- Compos Légende (résumé daté + liens de copie en jeu) ---------- */
-  var boxM = document.getElementById('coc-meta');
+  /* ---------- Compos Légende : accordéon ; chaque créateur = sa vidéo YouTube + SON armée ---------- */
+  var boxM = document.getElementById('coc-meta'), mOuvert = 0, mVid = {}, mJoue = {};
+  var TNM = {26:'Super barbare', 28:'Super sapeur', 55:'Gobelin furtif', 57:'Ballon-fusée', 63:'Dragon infernal', 76:'Molosse de glace', 80:'Super bouliste', 81:'Super dragon', 84:'Super gargouille', 147:'Super yéti'};
   function resetDans(){
     var n = new Date(), h = Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate(), 5);
     if(h <= n) h += 864e5;
@@ -273,19 +274,42 @@
     if(f <= n){ f = new Date(Date.UTC(n.getUTCFullYear(), n.getUTCMonth() + 2, 0, 5)); while(f.getUTCDay() !== 1) f = new Date(f - 864e5); }
     return {jour: h - n, saison: f - n};
   }
-  function hm(ms){ var m = Math.max(0, Math.floor(ms / 6e4)), j = Math.floor(m / 1440), hh = Math.floor(m % 1440 / 60); return (j ? j + ' j ' : '') + hh + ' h ' + ('0' + (m % 60)).slice(-2) + ' min'; }
+  function hm(ms){ var m = Math.max(0, Math.floor(ms / 6e4)), j = Math.floor(m / 1440), hh = Math.floor(m % 1440 / 60); return (j ? j + ' j ' : '') + hh + ' h ' + ('0' + (m % 60)).slice(-2); }
+  function lot(u, re){ var m = u.match(re); return m ? m[1].split('-').map(function(p){ var a = p.split('x'); return [+a[0], +a[1]]; }) : []; }
+  function armee(u){
+    var tr = [], en = [], sp = [];
+    lot(u, /u([0-9x-]+)/).forEach(function(x){ var it = I[String(4000000 + x[1])], nom = TNM[x[1]] || (it && it[0]); if(nom) (it && it[1] === 'siege' ? en : tr).push([nom, x[0]]); });
+    lot(u, /s([0-9x-]+)$/).forEach(function(x){ var it = I[String(26000000 + x[1])]; if(it) sp.push([it[0].replace(/^Sort (de |d'|du )?/i, '').replace(/^./, function(c){ return c.toUpperCase(); }), x[0]]); });
+    tr.sort(function(a, b){ return b[1] - a[1]; });
+    function f(l){ return l.map(function(x){ return esc(x[0]) + ' ×' + x[1]; }).join(', '); }
+    return '<dl class="marm"><dt>Troupes</dt><dd>' + f(tr) + '</dd>' + (sp.length ? '<dt>Sorts</dt><dd>' + f(sp) + '</dd>' : '') + (en.length ? '<dt>Engins</dt><dd>' + f(en) + '</dd>' : '') + '</dl>';
+  }
+  function video(v, i){
+    if(mJoue[i] === v.y) return '<div class="mvid"><iframe src="https://www.youtube-nocookie.com/embed/' + v.y + '?autoplay=1&rel=0&playsinline=1" title="' + esc(v.t) + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>';
+    return '<button type="button" class="mvid" data-jouer="' + i + '" aria-label="Lire la vidéo de ' + esc(v.c) + '"><img src="https://i.ytimg.com/vi/' + v.y + '/hqdefault.jpg" alt="" loading="lazy"><span class="mplay"></span><span class="mcap"><b>' + esc(v.t) + '</b>' + esc(v.c) + ' · ' + esc(v.w) + ' vues</span></button>';
+  }
   function rendreMeta(){
     var M = window.COC_META; if(!M) return;
-    var r = resetDans();
-    boxM.innerHTML = '<div class="meta-tete"><div><b>Légende League 1 · ' + esc(M.date) + '</b><span>' + M.joueurs.toLocaleString('fr-FR') + ' joueurs relevés. Exemples d\'armées du jour, avec le lien pour les copier dans le jeu.</span></div>' +
-      '<div class="meta-reset"><span>Reset du jour dans <b id="meta-j">' + hm(r.jour) + '</b></span><span>Fin de saison dans <b id="meta-s">' + hm(r.saison) + '</b></span></div></div>' +
-      M.types.map(function(t){
-        return '<section class="mtype"><h3>' + (t.i || []).map(function(id){ return '<img class="mtete" src="img/i/400' + ('0000' + id).slice(-4) + '.webp" alt="" width="44" height="44" loading="lazy">'; }).join('') + '<span>' + esc(t.n) + '</span> <i>' + String(t.p).replace('.', ',') + ' %</i></h3><div class="marmees">' +
-          t.a.map(function(a, i){ return '<div class="marmee"><p><b>Exemple ' + (i + 1) + '</b> ' + esc(a.t.replace(/ x(\d+)/g, ' ×$1')) + '</p><div class="actions">' +
-            '<a class="b-prim" href="https://link.clashofclans.com/en?action=CopyArmy&army=' + esc(a.u) + '" target="_blank" rel="noopener">Copier dans le jeu</a>' +
-            '<button type="button" class="b-sec" data-lien="' + esc(a.u) + '">Copier le lien</button></div></div>'; }).join('') + '</div></section>';
-      }).join('') + '<p class="note">Résumé daté : les compos bougent chaque jour. Relevé sur Ranked Warden (non officiel). Les héros, équipements, sorts et troupes du château sont inclus dans le lien.</p>';
+    var r = resetDans(), dt = M.date.split('-');
+    boxM.innerHTML = '<p class="mhaut">Légende 1 · relevé du ' + dt[2] + '/' + dt[1] + ' · ' + M.joueurs.toLocaleString('fr-FR') + ' joueurs<br>Reset du jour dans <b id="meta-j">' + hm(r.jour) + '</b> · fin de saison dans <b id="meta-s">' + hm(r.saison) + '</b></p><div class="macc">' +
+      M.types.map(function(t, i){
+        var on = i === mOuvert, k = mVid[i] || 0, v = t.v[k];
+        return '<section class="mtype' + (on ? ' ouvert' : '') + '" id="mt-' + i + '"><button type="button" class="mligne" data-mtype="' + i + '" aria-expanded="' + on + '">' +
+          (t.i || []).map(function(id){ return '<img class="mtete" src="img/i/' + (4000000 + id) + '.webp" alt="" width="40" height="40" loading="lazy">'; }).join('') +
+          '<span class="mnom">' + esc(t.n) + '</span><span class="mpct">' + String(t.p).replace('.', ',') + ' %</span><i class="mchev" aria-hidden="true"></i></button>' +
+          (on ? '<div class="mcorps">' + video(v, i) +
+            '<div class="mcre" role="group" aria-label="Choisir un créateur">' + t.v.map(function(x, j){ return '<button type="button" data-mvid="' + i + ':' + j + '" aria-pressed="' + (j === k) + '">' + esc(x.c) + '</button>'; }).join('') + '</div>' +
+            '<p class="msous">Armée de la vidéo de <b>' + esc(v.c) + '</b></p>' + armee(v.u) +
+            '<div class="actions"><a class="b-prim" href="https://link.clashofclans.com/en?action=CopyArmy&army=' + esc(v.u) + '" target="_blank" rel="noopener">Copier dans le jeu</a><button type="button" class="b-sec" data-lien="' + esc(v.u) + '">Copier le lien</button></div></div>' : '') +
+          '</section>';
+      }).join('') + '</div><p class="note">Guides vidéo et armées relevés sur Ranked Warden (non officiel) ; vidéos YouTube de leurs créateurs. Le lien « Copier dans le jeu » contient aussi les héros, équipements et troupes du château de la vidéo.</p>';
   }
+  boxM.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    if(b.dataset.mtype != null){ var i = +b.dataset.mtype; mOuvert = mOuvert === i ? -1 : i; rendreMeta(); var s = document.getElementById('mt-' + i); if(s && mOuvert === i && s.getBoundingClientRect().top < 60) s.scrollIntoView({block: 'start'}); }
+    else if(b.dataset.mvid){ var p = b.dataset.mvid.split(':'); mVid[p[0]] = +p[1]; delete mJoue[p[0]]; rendreMeta(); }
+    else if(b.dataset.jouer != null){ var t = window.COC_META.types[+b.dataset.jouer]; mJoue[b.dataset.jouer] = t.v[mVid[b.dataset.jouer] || 0].y; rendreMeta(); }
+  });
   setInterval(function(){ var a = document.getElementById('meta-j'); if(a){ var r = resetDans(); a.textContent = hm(r.jour); document.getElementById('meta-s').textContent = hm(r.saison); } }, 30000);
   document.getElementById('p-coc').addEventListener('click', function(e){
     var b = e.target.closest('button[data-lien]'); if(!b) return;
@@ -299,7 +323,7 @@
 
   /* ---------- Équipements de héros (niveaux conseillés + combinaisons les plus jouées) ---------- */
   var boxQ = document.getElementById('coc-equip'), eqHero = 0;
-  var TN = {80:'Super Bouliste', 57:'Ballon-fusée', 147:'Super Yéti', 81:'Super Dragon', 84:'Super gargouille'};
+  var TN = TNM;
   var PFX = {e: 90000000, p: 73000000, s: 26000000, t: 4000000};
   function ent(k, id){
     if(typeof id === 'string') return {nom: id, ico: ''};
@@ -321,7 +345,7 @@
           '<div class="qlig"><em>Animal</em>' + r.p.map(function(x){ return chipQ('p', x[0], x[1]); }).join('') + '</div>' +
           (r.s.length ? '<div class="qlig"><em>Sorts</em>' + r.s.map(function(id){ return chipQ('s', id); }).join('') + '</div>' : '') +
           '<div class="qlig"><em>Armées</em>' + r.a.map(function(x){ return chipQ('t', x[0], x[1]); }).join('') + '</div></div>'; }).join('') + '</div>' +
-      '<p class="note">Relevé du ' + esc((window.COC_META && window.COC_META.date) || '') + ' sur Ranked Warden (Legend League 1, équipements du meta). Les pourcentages indiquent la part des joueurs qui utilisent chaque animal ou armée avec cette combinaison.</p>';
+      '<p class="note">Relevé du ' + esc(window.COC_EQUIP_DATE || '') + ' sur Ranked Warden (Legend League 1, équipements du meta). Les pourcentages indiquent la part des joueurs qui utilisent chaque animal ou armée avec cette combinaison.</p>';
   }
   boxQ.addEventListener('click', function(e){ var b = e.target.closest('button[data-hero]'); if(!b) return; eqHero = +b.dataset.hero; rendreEquip(); });
   rendreEquip();

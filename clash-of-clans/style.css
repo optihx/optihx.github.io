@@ -242,18 +242,6 @@ button{font:inherit;color:inherit}
 .maxe-r .r-or{color:#ffd66b}.maxe-r .r-el{color:#e48cff}.maxe-r .r-en{color:#b9a7d6}.maxe-r .r-oe{color:#f2b33d}
 
 /* Compos Légende */
-.meta-tete{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:flex-end;margin:0 0 18px;padding:16px 18px;border-radius:18px;background:var(--carte);border:1px solid var(--ligne)}
-.meta-tete b{display:block;font-family:var(--titre);font-weight:400;font-size:20px}
-.meta-tete span{color:var(--soft);font-size:14px}
-.meta-reset{display:grid;gap:2px;text-align:left}.meta-reset b{display:inline;font-family:var(--corps);font-weight:800;font-size:14.5px;color:var(--coc)}
-.mtype{margin:0 0 22px}
-.mtype h3{margin:0 0 10px;font-family:var(--titre);font-weight:400;font-size:22px}
-.mtype h3 i{font-style:normal;font-size:14px;color:var(--coc);margin-left:6px}
-.marmees{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px}
-.marmee{display:grid;gap:12px;align-content:space-between;padding:14px 16px;border-radius:18px;background:var(--carte);border:1px solid var(--ligne)}
-.marmee p{margin:0;font-size:14px;color:var(--soft)}.marmee p b{display:block;color:var(--ink);margin-bottom:3px}
-.marmee .actions{display:flex;flex-wrap:wrap;gap:8px}.marmee .b-prim,.marmee .b-sec{min-height:40px;padding:8px 14px;font-size:14px}
-.mtype h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.mtete{width:44px;height:44px;border-radius:12px;background:var(--carte);border:1px solid var(--ligne);object-fit:cover}
 
 /* Équipements */
 .qheros{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
@@ -277,3 +265,29 @@ button{font:inherit;color:inherit}
 .qc:not(:has(img)){padding-left:10px}
 .qc img{width:26px;height:26px;border-radius:8px}.qc i{font-style:normal}.qc b{color:var(--coc)}
 @media (max-width:640px){.qheros{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.qheros button{flex-direction:column;gap:4px;padding:8px 4px;text-align:center;font-size:12.5px;line-height:1.2}.qheros button img{width:44px;height:44px}}
+
+/* Compos Légende : accordéon + vidéos */
+.mhaut{margin:0 0 14px;color:var(--soft);font-size:14px}.mhaut b{color:var(--coc)}
+.macc{display:grid;gap:10px}
+.mtype{border-radius:18px;background:var(--carte);border:1px solid var(--ligne);overflow:hidden}
+.mtype.ouvert{border-color:rgba(242,179,61,.45)}
+.mligne{display:flex;align-items:center;gap:10px;width:100%;padding:10px 14px;border:0;background:none;text-align:left;cursor:pointer}
+.mtete{width:40px;height:40px;border-radius:12px;background:var(--carte2);object-fit:cover}
+.mnom{flex:1;font-family:var(--titre);font-size:19px;line-height:1.15}
+.mpct{color:var(--coc);font-weight:800}
+.mchev{width:10px;height:10px;margin:0 4px 4px;border-right:2px solid var(--soft);border-bottom:2px solid var(--soft);transform:rotate(45deg);transition:transform .2s}
+.ouvert .mchev{transform:rotate(-135deg);margin:6px 4px 0}
+.mcorps{display:grid;gap:12px;padding:0 14px 16px}
+.mvid{position:relative;display:block;width:100%;aspect-ratio:16/9;padding:0;border:0;border-radius:14px;overflow:hidden;background:#0d1118;cursor:pointer}
+.mvid img,.mvid iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
+.mplay{position:absolute;left:50%;top:50%;width:62px;height:44px;margin:-22px 0 0 -31px;border-radius:13px;background:#e62117;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+.mplay:after{content:"";position:absolute;left:26px;top:13px;border-left:16px solid #fff;border-top:9px solid transparent;border-bottom:9px solid transparent}
+.mcap{position:absolute;left:0;right:0;bottom:0;padding:24px 12px 9px;background:linear-gradient(transparent,rgba(0,0,0,.85));color:#fff;font-size:12.5px;text-align:left;line-height:1.35}
+.mcap b{display:block;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mcre{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.mcre::-webkit-scrollbar{display:none}
+.mcre button{flex:0 0 auto;padding:7px 12px;border:1px solid var(--ligne);border-radius:11px;background:var(--carte2);color:var(--soft);font-weight:700;font-size:13px;cursor:pointer}
+.mcre button[aria-pressed="true"]{border-color:var(--coc);color:var(--ink)}
+.msous{margin:0;font-size:14px;color:var(--soft)}.msous b{color:var(--ink)}
+.marm{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0;font-size:14px}
+.marm dt{font-weight:800;color:var(--soft);font-size:12px;text-transform:uppercase;letter-spacing:.04em;padding-top:2px}.marm dd{margin:0}
+.mcorps .actions{display:flex;flex-wrap:wrap;gap:8px}
