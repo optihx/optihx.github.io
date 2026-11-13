@@ -56,3 +56,6 @@
   .as-tabs button{padding:14px 11px 12px;font-size:14px}
   html.avec-onglets .pied{padding-bottom:80px}
 }
+
+/* Petite icône du jeu, ronde, dans le badge « Mon jeu » */
+.badge-dev.avec-ic img{border-radius:50%;object-fit:cover}
