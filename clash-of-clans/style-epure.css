@@ -1,0 +1,27 @@
+/* Clash of Clans — retouches légères (se pose par-dessus style.css)
+   On garde l'ancienne page (bannière, Lilita One, or) ; on enlève juste ce qui
+   faisait chargé et on aligne la barre et le pied sur les autres pages. */
+
+/* Barre du haut : la signature et « Accueil », sans flèche */
+.retour{font-weight:600}
+
+/* Bannière : un peu moins haute, le titre respire */
+.banniere{height:clamp(220px,34vw,380px)}
+.entete-txt{margin-top:-104px;padding-bottom:22px}
+.entete-txt p{max-width:56ch;font-weight:500}
+
+/* Sous-onglets : pilules arrondies, sans cadre autour */
+.sous{border:0;border-radius:18px;padding:4px}
+.sous button{border-radius:999px;font-weight:700}
+
+/* Plus de petits libellés en MAJUSCULES espacées */
+.panneau *{text-transform:none!important}
+.c-etat span,.maxe-t span,.qlig em,.marm dt{letter-spacing:0;font-size:12.5px}
+
+/* Pied : comme sur les autres pages (pas de numéros, pas de bouton retour) */
+.pied{margin-top:clamp(48px,8vh,96px);background:none}
+.pied h2{font-size:24px}
+.index a{grid-template-columns:minmax(0,1fr) auto;font-weight:600}
+.index .k{display:none}
+.sig{margin-top:0}
+@media (max-width:900px){html.avec-onglets .pied{padding-bottom:80px}}
