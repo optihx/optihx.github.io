@@ -112,7 +112,7 @@
 
     // signature
     x.font = '400 17px ' + TITRE; x.fillStyle = 'rgba(239,227,204,.7)';
-    var sig = "OPTI'H ✗ · optihx.netlify.app", sgw = x.measureText(sig).width;
+    var sig = "OPTI'H ✗ · optihx.github.io", sgw = x.measureText(sig).width;
     x.textAlign = 'left'; x.fillText(sig, W - 70 - sgw, H - 30);
     if(logo){ var lh = 30, lw = logo.width / logo.height * lh; x.globalAlpha = .85; x.drawImage(logo, W - 82 - sgw - lw, H - 30 - lh + 6, lw, lh); x.globalAlpha = 1; }
     return c;

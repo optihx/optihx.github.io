@@ -99,7 +99,7 @@ window.TeamImage = (function(){
 
     // signature en bas à droite
     x.textBaseline = 'alphabetic'; x.font = '600 20px ' + TITRE; x.fillStyle = 'rgba(255,255,255,.72)';
-    var sig = "OPTI'H ✗ · optihx.netlify.app", sw = x.measureText(sig).width;
+    var sig = "OPTI'H ✗ · optihx.github.io", sw = x.measureText(sig).width;
     x.fillText(sig, W - 40 - sw, H - 26);
     if(logo){ var lh = 34, lw = logo.width / logo.height * lh; x.globalAlpha = .85; x.drawImage(logo, W - 52 - sw - lw, H - 26 - lh + 6, lw, lh); x.globalAlpha = 1; }
     return c;

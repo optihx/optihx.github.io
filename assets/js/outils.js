@@ -18,7 +18,9 @@ window.OUTILS = [
       { nom: "Suivi de mon gear", lien: "bdo/index.html#gear", texte: "Objectif Ekleta IV.", mien: true },
       { nom: "Garmoth", lien: "https://garmoth.com/", texte: "Boss, calculateurs, simulateur de gear." },
       { nom: "BDO Codex", lien: "https://bdocodex.com/fr/", texte: "Base de données : objets, quêtes, recettes." },
-      { nom: "BDOLytics", lien: "https://bdolytics.com/fr/EU", texte: "Prix du marché et carte des nœuds." }
+      { nom: "BDOLytics", lien: "https://bdolytics.com/fr/EU", texte: "Prix du marché et carte des nœuds." },
+      { nom: "BDO Workshop", lien: "https://bdoworkshop.com/", texte: "Ce qu'il faut monter en priorité, et le coût des enchantements." },
+      { nom: "BDO Class Hub", lien: "https://bdoclasshub.com/index.html", texte: "Combos de chaque classe, tier list (en anglais)." }
     ]
   },
   {
@@ -46,7 +48,7 @@ window.OUTILS = [
     couleur: "#ffcf8a",
     liens: [
       { nom: "Ma carte de joueur", lien: "index.html#carte", texte: "Une image qui résume tous mes jeux, à partager.", mien: true },
-      { nom: "Notifications", lien: "index.html#notifications", texte: "Bannières, resets, world boss, tâches.", mien: true },
+      { nom: "Notifications", lien: "index.html#notifications", texte: "Bannières, resets, world boss, Clash of Clans.", mien: true },
       { nom: "Synchro", lien: "index.html", texte: "Mes données sur tous mes appareils (bouton en haut de l'accueil).", mien: true },
       { nom: "OP France", lien: "op/index.html", texte: "Mon guide Pirate Quest.", mien: true },
       { nom: "Ma chaîne Twitch", lien: "https://www.twitch.tv/optihx", texte: "Les lives." }

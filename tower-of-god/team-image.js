@@ -107,7 +107,7 @@ window.TogImage = (function(){
 
     // signature
     x.font = '600 17px ' + TITRE; x.fillStyle = 'rgba(238,234,255,.75)';
-    var sig = "OPTI'H ✗ · optihx.netlify.app", sw = x.measureText(sig).width;
+    var sig = "OPTI'H ✗ · optihx.github.io", sw = x.measureText(sig).width;
     x.fillText(sig, W - 64 - sw, H - 30);
     if(logo){ var lh = 30, lw = logo.width / logo.height * lh; x.globalAlpha = .85; x.drawImage(logo, W - 76 - sw - lw, H - 30 - lh + 6, lw, lh); x.globalAlpha = 1; }
     return c;

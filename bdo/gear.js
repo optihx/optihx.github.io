@@ -7,7 +7,7 @@
   function gs(o){ return Math.max(o.ap, o.aap) + o.dp; }   // comme en jeu : meilleure AP + DP
   function stat(nom, v){ return '<li><span>' + nom + '</span><b>' + (v || '<em class="g-vide">à remplir</em>') + '</b></li>'; }
 
-  var html = '<div class="gear-cards">' + G.persos.map(function(p){
+  var html = '<div class="gear-cards">' + G.persos.filter(function(p){ return !p.tag; }).map(function(p){
     var vide = !(p.ap || p.aap || p.dp);
     return '<article class="g-card"><header><img src="' + esc(p.img) + '" alt="" width="64" height="64"><div><h3>' + esc(p.nom) + '</h3>' +
       '<span class="g-gs">' + (vide ? 'GS à remplir' : 'GS <b>' + gs(p) + '</b>') + '</span></div></header>' +

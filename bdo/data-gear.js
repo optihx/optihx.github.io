@@ -2,7 +2,8 @@
    BDO — SUIVI DU GEAR (le seul fichier à modifier pour le mettre à jour)
    Pour chaque perso : ap, aap (AP d'éveil), dp, et une note.
    Le GS se calcule tout seul, comme en jeu : la meilleure AP (AP ou AP d'éveil) + DP.
-   Mystic et Scholar sont en gear tag : même stuff que Maegu.
+   Mystic, Scholar et Kunoichi sont en gear tag : même stuff que Maegu.
+   tag: true = perso en gear tag : il n'a pas sa propre carte dans « Suivi du gear ».
 
    OBJECTIF : la liste « accessoires » ci-dessous.
    - type "kharazad" : change son niveau quand tu la montes (I à X, X = DEC).
@@ -12,15 +13,17 @@
    son nom et son niveau.
    ========================================================== */
 window.GEAR = {
-  maj: "5 octobre 2026",
+  maj: "13 novembre 2026",
   persos: [
-    { nom: "Maegu",   img: "img/maegu1-mini.webp",   ap: 383, aap: 385, dp: 456, note: "Main." },
-    { nom: "Mystic",  img: "img/mystic1-mini.webp",  ap: 383, aap: 385, dp: 456, note: "Gear tag : même stuff que Maegu." },
-    { nom: "Scholar", img: "img/scholar1-mini.webp", ap: 383, aap: 385, dp: 456, note: "Gear tag : même stuff que Maegu." }
+    { nom: "Maegu",   img: "img/maegu1-mini.webp",   ap: 385, aap: 387, dp: 459, note: "Mon perso principal. Ma Mystic, ma Scholar et ma Kunoichi utilisent ce même stuff (gear tag)." },
+    { nom: "Mystic",  img: "img/mystic1-mini.webp",  ap: 385, aap: 387, dp: 459, note: "Gear tag : même stuff que Maegu.", tag: true },
+    { nom: "Scholar", img: "img/scholar1-mini.webp", ap: 385, aap: 387, dp: 459, note: "Gear tag : même stuff que Maegu.", tag: true },
+    { nom: "Kunoichi", img: "img/kunoichi1-mini.webp", ap: 385, aap: 387, dp: 459, note: "Gear tag : même stuff que Maegu.", tag: true }
   ],
   // COURBE DU GS : ajoute une ligne à chaque fois que ton GS monte (date AAAA-MM-JJ).
   historique: [
-    { date: "2026-10-05", gs: 841 }
+    { date: "2026-10-05", gs: 841 },
+    { date: "2026-11-13", gs: 846 }
   ],
   objectif: "6 accessoires Ekleta IV",
   etapes: "Monter les Kharazad au DEC, puis les échanger contre des Ekleta IV.",
@@ -31,7 +34,7 @@ window.GEAR = {
     { place: "Boucle d'oreille", nom: "Kharazad de la lueur nocturne", niv: "VIII", type: "kharazad" },
     { place: "Boucle d'oreille", nom: "Kharazad de la lueur nocturne", niv: "VIII", type: "kharazad" },
     { place: "Collier",          nom: "Ekleta de l'aube",            niv: "IV",   type: "ekleta" },
-    { place: "Ceinture",         nom: "Kharazad de la nuit tombante", niv: "IX",  type: "kharazad" }
+    { place: "Ceinture",         nom: "Ekleta de la nuit tombante", niv: "IV",   type: "ekleta" }
   ],
   stuff: [
     { place: "Arme principale",  nom: "Amulette renard Souveraine ardente", niv: "VII" },

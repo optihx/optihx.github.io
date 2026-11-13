@@ -12,8 +12,8 @@
 <meta property="og:locale" content="fr_FR">
 <meta property="og:title" content="Wuthering Waves — opti&#x27;H ✗">
 <meta property="og:description" content="Builds et teams des résonateurs, simulateur de dégâts, calendrier, resets et calcul d&#x27;Astrite.">
-<meta property="og:url" content="https://optihx.netlify.app/wuthering-waves/">
-<meta property="og:image" content="https://optihx.netlify.app/assets/partage/wuwa.jpg">
+<meta property="og:url" content="https://optihx.github.io/wuthering-waves/">
+<meta property="og:image" content="https://optihx.github.io/assets/partage/wuwa.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -28,39 +28,32 @@
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../assets/css/base.css">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style-epure.css">
 <link rel="stylesheet" href="../assets/css/app.css">
 </head>
 <body data-root="../" data-jeu="wuthering-waves/index.html">
-<header class="top">
-  <a class="back" href="../index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg><img src="../assets/img/logo-oph.png" alt="" width="217" height="312">L'étagère</a>
-<span class="theme-slot" data-theme-slot></span></header>
-<main>
-<section class="hero">
-  <div class="hero-text">
-    <span class="code">Résonance · journal d'opti'H</span>
-    <div>
-      <h1>Wuthering<span>Waves</span></h1>
-      <p>Un action-RPG en monde ouvert sur PC et mobile. Ici : le meilleur build et les meilleures équipes de chaque résonateur, et ma team Changli · Lupa · Shorekeeper.</p>
-      <a class="cta" href="#resonateurs">Voir les résonateurs<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
-      <dl class="specs">
-        <div><dt>Plateforme</dt><dd>PC · Mobile</dd></div>
-        <div><dt>Genre</dt><dd>Action-RPG</dd></div>
-        <div><dt>Éditeur</dt><dd>Kuro Games</dd></div>
-        <div><dt>Fiches</dt><dd class="status"><i aria-hidden="true"></i>60 résonateurs</dd></div>
-      </dl>
-    </div>
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="back" href="../index.html"><img src="../assets/img/logo-oph.png" alt="" width="217" height="312"><span>Accueil</span></a>
+    <span class="theme-slot" data-theme-slot></span>
   </div>
-  <div class="hero-art">
-    <div class="slides" id="slides">
-      <img class="slide on" src="img/hero.webp" alt="Lupa, Wuthering Waves" fetchpriority="high" data-label="LUPA · FUSION">
-      <img class="slide" src="img/hero-hsin.webp" alt="Hsin, Wuthering Waves" data-label="HSIN · NOUVELLE 3.7">
+</header>
+<main>
+<section class="ouv">
+  <div class="slides" id="slides">
+    <img class="slide on" src="img/hero.webp" alt="Lupa, Wuthering Waves" fetchpriority="high" data-label="Lupa">
+    <img class="slide" src="img/hero-hsin.webp" alt="Hsin, Wuthering Waves" data-label="Hsin">
+  </div>
+  <div class="wrap ouv-txt">
+    <h1>Wuthering Waves</h1>
+    <p>Le meilleur build et les meilleures équipes des 60 résonateurs, ma team Changli, Lupa et Shorekeeper, et tous mes outils : dégâts, farm, calendrier.</p>
+    <div class="ouv-bas">
+      <a class="lien" href="#resonateurs">Voir les résonateurs<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+      <div class="dots" role="tablist" aria-label="Choisir l'image">
+        <button type="button" role="tab" aria-selected="true" aria-label="Lupa"><i></i></button>
+        <button type="button" role="tab" aria-selected="false" aria-label="Hsin"><i></i></button>
+      </div>
     </div>
-    <div class="dots" role="tablist" aria-label="Choisir l'image">
-      <button type="button" role="tab" aria-selected="true" aria-label="Lupa"><i></i></button>
-      <button type="button" role="tab" aria-selected="false" aria-label="Hsin"><i></i></button>
-    </div>
-    <div class="hud" aria-hidden="true"><i></i><i></i><i></i><i></i><span id="hud-label">LUPA · FUSION</span></div>
-    <canvas class="wave" aria-hidden="true"></canvas>
   </div>
 </section>
 
@@ -175,9 +168,12 @@
 </dialog>
 
 <footer class="end">
-  <div class="in">
-    <div><h2>Fin de transmission</h2><a class="return" href="../index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Retour à l'étagère</a></div>
-    <div><ul class="index" data-index></ul><div class="sig"><img src="../assets/img/logo-oph.png" alt="" width="217" height="312"><span>© opti'H ✗</span></div></div>
+  <div class="wrap">
+    <div>
+      <h2>Autres jeux</h2>
+      <div class="sig"><img src="../assets/img/logo-oph.png" alt="" width="217" height="312"><span>© opti'H ✗</span></div>
+    </div>
+    <ul class="index" data-index></ul>
   </div>
 </footer>
 <script src="../assets/js/jeux.js"></script>
@@ -204,30 +200,10 @@
 <script src="onglets.js"></script>
 <script src="musique.js"></script>
 <script>
-/* L'onde de résonance : trois sinusoïdes qui réagissent à la souris */
-(function(){
-  var cv=document.querySelector('canvas.wave');if(!cv)return;var ctx=cv.getContext('2d'),W,H,amp=1,target=1,t=0,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function size(){var d=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0)}
-  function frame(){
-    ctx.clearRect(0,0,W,H);amp+=(target-amp)*.05;
-    [[.9,'rgba(255,255,255,.85)',1.4],[.6,'rgba(201,154,46,.9)',1.2],[.35,'rgba(255,255,255,.35)',1]].forEach(function(w,k){
-      ctx.beginPath();ctx.lineWidth=w[2];ctx.strokeStyle=w[1];
-      for(var x=0;x<=W;x+=4){var y=H*.6+Math.sin(x*.012+t*(1+k*.4)+k)*18*w[0]*amp*Math.sin(x/W*Math.PI);x?ctx.lineTo(x,y):ctx.moveTo(x,y)}
-      ctx.stroke();
-    });
-    t+=.03;if(!reduce)requestAnimationFrame(frame);
-  }
-  var art=document.querySelector('.hero-art');
-  art.addEventListener('mousemove',function(e){var r=art.getBoundingClientRect();target=.6+2*(1-(e.clientY-r.top)/r.height)});
-  art.addEventListener('mouseleave',function(){target=1});
-  size();addEventListener('resize',size);frame();
-})();
-</script>
-<script>
 /* Bannière défilante : Lupa puis Hsin, toutes les 6 secondes (pause au survol) */
 (function(){
   var slides=[].slice.call(document.querySelectorAll('#slides .slide')),dots=[].slice.call(document.querySelectorAll('.dots button')),
-      label=document.getElementById('hud-label'),art=document.querySelector('.hero-art'),i=0,timer=null,DELAY=6000;
+      label=null,art=document.querySelector('.ouv'),i=0,timer=null,DELAY=6000;
   if(slides.length<2)return;
   function show(n){
     i=(n+slides.length)%slides.length;
@@ -242,6 +218,10 @@
   document.addEventListener('visibilitychange',function(){document.hidden?stop():start()});
   start();
 })();
+</script>
+<script>
+/* La barre du haut reste transparente sur l'image d'ouverture */
+(function(){var top=document.getElementById('top');function b(){top.classList.toggle('solid',scrollY>innerHeight-90)}addEventListener('scroll',b,{passive:true});addEventListener('resize',b);b()})();
 </script>
 <script src="../assets/js/app.js"></script>
 </body>

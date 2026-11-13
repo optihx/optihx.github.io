@@ -92,7 +92,7 @@
     var nav = document.createElement("nav");
     nav.className = "onglets"; nav.setAttribute("aria-label", "Navigation de l'appli");
     nav.innerHTML = '<a href="' + ROOT + 'index.html"' + (surHub ? ' aria-current="page"' : "") + ' style="--c:#ffcf8a">' +
-      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18M5 20V6h3v14M10 20V4h3v16M15 20l2-13 3 .6-2 12.4"/></svg><span>Étagère</span></a>' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7M6 9.5V20h12V9.5"/></svg><span>Accueil</span></a>' +
       JEUX.map(function (j) {
         var ext = /^https?:/.test(j.lien);
         var href = ext ? j.lien : ROOT + j.lien;

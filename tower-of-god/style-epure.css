@@ -1,0 +1,74 @@
+/* Tower of God — version épurée (se pose par-dessus style.css)
+   Même esprit que l'accueil et BDO : ouverture plein écran, barre de navigation simple,
+   Figtree partout, Unbounded seulement pour le titre, le bleu shinsu là où il sert.
+   Le créateur d'équipe et les blocs du guide gardent leurs styles. */
+:root{--g:clamp(16px,4.5vw,64px);--ease:cubic-bezier(.16,1,.3,1)}
+.wrap{max-width:1400px;margin:0 auto;padding:0 var(--g)}
+
+/* --- Barre du haut : transparente sur l'image, opaque ensuite --- */
+.top{position:fixed;top:0;left:0;right:0;z-index:40;display:block;padding:0;background:transparent;border-bottom:1px solid transparent;transition:background .3s,border-color .3s}
+.top.solid{background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom-color:var(--line)}
+.top .wrap{display:flex;align-items:center;gap:24px;height:64px}
+.back{padding:0;border:0;border-radius:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;font-weight:500;color:var(--soft)}
+.back img{height:30px}
+.back:hover{color:var(--ink)}
+.top nav{display:flex;gap:22px;margin-left:auto;font-size:14px}
+.top nav a{color:var(--soft);padding:6px 0;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;white-space:nowrap}
+.top nav a:hover{color:var(--ink)}
+.top nav a.on{color:var(--ink);border-bottom-color:var(--shinsu)}
+.top:not(.solid) .back,.top:not(.solid) nav a{color:rgba(255,255,255,.85);text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.top:not(.solid) nav a:hover{color:#fff}
+.top:not(.solid) .theme-btn{color:#fff;border-color:rgba(255,255,255,.4)}
+
+/* --- Ouverture --- */
+.gate .in{padding-bottom:clamp(40px,9vh,88px)}
+.gate h1{font-size:clamp(40px,7vw,96px);text-shadow:0 2px 24px rgba(0,0,0,.4)}
+.gate h1 small{font-family:"Figtree",system-ui,sans-serif;font-weight:500;font-size:.26em;letter-spacing:0;text-transform:none;margin-top:12px}
+.gate p{font-size:17px;margin:16px 0 22px;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.lien{display:inline-flex;align-items:center;gap:7px;font-weight:500;color:var(--ink);border-bottom:1px solid var(--shinsu);padding-bottom:2px;transition:color .2s}
+.lien:hover{color:var(--shinsu)}
+.lien .ico{width:15px;height:15px}
+
+/* --- Sections : plus d'étages numérotés --- */
+.floor{padding:clamp(72px,12vh,128px) var(--g) 0;scroll-margin-top:-24px}
+.floor + .floor{border-top:0}
+.floor-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.floor-head h2{font-family:"Figtree",system-ui,sans-serif;font-weight:600;font-size:clamp(22px,2.2vw,28px);letter-spacing:-.015em;margin:0;line-height:1.2}
+.floor-head p{margin:0;font-size:14px;max-width:70ch}
+.cell h3,.sub-codes h3,.label{font-family:"Figtree",system-ui,sans-serif}
+.cell h3{font-weight:600}
+.label{font-size:14px}
+
+/* --- Liens utiles : des lignes simples, comme sur BDO --- */
+.links{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));column-gap:clamp(28px,4vw,56px);row-gap:0}
+.links li{border-bottom:1px solid var(--line)}
+.links a{flex-direction:row;align-items:center;justify-content:space-between;gap:14px;height:auto;padding:14px 0;border:0;border-radius:0;background:none}
+.links a:hover{transform:none;border:0}
+.links small{order:2;font-size:13px;white-space:nowrap}
+.links strong{order:1;gap:8px;justify-content:flex-start}
+.links a:hover strong{color:var(--shinsu)}
+.sub-codes{margin-top:48px}
+.sub-codes h3{font-weight:600;font-size:18px}
+
+/* --- Wallpapers --- */
+.gallery button{border:0;border-radius:8px}
+.gallery button:hover{box-shadow:none}
+
+/* --- Pied --- */
+.summit{margin-top:clamp(96px,16vh,160px);padding:0;background:none}
+.summit .wrap{display:grid;grid-template-columns:1fr 1.3fr;gap:48px;padding-top:40px;padding-bottom:40px}
+.summit h2{font-family:"Figtree",system-ui,sans-serif;font-size:16px;margin:0 0 14px}
+.index a{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.index .k{display:none}
+.index .t{color:var(--soft);font-size:13px}
+.sig{display:flex;align-items:center;gap:12px;margin:0;color:var(--soft);font-size:13px}
+.sig img{height:30px}
+
+@media (max-width:900px){
+  .top .wrap{height:56px;gap:12px}
+  .back span{display:none}
+  .top nav{gap:14px;font-size:13px;overflow-x:auto;scrollbar-width:none}
+  .floor{padding-right:var(--g)}
+  .summit .wrap{grid-template-columns:1fr}
+  html.avec-onglets .summit{padding-bottom:80px}
+}

@@ -1,13 +1,13 @@
 /* ==========================================================
    opti'H ✗ — LISTE DES JEUX
-   C'est le SEUL fichier à modifier pour ajouter un jeu sur l'étagère.
+   C'est le SEUL fichier à modifier pour ajouter un jeu sur l'accueil.
 
    Pour ajouter un jeu :
    1. Copie le dossier « _modele » et renomme-le (ex. « genshin »).
    2. Ajoute un bloc { ... } ci-dessous (copie-colle un bloc existant).
-   3. C'est tout : l'étagère et la liste « Autres jeux » en bas
+   3. C'est tout : l'accueil et la liste « Autres jeux » en bas
       de chaque page se mettent à jour toutes seules.
-   L'ordre des blocs = l'ordre des boîtes sur l'étagère.
+   L'ordre des blocs = l'ordre des jeux sur l'accueil.
 
    Champs :
    - nom      : le nom affiché
@@ -34,7 +34,7 @@ window.JEUX = [
     lien: "bdo/index.html",
     image: "assets/img/card-bdo.webp",
     couleur: "#ff5a47",
-    texte: "Maegu, Mystic, Scholar, le timer des world boss et mes screens.",
+    texte: "Maegu, Mystic, Scholar, Kunoichi, le timer des world boss et mes screens.",
     type: "PC"
   },
   {

@@ -1,0 +1,65 @@
+/* Wuthering Waves — version épurée (se pose par-dessus style.css)
+   Même esprit que l'accueil et BDO : ouverture plein écran, Figtree partout,
+   Chakra Petch seulement pour le titre, l'or du jeu seulement là où il sert.
+   Les outils (fiches, team, dégâts, farm, calendrier…) gardent leurs styles. */
+:root{--title:"Figtree",system-ui,sans-serif;--g:clamp(16px,4.5vw,64px);--ease:cubic-bezier(.16,1,.3,1)}
+.wrap{max-width:1400px;margin:0 auto;padding:0 var(--g)}
+.ico{width:16px;height:16px}
+
+/* --- Barre du haut : posée sur l'image (les onglets prennent le relais plus bas) --- */
+.top{position:absolute;top:0;left:0;right:0;z-index:20;display:block;padding:0;border:0;background:none}
+.top .wrap{display:flex;align-items:center;gap:20px;height:64px}
+.back{gap:10px;font-family:"Figtree",system-ui,sans-serif;font-weight:500;font-size:14px;letter-spacing:0;text-transform:none;color:rgba(255,255,255,.85);text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.back img{height:30px;filter:none}
+.back:hover{color:#fff}
+.top .theme-slot{margin-left:auto}
+.top .theme-btn{color:#fff;border-color:rgba(255,255,255,.4)}
+
+/* --- Ouverture plein écran : Lupa puis Hsin --- */
+.ouv{position:relative;min-height:100vh;min-height:100dvh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;background:#0f1216}
+.ouv .slides{z-index:-2}
+.ouv .slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.ouv::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(10,12,16,.45),transparent 22%,transparent 48%,rgba(10,12,16,.92) 96%)}
+.ouv-txt{width:100%;padding-bottom:clamp(40px,9vh,88px);color:#fff}
+.ouv h1{margin:0;font-family:"Chakra Petch",system-ui,sans-serif;font-weight:700;font-size:clamp(40px,7vw,96px);line-height:.95;letter-spacing:-.02em;text-shadow:0 2px 24px rgba(0,0,0,.4)}
+.ouv p{margin:16px 0 24px;max-width:50ch;font-size:17px;color:rgba(255,255,255,.9);text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.ouv-bas{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.lien{display:inline-flex;align-items:center;gap:7px;font-weight:500;border-bottom:1px solid var(--gold);padding-bottom:2px;transition:color .2s}
+.ouv .lien{color:#fff}
+.ouv .lien:hover{color:var(--gold)}
+.ouv .dots{position:static;z-index:auto}
+
+/* --- Onglets : texte simple, soulignement or --- */
+.onglets-page{background:color-mix(in srgb,var(--bg) 92%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.onglets-page a{font-family:"Figtree",system-ui,sans-serif;font-size:14.5px;font-weight:500;letter-spacing:0;text-transform:none;padding:18px 14px 16px}
+.onglets-page a::after{left:14px;right:14px;height:2px}
+
+/* --- Titres de sections : sobres, en Figtree --- */
+.section-head{align-items:baseline;gap:12px 24px;margin-bottom:28px;padding-bottom:16px}
+.section-head h2{font-family:"Figtree",system-ui,sans-serif;font-weight:600;font-size:clamp(22px,2.2vw,28px);letter-spacing:-.015em;text-transform:none;line-height:1.2}
+.section-head p{font-size:14px}
+.sous-titre{font-family:"Figtree",system-ui,sans-serif;font-weight:600;font-size:18px;letter-spacing:-.01em;text-transform:none}
+.sources{font-size:13px}
+/* les petits libellés des outils : plus de majuscules espacées */
+.panneau *,.fiche *{text-transform:none!important;letter-spacing:0!important}
+
+/* --- Artworks --- */
+.strip button{border-radius:10px}
+.strip figcaption{font-size:13px}
+
+/* --- Pied --- */
+.end{margin-top:clamp(64px,10vh,120px);padding:0;background:none;border-top:1px solid var(--line)}
+.end .wrap{display:grid;grid-template-columns:1fr 1.3fr;gap:48px;padding-top:40px;padding-bottom:40px}
+.end h2{margin:0 0 14px;font-family:"Figtree",system-ui,sans-serif;font-weight:600;font-size:16px;text-transform:none}
+.index a{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.index .k{display:none}
+.index .t{color:var(--soft);font-size:13px}
+.sig{display:flex;align-items:center;gap:12px;margin:0;color:var(--soft);font-size:13px}
+.sig img{height:30px}
+
+@media (max-width:900px){
+  .top .wrap{height:56px}
+  .ouv .slides img{object-position:60% 30%}
+  .end .wrap{grid-template-columns:1fr}
+  html.avec-onglets .end{padding-bottom:80px}
+}

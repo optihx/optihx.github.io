@@ -8,20 +8,20 @@
    page à garder hors ligne, change le numéro de VERSION ci-dessous
    (ex. "optih-v1" → "optih-v2").
    ========================================================== */
-var VERSION = "optih-v48";
+var VERSION = "optih-v52";
 var COEUR = [
   "./", "index.html", "offline.html", "manifest.webmanifest",
   "assets/fonts/fonts.css", "assets/css/base.css", "assets/css/app.css",
   "assets/js/jeux.js", "assets/js/outils.js", "assets/js/saison.js", "assets/js/notifs.js", "assets/js/carte-joueur.js", "assets/js/sync.js", "assets/js/carte.js", "assets/js/codes.js", "assets/js/app.js",
   "assets/img/logo-oph.png", "assets/app/icon-192.png",
   "bdo/index.html", "bdo/style.css",
-  "wuthering-waves/index.html", "wuthering-waves/style.css",
+  "wuthering-waves/index.html", "wuthering-waves/style.css", "wuthering-waves/style-epure.css",
   "wuthering-waves/data-resonateurs.js", "wuthering-waves/data-tier.js",
   "wuthering-waves/catalogue.js", "wuthering-waves/equipe.js", "wuthering-waves/team-image.js", "wuthering-waves/tier.js",
   "wuthering-waves/data-degats.js", "wuthering-waves/degats.js", "wuthering-waves/onglets.js", "wuthering-waves/possedes.js",
   "wuthering-waves/data-materiaux.js", "wuthering-waves/data-echos.js", "wuthering-waves/materiaux.js", "wuthering-waves/data-calendrier.js", "wuthering-waves/calendrier.js", "wuthering-waves/tirages.js", "wuthering-waves/echos.js", "wuthering-waves/musique.js", "wuthering-waves/resets.js",
-  "bdo/data-gear.js", "bdo/gear.js", "bdo/fiche-image.js", "bdo/data-taches.js", "bdo/taches.js", "tower-of-god/data-persos.js", "tower-of-god/equipes.js", "tower-of-god/team-image.js", "assets/js/partage-image.js",
-  "tower-of-god/index.html", "tower-of-god/style.css",
+  "bdo/data-gear.js", "bdo/gear.js", "bdo/fiche-image.js","tower-of-god/data-persos.js", "tower-of-god/equipes.js", "tower-of-god/team-image.js", "assets/js/partage-image.js",
+  "tower-of-god/index.html", "tower-of-god/style.css", "tower-of-god/style-epure.css",
   "clash-of-clans/index.html", "clash-of-clans/style.css", "clash-of-clans/coc.js", "clash-of-clans/data-coc.js", "clash-of-clans/data-meta.js",
   "palworld/index.html", "palworld/style.css", "palworld/pal.js", "palworld/data-pal.js"
 ];

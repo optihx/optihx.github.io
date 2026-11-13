@@ -7,7 +7,7 @@
    ========================================================== */
 (function(){
   if(window.__optihSync) return; window.__optihSync = true;
-  var CLES = ['optih-coc', 'optih-pal', 'optih-bdo-taches', 'optih-tog-equipes', 'optih-tog-mes-persos', 'optih-codes-utilises',
+  var CLES = ['optih-coc', 'optih-pal','optih-tog-equipes', 'optih-tog-mes-persos', 'optih-codes-utilises',
     'optih-wuwa-team', 'optih-wuwa-possedes', 'optih-wuwa-degats', 'optih-wuwa-mat', 'optih-wuwa-tirages', 'optih-wuwa-echo',
     'optih-resume-wuwa', 'optih-resume-tog', 'optih-resume-coc', 'optih-resume-pal', 'optih-aethel-codes', 'optih-aethel-equipes'];
   var KEY = 'optih-sync', ALPHA = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';

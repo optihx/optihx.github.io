@@ -13,7 +13,6 @@ window.VAPID_PUBLIQUE = "BN-GvepNZkpl0VcrdPu9XuyGK3IiQIzQuq8Y8jmkpfD_sSdI7qzSMSB
     ['banniere', 'Bannières WuWa', 'Quand une nouvelle bannière sort, et la veille de sa fin.'],
     ['resets', 'Resets WuWa', 'La veille du reset de la Tour d\'adversité et de Whimpering Wastes.'],
     ['boss', 'World boss BDO', '10 minutes avant chaque world boss (serveur EU).'],
-    ['taches', 'Tâches BDO', 'À 21 h, s\'il te reste des quotidiennes à cocher.'],
     ['coc', 'Clash of Clans', 'Quand une amélioration est finie (comptes ajoutés sur la page Clash of Clans).']
   ];
   function lire(){ try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch(e){ return null; } }
@@ -63,7 +62,7 @@ window.VAPID_PUBLIQUE = "BN-GvepNZkpl0VcrdPu9XuyGK3IiQIzQuq8Y8jmkpfD_sSdI7qzSMSB
   function majBouton(){ var a = lire(); btn.classList.toggle('on', !!(a && a.endpoint)); btn.querySelector('span').textContent = a && a.endpoint ? 'Notifs activées' : 'Notifications'; }
 
   function rendu(){
-    var a = lire(), choix = a ? a.sujets : ['banniere', 'resets', 'boss', 'taches', 'coc'], calme = a ? a.calme !== false : true;
+    var a = lire(), choix = a ? a.sujets : ['banniere', 'resets', 'boss', 'coc'], calme = a ? a.calme !== false : true;
     var h = '<button type="button" class="notif-x" aria-label="Fermer">×</button><h2 id="notif-titre">Notifications</h2>';
     if(!possible){
       h += '<p>' + (window.VAPID_PUBLIQUE.indexOf('%') > -1 ? 'Les notifications ne sont pas encore branchées.' : 'Ton navigateur ne gère pas les notifications. Essaie avec Chrome, Edge ou Firefox.') + '</p>';
