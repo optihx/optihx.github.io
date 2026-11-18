@@ -25,3 +25,35 @@
 .index .k{display:none}
 .sig{margin-top:0}
 @media (max-width:900px){html.avec-onglets .pied{padding-bottom:80px}}
+
+/* HDV 19 : bandeau d'annonce et onglet des nouveautés (novembre 2026) */
+.nouv{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:22px;margin:0 0 22px;padding:18px 22px;border-radius:22px;overflow:hidden;background:radial-gradient(120% 160% at 0% 50%,rgba(242,179,61,.22),transparent 55%),var(--carte);border:1px solid rgba(242,179,61,.45);box-shadow:0 6px 0 rgba(0,0,0,.22)}
+.nouv-th{position:relative;width:104px;height:104px}
+.nouv-th img{width:104px;height:104px;object-fit:contain;filter:drop-shadow(0 8px 14px rgba(0,0,0,.5))}
+.nouv-th b{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);padding:1px 10px;border-radius:999px;background:linear-gradient(160deg,#ffd27a,#d08a1f);color:#3a2400;font-size:13px;font-weight:900;white-space:nowrap;box-shadow:0 2px 0 rgba(0,0,0,.3)}
+.nouv h2{margin:0;font-family:var(--titre);font-weight:400;font-size:clamp(24px,3vw,32px);line-height:1.05}
+.nouv p{margin:6px 0 0;color:var(--soft);max-width:60ch}
+.puces{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.puces span{padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.07);font-size:13px;font-weight:700}
+@media (max-width:700px){.nouv{grid-template-columns:auto minmax(0,1fr);gap:14px;padding:16px}.nouv-th,.nouv-th img{width:72px;height:72px}.nouv .b-prim{grid-column:1/-1}}
+.h19{display:grid;gap:26px}
+.h19 h3{margin:0 0 12px;font-family:var(--titre);font-weight:400;font-size:24px}
+.bats{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:14px}
+.bat{display:grid;gap:10px;align-content:start;padding:18px;border-radius:22px;background:var(--carte);border:1px solid var(--ligne)}
+.bico{display:flex;align-items:center;gap:6px;height:64px}
+.bico img{height:60px;width:60px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4))}
+.bico i{font-style:normal;color:var(--soft);font-weight:900;font-size:20px}
+.bico .neuf{display:grid;place-items:center;width:60px;height:60px;border-radius:18px;border:2px dashed rgba(242,179,61,.55);color:var(--coc);font-family:var(--titre);font-size:26px}
+.bat b{font-family:var(--titre);font-weight:400;font-size:21px;line-height:1.1}
+.bat p{margin:0;color:var(--soft);font-size:14.5px}
+.bat .nb{justify-self:start;padding:2px 9px;border-radius:999px;background:rgba(242,179,61,.16);color:var(--coc);font-size:12.5px;font-weight:800}
+.heros{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.heros div{display:grid;justify-items:center;gap:4px;padding:14px 10px;border-radius:18px;background:var(--carte);border:1px solid var(--ligne);text-align:center}
+.heros img{width:58px;height:58px;object-fit:contain}
+.heros span{font-size:13.5px;font-weight:700;color:var(--soft)}
+.heros strong{font-size:15px}.heros strong s{color:var(--soft);font-weight:600;text-decoration:none}
+.heros strong em{font-style:normal;color:var(--coc)}
+.aussi{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:8px 22px;margin:0;padding:0;list-style:none}
+.aussi li{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--ligne);font-weight:600}
+.aussi img{width:34px;height:34px;object-fit:contain}
+.h19 .source{color:var(--soft);font-size:13px;margin:0}

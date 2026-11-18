@@ -44,15 +44,66 @@
 
 <!-- ===================== CLASH OF CLANS ===================== -->
 <section class="panneau coc" id="p-coc" role="tabpanel" aria-labelledby="t-coc">
+  <div class="nouv">
+    <div class="nouv-th"><img src="img/hdv/19.webp" alt="" width="104" height="104"><b>HDV 19</b></div>
+    <div>
+      <h2>L'HDV 19 est sorti</h2>
+      <p>Mise à jour « Clash of Titans » du 16 novembre : deux nouvelles défenses, un sanctuaire pour les gardiens et des héros qui montent encore de 5 niveaux.</p>
+      <div class="puces"><span>Tour à pics</span><span>Tour à pétards</span><span>Sanctuaire des gardiens</span><span>Murs niv. 20</span></div>
+    </div>
+    <button type="button" class="b-prim" id="coc-nouv-ok">Voir les nouveautés</button>
+  </div>
+
   <div class="sous" role="tablist" aria-label="Clash of Clans">
     <button type="button" role="tab" data-sous="coc-comptes" aria-selected="true">Mes comptes</button>
     <button type="button" role="tab" data-sous="coc-encours" aria-selected="false">En cours <span class="pastille" id="coc-nb" hidden></span></button>
+    <button type="button" role="tab" data-sous="coc-hdv19" aria-selected="false">HDV 19</button>
     <button type="button" role="tab" data-sous="coc-meta" aria-selected="false">Compos Légende</button>
     <button type="button" role="tab" data-sous="coc-equip" aria-selected="false">Équipements</button>
     <button type="button" role="tab" data-sous="coc-import" aria-selected="false">+ Ajouter / mettre à jour</button>
   </div>
   <div class="vue" id="coc-comptes"></div>
   <div class="vue" id="coc-encours" hidden></div>
+  <div class="vue" id="coc-hdv19" hidden>
+    <div class="h19">
+      <div>
+        <h3>Ce qui arrive au village</h3>
+        <div class="bats">
+          <div class="bat"><div class="bico"><span class="neuf">!</span></div><b>Tour à pics</b><span class="nb">× 2 · élixir noir</span>
+            <p>N'attaque jamais : chaque coup reçu renvoie des pics qui retirent 6 à 9 % des PV max de l'attaquant.</p></div>
+          <div class="bat"><div class="bico"><img src="img/i/1000009.webp" alt="Tour d'archères" loading="lazy"><i>+</i><img src="img/i/1000067.webp" alt="Disperseur" loading="lazy"></div><b>Tour à pétards</b><span class="nb">× 2 · fusion</span>
+            <p>Fusion d'une tour d'archères niv. 21 et d'un disperseur niv. 7. Roquettes à zone sur l'air et le sol.</p></div>
+          <div class="bat"><div class="bico"><img src="img/i/107000001.webp" alt="" loading="lazy"><img src="img/i/107000000.webp" alt="" loading="lazy"></div><b>Sanctuaire des gardiens</b><span class="nb">gratuit · instantané</span>
+            <p>Les gardiens quittent l'HDV et s'améliorent ici. Le Cogneur monte au niveau 10.</p></div>
+          <div class="bat"><div class="bico"><img src="img/i/4000000.webp" alt="" loading="lazy"><img src="img/i/4000001.webp" alt="" loading="lazy"><img src="img/i/4000006.webp" alt="" loading="lazy"></div><b>L'HDV se défend</b><span class="nb">au choix, par plan</span>
+            <p>Attaqué, l'hôtel de ville lâche des barbares, des archères ou des sorciers.</p></div>
+        </div>
+      </div>
+      <div>
+        <h3>Héros : nouveaux niveaux max</h3>
+        <div class="heros">
+          <div><img src="img/i/28000000.webp" alt="" loading="lazy"><span>Roi des barbares</span><strong><s>110 →</s> <em>115</em></strong></div>
+          <div><img src="img/i/28000001.webp" alt="" loading="lazy"><span>Reine des archères</span><strong><s>110 →</s> <em>115</em></strong></div>
+          <div><img src="img/i/28000006.webp" alt="" loading="lazy"><span>Prince gargouille</span><strong><s>95 →</s> <em>100</em></strong></div>
+          <div><img src="img/i/28000002.webp" alt="" loading="lazy"><span>Grand gardien</span><strong><s>85 →</s> <em>90</em></strong></div>
+          <div><img src="img/i/28000004.webp" alt="" loading="lazy"><span>Championne royale</span><strong><s>55 →</s> <em>60</em></strong></div>
+          <div><img src="img/i/28000007.webp" alt="" loading="lazy"><span>Duc dragon</span><strong><s>25 →</s> <em>30</em></strong></div>
+        </div>
+      </div>
+      <div>
+        <h3>Et aussi</h3>
+        <ul class="aussi">
+          <li><img src="img/i/1000012.webp" alt="" loading="lazy">5ᵉ défense antiaérienne (niv. 17)</li>
+          <li><img src="img/i/1000010.webp" alt="" loading="lazy">+25 murs, niveau 20</li>
+          <li><img src="img/i/1000014.webp" alt="" loading="lazy">Château de clan 15 (60 places)</li>
+          <li><img src="img/i/1000007.webp" alt="" loading="lazy">Laboratoire 17, Hall des héros 13</li>
+          <li><img src="img/i/12000005.webp" alt="" loading="lazy">10ᵉ piège à ressort</li>
+          <li><img src="img/i/4000023.webp" alt="" loading="lazy">Escouades (dès l'HDV 8) et sort héroïque</li>
+        </ul>
+      </div>
+      <p class="source">D'après les notes de mise à jour de Supercell (16 nov. 2026). Tes comptes en HDV 19 utilisent déjà ces nouveaux niveaux max.</p>
+    </div>
+  </div>
   <div class="vue" id="coc-meta" hidden></div>
   <div class="vue" id="coc-equip" hidden></div>
   <div class="vue" id="coc-import" hidden>

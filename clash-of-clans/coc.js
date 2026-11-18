@@ -125,7 +125,7 @@
       '<div><span>Ouvriers</span><b>' + jours(r.ouvrier / n) + '</b><em>avec tes ' + n + ' ouvriers</em></div>' +
       '<div><span>Labo</span><b>' + jours(r.labo) + '</b><em>de recherche</em></div>' +
       (r.animaux ? '<div><span>Animaux</span><b>' + jours(r.animaux) + '</b><em>maison des animaux</em></div>' : '') +
-      '</div>' + (res.length ? '<p class="maxe-r">' + res.map(function(x){ return '<span class="r-' + x[0] + '">' + x[1] + ' <b>' + gros(r[x[0]]) + '</b></span>'; }).join('') + '</p>' : '') + '</div>';
+      '</div>' + (c.th >= 19 ? '<p class="note">Sans les nouveaux niveaux de l\'HDV 19 : leurs coûts ne sont pas encore connus.</p>' : '') + (res.length ? '<p class="maxe-r">' + res.map(function(x){ return '<span class="r-' + x[0] + '">' + x[1] + ' <b>' + gros(r[x[0]]) + '</b></span>'; }).join('') + '</p>' : '') + '</div>';
   }
   function nbOuvriers(c){
     var huttes = 0, a = c.niv['1000015']; if(a) Object.keys(a).forEach(function(l){ if(+l > 0) huttes += a[l]; });
@@ -244,7 +244,9 @@
   }
   sousBtns.forEach(function(b){ b.addEventListener('click', function(){ montrer(b.dataset.sous); }); });
   window.COC_MONTRER = montrer;
-  function depuisAdresse(){ var h = location.hash.slice(1); if(/^coc-(encours|import|comptes|meta|equip)$/.test(h)) montrer(h); }
+  var nouv = document.getElementById('coc-nouv-ok');
+  if(nouv) nouv.addEventListener('click', function(){ montrer('coc-hdv19'); document.querySelector('#p-coc .sous').scrollIntoView({behavior: 'smooth', block: 'start'}); });
+  function depuisAdresse(){ var h = location.hash.slice(1); if(/^coc-(encours|import|comptes|meta|equip|hdv19)$/.test(h)) montrer(h); }
   depuisAdresse(); addEventListener('hashchange', depuisAdresse);
 
   /* ---------- Notifications « fin d'amélioration » (si activées sur l'accueil) ---------- */
